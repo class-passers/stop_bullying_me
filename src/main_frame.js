@@ -8,7 +8,8 @@ var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
 
 var objects = [];
-objects.push( new zombieObject( 0, 0, 256, 256 ) );
+objects.push( new zombieObject( 0, 0, 128, 128 ) );
+objects.push( new towerObject( 250, 320, 85, 133 ) );
 update();
 
 function update()
