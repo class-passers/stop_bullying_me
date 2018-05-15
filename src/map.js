@@ -22,15 +22,7 @@ request.onload = function()
         mapGrid[i] = new Array( mapWidth );
     }
 
-    console.log( "length = " + mapGrid.length);
-    console.log( "length in row = " + mapGrid[0].length);
-    console.log( "length in mapData = " + mapData.length);
-
-    console.log("map data = " + mapData.length );
     var mapTileType = jsonData["tilesets"][0]["tiles"];
-
-    console.log(mapGrid);
-
     for( var idx = 0; idx < mapData.length; idx++ )
     {
         var x = idx % mapWidth;
