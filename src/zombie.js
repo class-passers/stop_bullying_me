@@ -2,13 +2,16 @@
 var zombieImage = new Image();
 zombieImage.src = "img/zombie_walk.png";
 
+const zombieImageWidth = 1720;
+const zombieImageHeight = 1557;
+
 var zombieObject = function( pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
     this.width = width;
     this.height = height;
-    this.sprite_width = zombieImage.width / 4;
-    this.sprite_height = zombieImage.height / 3;
+    this.sprite_width = zombieImageWidth / 4;
+    this.sprite_height = zombieImageHeight / 3;
     this.max_num_sprites = 10;
     this.image = zombieImage;
     this.index = 0;
