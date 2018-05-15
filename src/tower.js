@@ -4,7 +4,7 @@ towerImage.src = "img/tower.png";
 towerImage.onload = function() {
     this.sprite_width = towerImage.width;
     this.sprite_height = towerImage.height;
-}
+};
 
 var towerObject = function( pos_x, pos_y, width, height ){
     this.x = pos_x;
