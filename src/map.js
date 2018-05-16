@@ -8,7 +8,7 @@ request.send();
 var mapGrid = null;
 var mapWidth = 0;
 var mapHeight = 0;
-var mapLoaded = false;
+var movePath = null;
 request.onload = function()
 {
     var result = request.response;
@@ -17,18 +17,17 @@ request.onload = function()
 
     mapWidth = jsonData["layers"][0]["width"];
     mapHeight = jsonData["layers"][0]["height"];
-    console.log("w = " + mapWidth + ", h = " + mapHeight );
+    //console.log("w = " + mapWidth + ", h = " + mapHeight );
     mapGrid = new Array( mapHeight );
     for( var i = 0; i < mapHeight; i++ ) {
         mapGrid[i] = new Array( mapWidth );
     }
 
-    //console.log(mapData);
     var mapTileType = jsonData["tilesets"][0]["tiles"];
     for( var idx = 0; idx < mapData.length; idx++ )
     {
         var x = idx % mapWidth;
-        var y = parseInt(idx / mapWidth);
+        var y = Math.floor(idx / mapWidth);
         // Tiled map data index starts at 1, wheres Tileset data index start at 0
         // subtract by 1 to fix inconsistent issue on Tile map data and Tile data
         var tileData = mapData[idx] - 1;
@@ -42,9 +41,9 @@ request.onload = function()
             mapGrid[y][x] = 0;
         }
     }
-    console.log( "map = " + mapGrid );
+    //console.log("map = " + mapGrid );
 
-    search_path( mapGrid );
-    mapLoaded = true;
+    movePath = search_path( mapGrid );
+    //console.log("path = " + JSON.stringify(movePath ));
 };
 
