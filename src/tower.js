@@ -16,6 +16,8 @@ var towerObject = function( pos_x, pos_y, width, height ){
     this.max_num_sprites = 1;
     this.image = towerImage;
     this.index = 0;
+    // set this flag as true when a tower destroyed.
+    this.to_be_removed = false;
 
     this.get_x = function()
     {

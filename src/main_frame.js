@@ -7,9 +7,18 @@ var context = canvas.getContext("2d");
 var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
 
+
+
 var objects = [];
-objects.push( new zombieObject( 0, 0, 128, 128 ) );
+
 objects.push( new towerObject( 250, 320, 85, 133 ) );
+
+populateZombie();
+function populateZombie()
+{
+    objects.push( new zombieObject( 0, 0, 128, 128 ) );
+    setTimeout( populateZombie, 5000 );
+}
 
 // set fixed frame rate as 60fps
 setInterval( update, Math.floor(1000/60) );
@@ -19,6 +28,10 @@ function update()
     {
         objects[i].update();
     }
+
+    objects = objects.filter(function (obj) {
+        return obj.to_be_removed === false;
+    });
 
     render();
 }

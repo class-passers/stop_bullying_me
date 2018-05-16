@@ -18,6 +18,8 @@ var zombieObject = function( pos_x, pos_y, width, height ){
     this.max_num_sprites = 10;
     this.image = zombieImage;
     this.spriteIndex = 0;
+    // set this flag as true when a zombie died or go out of bound.
+    this.to_be_removed = false;
 
     this.get_x = function()
     {
@@ -65,10 +67,8 @@ var zombieObject = function( pos_x, pos_y, width, height ){
 
                 if( is_reached_at_destination( this.moveIndex ) )
                 {
-                    // what can do
-                    this.moveIndex = 0;
+                    this.to_be_removed = true;
                 }
-
             }
         }
         else
