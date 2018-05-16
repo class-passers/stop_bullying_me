@@ -23,18 +23,18 @@ var zombieObject = function( pos_x, pos_y, width, height ){
 
     this.get_x = function()
     {
-        return this.x - this.width / 2;
+        return Math.floor(this.x - this.width / 2);
     };
 
     this.get_y = function()
     {
         // to render at proper position
-        return this.y - this.height;
+        return Math.floor(this.y - this.height);
     };
 
     this.get_source_x = function()
     {
-        return this.sprite_width * ( Math.floor(this.spriteIndex) % 4 )
+        return this.sprite_width * ( Math.floor(this.spriteIndex) % 4 );
     };
     this.get_source_y = function()
     {
