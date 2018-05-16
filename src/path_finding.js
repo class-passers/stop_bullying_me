@@ -108,16 +108,11 @@ function search_path( mapGrid )
             var move_path = [];
             while( current.parent != null )
             {
-                move_path.push( current );
+                move_path.push( new position( current.x, current.y ) );
                 current = current.parent;
             }
 
             move_path.reverse();
-            //for( var i = 0; i < move_path.length; i++ )
-            //{
-            //    console.log("path = " + move_path[i].x + " , " + move_path[i].y );
-            //}
-
             return move_path;
         }
 

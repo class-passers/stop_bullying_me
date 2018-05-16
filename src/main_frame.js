@@ -10,8 +10,9 @@ world_map_img.src = "img/world_map.png";
 var objects = [];
 objects.push( new zombieObject( 0, 0, 128, 128 ) );
 objects.push( new towerObject( 250, 320, 85, 133 ) );
-update();
 
+// set fixed frame rate as 60fps
+setInterval( update, Math.floor(1000/60) );
 function update()
 {
     for( var i = 0; i < objects.length; i++ )
@@ -20,7 +21,6 @@ function update()
     }
 
     render();
-    requestAnimationFrame(update);
 }
 
 function render()
@@ -34,7 +34,7 @@ function render()
 
         context.drawImage( obj.image, obj.get_source_x(), obj.get_source_y(),
             obj.sprite_width, obj.sprite_height,
-            obj.x, obj.y, obj.width, obj.height );
+            obj.get_x(), obj.get_y(), obj.width, obj.height );
     }
 
 }

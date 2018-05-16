@@ -16,6 +16,17 @@ var towerObject = function( pos_x, pos_y, width, height ){
     this.max_num_sprites = 1;
     this.image = towerImage;
     this.index = 0;
+
+    this.get_x = function()
+    {
+        return this.x;
+    };
+
+    this.get_y = function()
+    {
+        return this.y;
+    };
+
     this.get_source_x = function()
     {
         return 0;
