@@ -18,7 +18,7 @@ request.onload = function()
 {
     var result = request.response;
     var jsonData = JSON.parse( result );
-    console.log(jsonData);
+    //console.log(jsonData);
 
     worldMap.width = jsonData["layers"][0]["width"];
     worldMap.height = jsonData["layers"][0]["height"];
@@ -52,7 +52,7 @@ request.onload = function()
     }
 
     worldMap.movePath = search_path( mapGrid );
-    console.log("path = " + JSON.stringify( worldMap.movePath ));
+    //console.log("path = " + JSON.stringify( worldMap.movePath ));
 };
 
 
