@@ -76,3 +76,16 @@ function is_reached_at_destination( moveIndex )
 {
     return moveIndex >= worldMap.movePath.length;
 }
+
+function get_start_location()
+{
+    if( worldMap.movePath !== null )
+    {
+        var nextLocation = worldMap.movePath[0];
+        return new position(nextLocation.x * worldMap.tileWidth - worldMap.tileWidth * 2 , nextLocation.y * worldMap.tileHeight + worldMap.tileHeight / 2);
+    }
+    else
+    {
+        return null;
+    }
+}

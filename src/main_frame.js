@@ -10,20 +10,34 @@ world_map_img.src = "img/world_map.png";
 
 
 var objects = [];
-
 objects.push( new towerObject( 250, 320, 85, 133 ) );
 
-populateZombie();
+var window_focused = true;
+window.onfocus = function() {
+    window_focused = true;
+};
+window.onblur = function() {
+    window_focused = false;
+};
+
+setInterval( function() {
+    if( window_focused )
+        populateZombie();
+    }, 5000 );
 function populateZombie()
 {
-    objects.push( new zombieObject( 0, 0, 128, 128 ) );
-    setTimeout( populateZombie, 5000 );
+    var start = get_start_location();
+    if( start != null ) {
+        objects.push(new zombieObject(start.x, start.y, 128, 128));
+    }
 }
 
 // set fixed frame rate as 60fps
 setInterval( update, Math.floor(1000/60) );
 function update()
 {
+    if( window_focused === false )
+        return;
     for( var i = 0; i < objects.length; i++ )
     {
         objects[i].update();
