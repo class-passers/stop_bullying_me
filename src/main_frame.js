@@ -10,7 +10,8 @@ world_map_img.src = "img/world_map.png";
 
 
 var objects = [];
-objects.push( new towerObject( 250, 320, 85, 133 ) );
+objects.push( new towerObject( 320, 320, 85, 133 ) );
+objects.push( new towerObject( 250, 450, 85, 133 ) );
 
 var window_focused = true;
 window.onfocus = function() {
@@ -46,6 +47,10 @@ function update()
     objects = objects.filter(function (obj) {
         return obj.to_be_removed === false;
     });
+
+    // sort by y position to render properly
+    objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
+
 
     render();
 }

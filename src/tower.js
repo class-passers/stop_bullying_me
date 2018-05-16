@@ -26,7 +26,7 @@ var towerObject = function( pos_x, pos_y, width, height ){
 
     this.get_y = function()
     {
-        return this.y;
+        return this.y - this.height;
     };
 
     this.get_source_x = function()
