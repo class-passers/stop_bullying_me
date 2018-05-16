@@ -13,16 +13,16 @@ var objects = [];
 objects.push( new towerObject( 320, 320, 85, 133 ) );
 objects.push( new towerObject( 250, 450, 85, 133 ) );
 
-var window_focused = true;
-window.onfocus = function() {
-    window_focused = true;
-};
-window.onblur = function() {
-    window_focused = false;
-};
+//var window_focused = true;
+//window.onfocus = function() {
+//    window_focused = true;
+//};
+//window.onblur = function() {
+//    window_focused = false;
+//};
 
 setInterval( function() {
-    if( window_focused )
+    if( document.hasFocus() )
         populateZombie();
     }, 5000 );
 function populateZombie()
@@ -37,7 +37,7 @@ function populateZombie()
 setInterval( update, Math.floor(1000/60) );
 function update()
 {
-    if( window_focused === false )
+    if( document.hasFocus() === false )
         return;
     for( var i = 0; i < objects.length; i++ )
     {
