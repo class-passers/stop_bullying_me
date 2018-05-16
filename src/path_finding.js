@@ -8,10 +8,16 @@ var searchNode = function( x, y, costFrom, costTo, parent )
     this.parent = parent;
 };
 
-function get_neighbors( mapGrid, width, height, node )
+var position = function( x, y )
+{
+    this.x = x;
+    this.y = y;
+};
+
+function get_neighbors( mapGrid, width, height, node, end_node )
 {
     // find 8 directional neighbors
-    var next_positions = [ [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1] ];
+    const next_positions = [ [1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1] ];
     var neighbors = [];
     const ROAD = 1;
     for( var next in next_positions )
@@ -24,7 +30,7 @@ function get_neighbors( mapGrid, width, height, node )
             // add only if the node is a road
             if( mapGrid[next_y][next_x] === ROAD )
             {
-                neighbors.push( searchNode( next_x, next_y, node.costFrom + 1, 0, node  )  );
+                neighbors.push( searchNode( next_x, next_y, node.costFrom + 1, get_heuristic( [ next_x, next_y ], end_node ), node  )  );
             }
         }
     }
@@ -33,19 +39,17 @@ function get_neighbors( mapGrid, width, height, node )
 
 function find_node( mapGrid, nodeValue )
 {
-    var height = mapGrid.length;
-    var length = mapGrid[0].length;
     for( var y = 0; y < mapGrid.length; y++ )
     {
         for( var x = 0; x < mapGrid[y].length; x++ )
         {
-            if( mapGrid[y][x] == nodeValue )
+            if( mapGrid[y][x] === nodeValue )
             {
-                return [x,y];
+                return position(x, y);
             }
         }
     }
-    return [-1,-1];
+    return position(-1, -1);
 }
 
 function get_heuristic( begin, end )
@@ -58,29 +62,48 @@ function contains( nodes, target )
 {
     for( var node in nodes )
     {
-        if( node.x == target[0] && node.y == target[1] )
+        if( node.x === target[0] && node.y === target[1] )
             return true;
     }
     return false;
+}
+
+function get_element( nodes, target )
+{
+    for( var i = 0; i < nodes.length; i++)
+    {
+        if( nodes[i].x === target[0] && nodes[i].y === target[1] )
+            return nodes[i];
+    }
+    return null;
 }
 
 // searches node list from start to end using A* Search
 function search_path( mapGrid )
 {
     var height = mapGrid.length;
-    var length = mapGrid[0].length;
+    var width = mapGrid[0].length;
+
     const START = 10;
     const END = 20;
 
     var start_pos = find_node( mapGrid, START );
     var end_pos = find_node( mapGrid, END );
+    console.log("start = " + start_pos );
 
-    var frontier = [ searchNode( start_pos[0], start_pos[1], 0, get_heuristic( start_pos, end_pos ), null ) ];
+    var begin = searchNode( start_pos.x, start_pos.y, 0, get_heuristic( start_pos, end_pos ), null );
+    var frontier = [ begin ];
     var visited = [];
+    console.log("begin = " + begin.x + " , " + begin.y );
     while( frontier.length > 0 )
     {
-        var current = frontier.shift();
-        if( current.x == end_pos[0] && current.y == end_pos[1] )
+        console.log( "frontier : " + frontier.length + " => " + frontier );
+        var current = frontier[0];
+        console.log( "current = " + current.x + " , " + current.y );
+        frontier.shift();
+        visited.push( current );
+
+        if( current.x === end_pos.x && current.y === end_pos.y )
         {
             var move_path = [];
             while( current.parent != null )
@@ -90,22 +113,30 @@ function search_path( mapGrid )
             }
 
             move_path.reverse();
+            console.log( "zombie path = " + move_path );
             return move_path;
         }
-        var neighbors = get_neighbors( current );
-        for( var neighbor in neighbors )
+        var neighbors = get_neighbors( mapGrid, width, height, current, end_pos );
+        for( var i = 0; i < neighbors.length; i++ )
         {
-            if( contains( frontier, neighbor ) )
+            if( contains( frontier, neighbors[i] ) )
             {
-                // if new found way is better than the one in the previous
-
-
+                var exist_node = get_element( frontier, neighbors[i] );
+                // if new found way is better than the one in the exist
+                if( neighbors[i].costFrom + neighbors[i].costTo < exist_node.costFrom + exist_node.costTo )
+                {
+                    exist_node.costFrom = neighbors[i].costFrom;
+                    exist_node.costTo = neighbors[i].costTo;
+                    exist_node.parent = current;
+                }
             }
-            else if( ( neighbor in visited ) == false )
+            else if( contains( visited, neighbors[i] ) === false )
             {
-                frontier.push( neighbor );
+                frontier.push( neighbors[i] );
             }
         }
+
+        frontier.sort( function(a, b){return a.costFrom + a.costTo - b.costFrom - b.costTo } );
     }
     return null;
 }

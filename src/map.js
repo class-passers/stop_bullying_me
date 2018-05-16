@@ -8,6 +8,7 @@ request.send();
 var mapGrid = null;
 var mapWidth = 0;
 var mapHeight = 0;
+var mapLoaded = false;
 request.onload = function()
 {
     var result = request.response;
@@ -22,6 +23,7 @@ request.onload = function()
         mapGrid[i] = new Array( mapWidth );
     }
 
+    //console.log(mapData);
     var mapTileType = jsonData["tilesets"][0]["tiles"];
     for( var idx = 0; idx < mapData.length; idx++ )
     {
@@ -40,6 +42,9 @@ request.onload = function()
             mapGrid[y][x] = 0;
         }
     }
-    console.log(mapGrid);
+    console.log( "map = " + mapGrid );
+
+    search_path( mapGrid );
+    mapLoaded = true;
 };
 
