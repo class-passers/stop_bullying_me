@@ -22,9 +22,10 @@ objects.push( new towerObject( 250, 450, 85, 133 ) );
 //};
 
 setInterval( function() {
-    if( document.hasFocus() )
+    //if( document.hasFocus() )
         populateZombie();
-    }, 5000 );
+    }
+    , 3000 );
 function populateZombie()
 {
     var start = get_start_location();
@@ -37,8 +38,8 @@ function populateZombie()
 setInterval( update, Math.floor(1000/60) );
 function update()
 {
-    if( document.hasFocus() === false )
-        return;
+    //if( document.hasFocus() === false )
+    //    return;
     for( var i = 0; i < objects.length; i++ )
     {
         objects[i].update();

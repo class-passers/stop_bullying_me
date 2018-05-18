@@ -11,11 +11,26 @@ var worldMap = {
     height : 0,
     tileWidth : 0,
     tileHeight : 0,
+    loaded : false,
     movePath : null
 };
 
-request.onload = function()
+request.onreadystatechange = function()
 {
+    console.log("onreadystatechange ");
+    if (this.readyState == 4 && this.status == 200 && worldMap.loaded === false ) {
+        loadMapData();
+    }
+};
+request.onload = function() {
+    console.log("onload");
+    //loadMapData();
+}
+
+function loadMapData()
+{
+    console.log("loadMapData");
+
     var result = request.response;
     var jsonData = JSON.parse( result );
     //console.log(jsonData);
@@ -53,6 +68,7 @@ request.onload = function()
 
     worldMap.movePath = search_path( mapGrid );
     //console.log("path = " + JSON.stringify( worldMap.movePath ));
+    worldMap.loaded = true;
 };
 
 

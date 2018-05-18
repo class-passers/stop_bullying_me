@@ -2,8 +2,8 @@
 var zombieImage = new Image();
 zombieImage.src = "img/zombie_walk.png";
 zombieImage.onload = function(){
-    this.sprite_width = zombieImage.width / 4;
-    this.sprite_height = zombieImage.height / 3;
+    this.sprite_width = Math.floor(zombieImage.width / 4);
+    this.sprite_height = Math.floor(zombieImage.height / 3);
 };
 
 var zombieObject = function( pos_x, pos_y, width, height ){
@@ -13,8 +13,8 @@ var zombieObject = function( pos_x, pos_y, width, height ){
     this.moveIndex = 0;
     this.width = width;
     this.height = height;
-    this.sprite_width = zombieImage.width / 4;
-    this.sprite_height = zombieImage.height / 3;
+    this.sprite_width = Math.floor(zombieImage.width / 4);
+    this.sprite_height = Math.floor(zombieImage.height / 3);
     this.max_num_sprites = 10;
     this.image = zombieImage;
     this.spriteIndex = 0;
@@ -77,7 +77,7 @@ var zombieObject = function( pos_x, pos_y, width, height ){
         }
 
         // for render sprite index
-        this.spriteIndex += 0.3;
+        this.spriteIndex += 0.25;
         if( this.spriteIndex >= this.max_num_sprites )
             this.spriteIndex = 0;
     };
