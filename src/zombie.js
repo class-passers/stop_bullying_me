@@ -1,9 +1,35 @@
 
-var zombieImage = new Image();
-zombieImage.src = "img/zombie_walk.png";
-zombieImage.onload = function(){
-    this.sprite_width = Math.floor(zombieImage.width / 4);
-    this.sprite_height = Math.floor(zombieImage.height / 3);
+var zombieImages = {
+
+    walk : {
+        image_src : "img/zombie_walk.png",
+        max_num_sprites : 10,
+        num_sprites_horz : 4,
+        num_sprites_vert : 3,
+        sprite_width : 0,
+        sprite_height : 0,
+        image : new Image()
+    },
+    dying : {
+        image_src : "img/zombie_dying.png",
+        max_num_sprites : 12,
+        num_sprites_horz : 2,
+        num_sprites_vert : 6,
+        sprite_width : 0,
+        sprite_height : 0,
+        image : new Image()
+    }
+};
+
+zombieImages.walk.image.src = zombieImages.walk.image_src;
+zombieImages.walk.image.onload = function(){
+    zombieImages.walk.sprite_width = Math.floor(zombieImages.walk.image.width / zombieImages.walk.num_sprites_horz);
+    zombieImages.walk.sprite_height = Math.floor(zombieImages.walk.image.height / zombieImages.walk.num_sprites_vert);
+};
+zombieImages.dying.image.src = zombieImages.dying.image_src;
+zombieImages.dying.image.onload = function(){
+    zombieImages.dying.sprite_width = Math.floor(zombieImages.dying.image.width / zombieImages.dying.num_sprites_horz);
+    zombieImages.dying.sprite_height = Math.floor(zombieImages.dying.image.height / zombieImages.dying.num_sprites_vert);
 };
 
 var zombieObject = function( pos_x, pos_y, width, height ){
@@ -13,11 +39,9 @@ var zombieObject = function( pos_x, pos_y, width, height ){
     this.moveIndex = 0;
     this.width = width;
     this.height = height;
-    this.sprite_width = Math.floor(zombieImage.width / 4);
-    this.sprite_height = Math.floor(zombieImage.height / 3);
-    this.max_num_sprites = 10;
-    this.image = zombieImage;
     this.spriteIndex = 0;
+    this.current_image = zombieImages.walk;
+    this.status = 0;    // 0 : walk, 1 : dying
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
 
@@ -34,12 +58,22 @@ var zombieObject = function( pos_x, pos_y, width, height ){
 
     this.get_source_x = function()
     {
-        return this.sprite_width * ( Math.floor(this.spriteIndex) % 4 );
+        return this.current_image.sprite_width * ( Math.floor(this.spriteIndex) % this.current_image.num_sprites_horz );
     };
     this.get_source_y = function()
     {
-        return this.sprite_height * Math.floor( this.spriteIndex / 4 );
+        return this.current_image.sprite_height * Math.floor( this.spriteIndex / this.current_image.num_sprites_horz );
     };
+
+    this.get_sprite_width = function()
+    {
+        return this.current_image.sprite_width;
+    };
+    this.get_sprite_height = function()
+    {
+        return this.current_image.sprite_height;
+    };
+
 
     this.update = function()
     {
@@ -78,7 +112,14 @@ var zombieObject = function( pos_x, pos_y, width, height ){
 
         // for render sprite index
         this.spriteIndex += 0.25;
-        if( this.spriteIndex >= this.max_num_sprites )
+        if( this.spriteIndex >= this.current_image.max_num_sprites )
             this.spriteIndex = 0;
+    };
+
+    this.render = function( context )
+    {
+        context.drawImage( this.current_image.image, this.get_source_x(), this.get_source_y(),
+            this.get_sprite_width(), this.get_sprite_height(),
+            this.get_x(), this.get_y(), this.width, this.height );
     };
 };

@@ -63,11 +63,7 @@ function render()
     // draw objects
     for( var i = 0; i < objects.length; i++ )
     {
-        var obj = objects[i];
-
-        context.drawImage( obj.image, obj.get_source_x(), obj.get_source_y(),
-            obj.sprite_width, obj.sprite_height,
-            obj.get_x(), obj.get_y(), obj.width, obj.height );
+        objects[i].render( context );
     }
 
 }

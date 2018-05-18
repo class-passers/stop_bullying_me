@@ -40,4 +40,10 @@ var towerObject = function( pos_x, pos_y, width, height ){
     this.update = function()
     {
     };
+    this.render = function( context )
+    {
+        context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
+            this.sprite_width, this.sprite_height,
+            this.get_x(), this.get_y(), this.width, this.height );
+    };
 };
