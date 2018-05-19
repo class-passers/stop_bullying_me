@@ -1,19 +1,12 @@
 
 var towerImage = new Image();
 towerImage.src = "img/tower.png";
-towerImage.onload = function() {
-    this.sprite_width = towerImage.width;
-    this.sprite_height = towerImage.height;
-};
 
 var TowerObject = function( pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
     this.width = width;
     this.height = height;
-
-    this.sprite_width = towerImage.width;
-    this.sprite_height = towerImage.height;
 
     this.max_num_sprites = 1;
     this.image = towerImage;
@@ -45,7 +38,7 @@ var TowerObject = function( pos_x, pos_y, width, height ){
     this.render = function( context )
     {
         context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
-            this.sprite_width, this.sprite_height,
+            towerImage.width, towerImage.height,
             this.get_x(), this.get_y(), this.width, this.height );
     };
 };
