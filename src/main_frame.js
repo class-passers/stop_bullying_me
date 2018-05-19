@@ -24,7 +24,7 @@ objects.push( new TowerObject( 250, 450, 85, 133 ) );
 //    window_focused = false;
 //};
 
-setInterval( function() {
+level0.populate_timer = setInterval( function() {
     //if( document.hasFocus() )
         populateZombie();
     }, 5000 );
@@ -33,8 +33,17 @@ setInterval( function() {
 function populateZombie()
 {
     var start = get_start_location();
+    console.log( "remaining zombies = " + level0.remaining_zombies );
     if( start != null ) {
-        objects.push(new ZombieObject(start.x, start.y, 128, 128));
+        if( level0.remaining_zombies > 0 ) {
+            objects.push(new ZombieObject(start.x, start.y, 128, 128));
+            level0.remaining_zombies--;
+        }
+        else
+        {
+             clearInterval(level0.populate_timer);
+            level0.populate_timer = null;
+        }
     }
 }
 
