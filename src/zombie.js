@@ -41,7 +41,7 @@ var zombieObject = function( pos_x, pos_y, width, height ){
     this.height = height;
     this.spriteIndex = 0;
     this.current_image = zombieImages.walk;
-    this.status = 0;    // 0 : walk, 1 : dying
+    this.status = 0;    // 0 : walk, 1 : dying, 2: dead, 3: disappeared
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
 
@@ -99,10 +99,29 @@ var zombieObject = function( pos_x, pos_y, width, height ){
             if (hypotenuseSquared <= this.moveSpeed * this.moveSpeed) {
                 this.moveIndex += 1;
 
+                if( this.moveIndex > 3 ) {
+
+                    if( this.stauts === 0 ) {
+                        this.spriteIndex = 0;
+                        this.status = 1;
+                        this.current_image = zombieImages.dying;
+                    } else if( this.status === 1)
+                    {
+
+                    } else if( this.staus === 2)
+                    {
+                        this.to_be_removed = true;
+                    }
+                }
+
+                /*
+                this.moveIndex += 1;
+
                 if( is_reached_at_destination( this.moveIndex ) )
                 {
                     this.to_be_removed = true;
                 }
+                */
             }
         }
         else
@@ -112,8 +131,19 @@ var zombieObject = function( pos_x, pos_y, width, height ){
 
         // for render sprite index
         this.spriteIndex += 0.25;
-        if( this.spriteIndex >= this.current_image.max_num_sprites )
-            this.spriteIndex = 0;
+        if( this.spriteIndex >= this.current_image.max_num_sprites ) {
+            if( this.status >= 1 )
+            {
+                this.spriteIndex = this.current_image.max_num_sprites - 1;
+                if( this.status === 1)
+                {
+                    this.status = 2;
+                }
+            }
+            else {
+                this.spriteIndex = 0;
+            }
+        }
     };
 
     this.render = function( context )
