@@ -67,7 +67,7 @@ function loadMapData()
     }
 
     worldMap.movePath = search_path( mapGrid );
-    console.log("path = " + JSON.stringify( worldMap.movePath ));
+    //console.log("path = " + JSON.stringify( worldMap.movePath ));
     worldMap.loaded = true;
 };
 
