@@ -6,16 +6,18 @@ towerImage.onload = function() {
     this.sprite_height = towerImage.height;
 };
 
-var towerObject = function( pos_x, pos_y, width, height ){
+var TowerObject = function( pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
     this.width = width;
     this.height = height;
+
     this.sprite_width = towerImage.width;
     this.sprite_height = towerImage.height;
+
     this.max_num_sprites = 1;
     this.image = towerImage;
-    this.index = 0;
+
     // set this flag as true when a tower destroyed.
     this.to_be_removed = false;
 

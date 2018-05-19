@@ -23,7 +23,7 @@ request.onreadystatechange = function()
     }
 };
 request.onload = function() {
-    console.log("onload");
+    //console.log("onload");
     //loadMapData();
 }
 
@@ -67,7 +67,7 @@ function loadMapData()
     }
 
     worldMap.movePath = search_path( mapGrid );
-    //console.log("path = " + JSON.stringify( worldMap.movePath ));
+    console.log("path = " + JSON.stringify( worldMap.movePath ));
     worldMap.loaded = true;
 };
 
@@ -78,14 +78,14 @@ function get_next_position( index )
     {
         if( index < worldMap.movePath.length ) {
             var nextLocation = worldMap.movePath[index];
-            return new position(nextLocation.x * worldMap.tileWidth + worldMap.tileWidth / 2, nextLocation.y * worldMap.tileHeight + worldMap.tileHeight / 2);
+            return new Position(nextLocation.x * worldMap.tileWidth + worldMap.tileWidth / 2, nextLocation.y * worldMap.tileHeight + worldMap.tileHeight / 2);
         }
         else
         {
             console.log("went out of index");
         }
     }
-    return new position( 0, 0 );
+    return new Position( 0, 0 );
 }
 
 function is_reached_at_destination( moveIndex )
@@ -98,7 +98,7 @@ function get_start_location()
     if( worldMap.movePath !== null )
     {
         var nextLocation = worldMap.movePath[0];
-        return new position( Math.floor(nextLocation.x * worldMap.tileWidth - worldMap.tileWidth * 2) ,
+        return new Position( Math.floor(nextLocation.x * worldMap.tileWidth - worldMap.tileWidth * 2) ,
             Math.floor( nextLocation.y * worldMap.tileHeight + worldMap.tileHeight / 2) );
     }
     else

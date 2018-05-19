@@ -1,5 +1,5 @@
 
-var searchNode = function( x, y, costFrom, costTo, parent )
+var SearchNode = function( x, y, costFrom, costTo, parent )
 {
     this.x = x;
     this.y = y;
@@ -8,7 +8,7 @@ var searchNode = function( x, y, costFrom, costTo, parent )
     this.parent = parent;
 };
 
-var position = function( x, y )
+var Position = function( x, y )
 {
     this.x = x;
     this.y = y;
@@ -33,7 +33,7 @@ function get_neighbors( mapGrid, width, height, node, end_node )
             // add only if the node is a road or the end point
             if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END )
             {
-                neighbors.push( new searchNode( next_x, next_y, node.costFrom + 1, get_heuristic( new position( next_x, next_y), end_node ), node  )  );
+                neighbors.push( new SearchNode( next_x, next_y, node.costFrom + 1, get_heuristic( new Position( next_x, next_y), end_node ), node  )  );
             }
         }
     }
@@ -48,7 +48,7 @@ function find_node( mapGrid, nodeValue )
         {
             if( mapGrid[y][x] === nodeValue )
             {
-                return new position(x, y);
+                return new Position(x, y);
             }
         }
     }
@@ -93,7 +93,7 @@ function search_path( mapGrid )
     var start_pos = find_node( mapGrid, START );
     var end_pos = find_node( mapGrid, END );
 
-    var begin = new searchNode( start_pos.x, start_pos.y, 0, get_heuristic( start_pos, end_pos ), null );
+    var begin = new SearchNode( start_pos.x, start_pos.y, 0, get_heuristic( start_pos, end_pos ), null );
     var frontier = [ begin ];
     var visited = [];
     while( frontier.length > 0 )
@@ -107,7 +107,7 @@ function search_path( mapGrid )
             var move_path = [];
             while( current.parent != null )
             {
-                move_path.push( new position( current.x, current.y ) );
+                move_path.push( new Position( current.x, current.y ) );
                 current = current.parent;
             }
 

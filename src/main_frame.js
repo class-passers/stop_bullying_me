@@ -13,8 +13,8 @@ world_map_img.onload = function()
 };
 
 var objects = [];
-objects.push( new towerObject( 320, 320, 85, 133 ) );
-objects.push( new towerObject( 250, 450, 85, 133 ) );
+objects.push( new TowerObject( 320, 320, 85, 133 ) );
+objects.push( new TowerObject( 250, 450, 85, 133 ) );
 
 //var window_focused = true;
 //window.onfocus = function() {
@@ -33,12 +33,12 @@ function populateZombie()
 {
     var start = get_start_location();
     if( start != null ) {
-        objects.push(new zombieObject(start.x, start.y, 128, 128));
+        objects.push(new ZombieObject(start.x, start.y, 128, 128));
     }
 }
 
-// set fixed frame rate as 60fps
-setInterval( update, Math.floor(1000/60) );
+// set fixed frame rate as 50fps
+setInterval( update, Math.floor(1000/50) );
 function update()
 {
     //if( document.hasFocus() === false )
