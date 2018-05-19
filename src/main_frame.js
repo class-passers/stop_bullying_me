@@ -6,8 +6,11 @@ var context = canvas.getContext("2d");
 
 var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
-
-
+world_map_img.onload = function()
+{
+    canvas.width = world_map_img.width;
+    canvas.height = world_map_img.height;
+};
 
 var objects = [];
 objects.push( new towerObject( 320, 320, 85, 133 ) );
