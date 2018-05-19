@@ -27,8 +27,9 @@ objects.push( new TowerObject( 250, 450, 85, 133 ) );
 setInterval( function() {
     //if( document.hasFocus() )
         populateZombie();
-    }
-    , 3000 );
+    }, 5000 );
+
+//objects.push(new ZombieObject(0, 0, 128, 128));
 function populateZombie()
 {
     var start = get_start_location();

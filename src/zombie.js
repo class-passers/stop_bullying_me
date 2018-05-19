@@ -31,10 +31,10 @@ var zombieImages = {
         image : null
     },
     attack : {
-        image_src : "img/zombie_dying.png",
-        max_num_sprites : 12,
-        num_sprites_horz : 2,
-        num_sprites_vert : 6,
+        image_src : "img/zombie_attack.png",
+        max_num_sprites : 8,
+        num_sprites_horz : 4,
+        num_sprites_vert : 2,
         sprite_width : 0,
         sprite_height : 0,
         repeat : true,
@@ -65,7 +65,7 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
     this.hp = 100;
 
     // move speed is affected both horizontally and vertically.
-    this.moveSpeed = 0.5;
+    this.moveSpeed = 1;
     // target tile index that zombie is pursuing
     this.moveIndex = 0;
     // render sprite index
@@ -185,10 +185,6 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
             // check if the zombie is already closed to the target position
             if (hypotenuseSquared <= this.moveSpeed * this.moveSpeed) {
                 this.moveIndex += 1;
-                if( is_reached_at_destination( this.moveIndex ) )
-                {
-                    this.to_be_removed = true;
-                }
             }
         }
         else
