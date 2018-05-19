@@ -30,7 +30,7 @@ function get_neighbors( mapGrid, width, height, node, end_node )
 
         if( next_x >= 0 && next_x < width && next_y >= 0 && next_y < height )
         {
-            // add only if the node is a road
+            // add only if the node is a road or the end point
             if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END )
             {
                 neighbors.push( new searchNode( next_x, next_y, node.costFrom + 1, get_heuristic( new position( next_x, next_y), end_node ), node  )  );
@@ -57,7 +57,7 @@ function find_node( mapGrid, nodeValue )
 
 function get_heuristic( begin, end )
 {
-    // calculate heuristic using Manhattan distance
+    // calculates heuristic using Manhattan distance
     return Math.abs( begin.x - end.x ) + Math.abs( begin.y - end.y );
 }
 
@@ -98,7 +98,6 @@ function search_path( mapGrid )
     var visited = [];
     while( frontier.length > 0 )
     {
-
         var current = frontier[0];
         frontier.shift();
         visited.push( current );
@@ -127,7 +126,7 @@ function search_path( mapGrid )
             if( contains( frontier, neighbors[i] ) )
             {
                 var exist_node = get_element( frontier, neighbors[i] );
-                // if new found way is better than the one in the exist
+                // if new way is better than the one in the frontier
                 if( neighbors[i].costFrom < exist_node.costFrom )
                 {
                     exist_node.costFrom = neighbors[i].costFrom;
@@ -142,6 +141,7 @@ function search_path( mapGrid )
 
         }
 
+        // sort by distance to the goal
         frontier.sort( function(a, b){return a.costFrom + a.costTo - b.costFrom - b.costTo } );
     }
     console.log("cant find the path.");
