@@ -8,7 +8,7 @@ var SearchNode = function( x, y, costFrom, costTo, parent )
     this.parent = parent;
 };
 
-var Position = function( x, y )
+var Pos = function( x, y )
 {
     this.x = x;
     this.y = y;
@@ -33,7 +33,7 @@ function get_neighbors( mapGrid, width, height, node, end_node )
             // add only if the node is a road or the end point
             if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END )
             {
-                neighbors.push( new SearchNode( next_x, next_y, node.costFrom + 1, get_heuristic( new Position( next_x, next_y), end_node ), node  )  );
+                neighbors.push( new SearchNode( next_x, next_y, node.costFrom + 1, get_heuristic( new Pos( next_x, next_y), end_node ), node  )  );
             }
         }
     }
@@ -48,11 +48,11 @@ function find_node( mapGrid, nodeValue )
         {
             if( mapGrid[y][x] === nodeValue )
             {
-                return new Position(x, y);
+                return new Pos(x, y);
             }
         }
     }
-    return position(-1, -1);
+    return new Pos(-1, -1);
 }
 
 function get_heuristic( begin, end )
@@ -107,7 +107,7 @@ function search_path( mapGrid )
             var move_path = [];
             while( current.parent != null )
             {
-                move_path.push( new Position( current.x, current.y ) );
+                move_path.push( new Pos( current.x, current.y ) );
                 current = current.parent;
             }
 
