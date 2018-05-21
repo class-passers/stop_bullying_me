@@ -13,6 +13,9 @@ world_map_img.onload = function()
 };
 
 var objects = [];
+var zombies = [];
+var bullets = [];
+
 objects.push( new TowerObject( 320, 320, 85, 133 ) );
 objects.push( new TowerObject( 250, 450, 85, 133 ) );
 
@@ -48,23 +51,50 @@ function populateZombie()
 }
 
 // set fixed frame rate as 50fps
-setInterval( update, Math.floor(1000/50) );
+setInterval( mainLoop, Math.floor(1000/50) );
+function mainLoop() {
+    update();
+}
 function update()
 {
+    checkForDead();
     //if( document.hasFocus() === false )
     //    return;
     for( var i = 0; i < objects.length; i++ )
     {
+        objects[i].findTarget();
+        objects[i].findVector();
+        objects[i].fire();
         objects[i].update();
     }
-
+    for( var j = 0; j < zombies.length; j++ )
+    {
+        zombies[j].update();
+    }
+    for(var b = 0; b < bullets.length; b++)
+    {
+        bullets[i].move();
+        if(bullets[i].checkCollision()) {
+            bullets.splice(i,1);
+            j--;
+            i--;
+        }
+        bullets[b].update();
+    }
     objects = objects.filter(function (obj) {
         return obj.to_be_removed === false;
+    });
+    zombies = zombies.filter(function (zom) {
+        return zom.to_be_removed === false;
+    });
+    bullets = bullets.filter(function (bul) {
+        return bul.to_be_removed === false;
     });
 
     // sort by y position to render properly
     objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
-
+    zombies.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
+    bullets.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
 
     render();
 }
@@ -78,6 +108,13 @@ function render()
     {
         objects[i].render( context );
     }
-
+    for( var j = 0; j < zombies.length; j++ )
+    {
+        zombies[j].render( context );
+    }
+    for( var b = 0; b < zombies.length; b++ )
+    {
+        bullets[b].render( context );
+    }
 }
 

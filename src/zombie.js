@@ -1,4 +1,3 @@
-
 var zombieImages = {
     idle : {
         image_src : "img/zombie_walk.png",
@@ -194,3 +193,11 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
         }
     };
 };
+function checkForDead() {
+    for (var i = 0; i < zombies.length; i++ ) {
+        if (zombies[i].hp <=0) {
+            zombies.splice(i,1);
+            i--;
+        }
+    }
+}
