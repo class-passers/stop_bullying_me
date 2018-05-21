@@ -7,6 +7,7 @@ var context = canvas.getContext("2d");
 var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
 
+var base = new Base();
 var objects = [];
 objects.push( new zombieObject( 0, 0, 128, 128 ) );
 objects.push( new towerObject( 250, 320, 85, 133 ) );
