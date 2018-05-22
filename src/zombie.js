@@ -134,6 +134,7 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
             }
         }
         else if (this.state === 'attack') {
+            this.hp -= 1;
 
             if (this.hp <= 0) {
                 this.change_state('dying');
