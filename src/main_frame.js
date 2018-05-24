@@ -6,22 +6,67 @@ var context = canvas.getContext("2d");
 
 var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
+world_map_img.onload = function()
+{
+    canvas.width = world_map_img.width;
+    canvas.height = world_map_img.height;
+};
 
-var base = new Base();
 var objects = [];
-objects.push( new zombieObject( 0, 0, 128, 128 ) );
-objects.push( new towerObject( 250, 320, 85, 133 ) );
-update();
+objects.push( new TowerObject( 320, 320, 85, 133 ) );
+objects.push( new TowerObject( 250, 450, 85, 133 ) );
 
+//var window_focused = true;
+//window.onfocus = function() {
+//    window_focused = true;
+//};
+//window.onblur = function() {
+//    window_focused = false;
+//};
+
+level0.populate_timer = setInterval( function() {
+    //if( document.hasFocus() )
+        populateZombie();
+    }, 5000 );
+
+//objects.push(new ZombieObject(0, 0, 128, 128));
+function populateZombie()
+{
+    var start = get_start_location();
+    console.log( "remaining zombies = " + level0.remaining_zombies );
+    if( start != null ) {
+        if( level0.remaining_zombies > 0 ) {
+            objects.push(new ZombieObject(start.x, start.y, 128, 128));
+            level0.remaining_zombies--;
+        }
+        else
+        {
+             clearInterval(level0.populate_timer);
+            level0.populate_timer = null;
+        }
+    }
+}
+
+// set fixed frame rate as 50fps
+base.interval = setInterval( update, Math.floor(1000/50) );
 function update()
 {
+    //if( document.hasFocus() === false )
+    //    return;
     for( var i = 0; i < objects.length; i++ )
     {
         objects[i].update();
     }
 
+    objects = objects.filter(function (obj) {
+        return obj.to_be_removed === false;
+    });
+
+    // sort by y position to render properly
+    objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
+
+
     render();
-    requestAnimationFrame(update);
 }
 
 function render()
@@ -31,11 +76,7 @@ function render()
     // draw objects
     for( var i = 0; i < objects.length; i++ )
     {
-        var obj = objects[i];
-
-        context.drawImage( obj.image, obj.get_source_x(), obj.get_source_y(),
-            obj.sprite_width, obj.sprite_height,
-            obj.x, obj.y, obj.width, obj.height );
+        objects[i].render( context );
     }
 
 }
