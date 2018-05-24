@@ -48,7 +48,11 @@ function populateZombie()
 }
 
 // set fixed frame rate as 50fps
+<<<<<<< HEAD
 setInterval( update, Math.floor(1000/50) );
+=======
+base.interval = setInterval( update, Math.floor(1000/50) );
+>>>>>>> Win/Lose_Condition
 function update()
 {
     //if( document.hasFocus() === false )

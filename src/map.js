@@ -1,10 +1,13 @@
-
+console.log(level0_map);
+/*
 var map_data_file = "map/level0.json";
 var request = new XMLHttpRequest();
+
 request.open('GET', map_data_file);
 request.responsetype = 'json';
 request.send();
 
+<<<<<<< HEAD
 var worldMap = {
     width : 0,
     height : 0,
@@ -13,6 +16,8 @@ var worldMap = {
     loaded : false,
     movePath : null
 };
+=======
+>>>>>>> Win/Lose_Condition
 
 request.onreadystatechange = function()
 {
@@ -26,10 +31,26 @@ request.onreadystatechange = function()
     //loadMapData();
 //};
 
+<<<<<<< HEAD
+=======
+*/
+
+var worldMap = {
+    width : 0,
+    height : 0,
+    tileWidth : 0,
+    tileHeight : 0,
+    loaded : false,
+    movePath : null
+};
+
+loadMapData();
+>>>>>>> Win/Lose_Condition
 function loadMapData()
 {
     //console.log("loadMapData");
 
+<<<<<<< HEAD
     var result = request.response;
     var jsonData = JSON.parse( result );
     //console.log(jsonData);
@@ -39,6 +60,17 @@ function loadMapData()
     worldMap.tileHeight = jsonData["tileheight"];
     worldMap.tileWidth = jsonData["tilewidth"];
 
+=======
+    //var result = request.response;
+    var jsonData = level0_map;
+    console.log(jsonData);
+
+    worldMap.width = jsonData["layers"][0]["width"];
+    worldMap.height = jsonData["layers"][0]["height"];
+    worldMap.tileHeight = jsonData["tileheight"];
+    worldMap.tileWidth = jsonData["tilewidth"];
+
+>>>>>>> Win/Lose_Condition
     //console.log("w = " + mapWidth + ", h = " + mapHeight );
     var mapGrid = new Array( worldMap.height );
     for( var i = 0; i < worldMap.height; i++ ) {
