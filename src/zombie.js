@@ -1,61 +1,5 @@
 
-var zombieImages = {
-    idle : {
-        image_src : "img/zombie_walk.png",
-        max_num_sprites : 10,
-        num_sprites_horz : 4,
-        num_sprites_vert : 3,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : true,
-        image : null
-    },
-    walk : {
-        image_src : "img/zombie_walk.png",
-        max_num_sprites : 10,
-        num_sprites_horz : 4,
-        num_sprites_vert : 3,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : true,
-        image : null
-    },
-    dying : {
-        image_src : "img/zombie_dying.png",
-        max_num_sprites : 12,
-        num_sprites_horz : 2,
-        num_sprites_vert : 6,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : false,
-        image : null
-    },
-    attack : {
-        image_src : "img/zombie_attack.png",
-        max_num_sprites : 8,
-        num_sprites_horz : 4,
-        num_sprites_vert : 2,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : true,
-        image : new Image()
-    }
-};
-
-for( var status in zombieImages )
-{
-    zombieImages[status].image = new Image();
-    zombieImages[status].image.src = zombieImages[status].image_src;
-    zombieImages[status].image.onload = (function( it ){
-        return function() {
-            zombieImages[it].sprite_width = Math.floor(zombieImages[it].image.width / zombieImages[it].num_sprites_horz);
-            zombieImages[it].sprite_height = Math.floor(zombieImages[it].image.height / zombieImages[it].num_sprites_vert);
-            //console.log( it + " = " + JSON.stringify( zombieImages[it] ) );
-        }
-    }( status ));
-}
-
-var ZombieObject = function( pos_x, pos_y, width, height ){
+var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
     this.width = width;
@@ -72,7 +16,8 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.curImage = zombieImages.walk;
+    this.zombieType = type;
+    this.curImage = allZombieImages[this.zombieType].walk;
     this.state = "idle";
 
     // set this flag as true when a zombie died or go out of bound.
@@ -167,7 +112,7 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
     {
         // this.state.leave();
         this.state = newState;
-        this.curImage = zombieImages[newState];
+        this.curImage = allZombieImages[this.zombieType][newState];
         // this.state.enter();
     };
 

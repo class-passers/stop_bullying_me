@@ -36,7 +36,7 @@ function populateZombie()
     console.log( "remaining zombies = " + level0.remaining_zombies );
     if( start != null ) {
         if( level0.remaining_zombies > 0 ) {
-            objects.push(new ZombieObject(start.x, start.y, 128, 128));
+            objects.push(new ZombieObject( "male", start.x, start.y, 128, 128));
             level0.remaining_zombies--;
         }
         else
