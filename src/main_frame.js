@@ -4,6 +4,10 @@ canvas.height = 800;
 
 var context = canvas.getContext("2d");
 
+var mouse = new mouseObject(canvas);
+window.addEventListener("mousemove", mouse.position);
+window.addEventListener("mousedown", mouse.click);
+
 var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
 world_map_img.onload = function()
