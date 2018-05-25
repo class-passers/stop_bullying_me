@@ -24,6 +24,8 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.to_be_removed = false;
     this.corpse_interval = null;
 
+
+
     this.get_x = function()
     {
         return Math.floor(this.x);
