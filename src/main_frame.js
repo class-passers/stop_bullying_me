@@ -48,7 +48,7 @@ function populateZombie()
 }
 
 // set fixed frame rate as 50fps
-base.interval = setInterval( update, Math.floor(1000/50) );
+setInterval( update, Math.floor(1000/50) );
 function update()
 {
     //if( document.hasFocus() === false )

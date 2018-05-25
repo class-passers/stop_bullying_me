@@ -127,7 +127,6 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
                 if( this.corpse_interval === null )
                 {
                     var self = this;
-					base.decreaseEnemies();
                     this.corpse_interval = setTimeout( function(){
                         self.to_be_removed = true;
                     }, 2000 );
@@ -136,8 +135,6 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
         }
         else if (this.state === 'attack') {
             this.hp -= 1;
-			if(this.spriteIndex == Math.floor(this.curImage.max_num_sprites/2))
-				base.decreaseHP(1);
 
             if (this.hp <= 0) {
                 this.change_state('dying');
