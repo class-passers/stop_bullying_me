@@ -47,15 +47,24 @@ function populateZombie()
     }
 }
 
-// set fixed frame rate as 50fps
-setInterval( update, Math.floor(1000/50) );
+var Time = {
+    last : new Date().getTime(),
+    now : null,
+    delta : 0,
+}
+update();
 function update()
 {
+    Time.now = new Date().getTime();
+    Time.delta = (Time.now - Time.last) / 1000;
+    Time.last = Time.now;
+    //console.log( "delta = " + Time.delta );
+
     //if( document.hasFocus() === false )
     //    return;
     for( var i = 0; i < objects.length; i++ )
     {
-        objects[i].update();
+        objects[i].update( Time.delta );
     }
 
     objects = objects.filter(function (obj) {
@@ -65,8 +74,9 @@ function update()
     // sort by y position to render properly
     objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
 
-
     render();
+
+    requestAnimationFrame(update);
 }
 
 function render()

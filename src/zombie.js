@@ -64,8 +64,8 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
     // unit info
     this.hp = 100;
 
-    // move speed is affected both horizontally and vertically.
-    this.moveSpeed = 1;
+    // move speed is affected both horizontally and vertically. ( pixel per second )
+    this.moveSpeed = 50;
     // target tile index that zombie is pursuing
     this.moveIndex = 0;
     // render sprite index
@@ -108,12 +108,12 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
         return this.curImage.sprite_height;
     };
 
-    this.update = function() {
+    this.update = function( deltaTime ) {
         if (this.state === 'idle') {
             this.change_state('walk');
         }
         else if (this.state === 'walk') {
-            this.move_ahead();
+            this.move_ahead( deltaTime );
 
             if (this.hp <= 0 ) {
                 this.change_state('dying');
@@ -168,7 +168,7 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
         // this.state.enter();
     };
 
-    this.move_ahead = function()
+    this.move_ahead = function( deltaTime )
     {
         var nextPos = get_next_position( this.moveIndex );
         // add a quarter size of the zombie to the position to look better on the road.
@@ -181,8 +181,8 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
             var vx = distX / unitVector;
             var vy = distY / unitVector;
 
-            this.x += vx * this.moveSpeed;
-            this.y += vy * this.moveSpeed;
+            this.x += vx * this.moveSpeed * deltaTime;
+            this.y += vy * this.moveSpeed * deltaTime;
 
             // check if the zombie is already closed to the target position
             if (hypotenuseSquared <= this.moveSpeed * this.moveSpeed) {
