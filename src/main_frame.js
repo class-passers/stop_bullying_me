@@ -24,7 +24,10 @@ objects.push( new TowerObject( 250, 450, 85, 133 ) );
 //    window_focused = false;
 //};
 
-level0.populate_timer = setInterval( function() {
+var cur_level = levels[0];
+loadMapData();
+
+cur_level.populate_timer = setInterval( function() {
     //if( document.hasFocus() )
         populateZombie();
     }, 5000 );
@@ -33,18 +36,18 @@ level0.populate_timer = setInterval( function() {
 function populateZombie()
 {
     var start = get_start_location();
-    console.log( "remaining zombies = " + level0.remaining_zombies );
+    console.log( "remaining zombies = " + cur_level.remaining_zombies );
     if( start != null ) {
-        if( level0.remaining_zombies > 0 ) {
+        if( cur_level.remaining_zombies > 0 ) {
             // TODO : need to create zombies based on level data.
             var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128)
             objects.push(zombie);
-            level0.remaining_zombies--;
+            cur_level.remaining_zombies--;
         }
         else
         {
-             clearInterval(level0.populate_timer);
-            level0.populate_timer = null;
+             clearInterval(cur_level.populate_timer);
+            cur_level.populate_timer = null;
         }
     }
 }

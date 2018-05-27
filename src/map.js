@@ -1,10 +1,4 @@
 
-var map_data_file = "map/level0.json";
-var request = new XMLHttpRequest();
-request.open('GET', map_data_file);
-request.responsetype = 'json';
-request.send();
-
 var worldMap = {
     width : 0,
     height : 0,
@@ -14,25 +8,10 @@ var worldMap = {
     movePath : null
 };
 
-request.onreadystatechange = function()
-{
-    //console.log("onreadystatechange ");
-    if (this.readyState === 4 && this.status === 200 && worldMap.loaded === false ) {
-        loadMapData();
-    }
-};
-//request.onload = function() {
-    //console.log("onload");
-    //loadMapData();
-//};
-
 function loadMapData()
 {
-    //console.log("loadMapData");
-
-    var result = request.response;
-    var jsonData = JSON.parse( result );
-    //console.log(jsonData);
+    var jsonData = cur_level.map;
+    //console.log(JSON.stringify(jsonData));
 
     worldMap.width = jsonData["layers"][0]["width"];
     worldMap.height = jsonData["layers"][0]["height"];
