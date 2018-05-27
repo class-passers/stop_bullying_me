@@ -40,7 +40,7 @@ function populateZombie()
     if( start != null ) {
         if( cur_level.remaining_zombies > 0 ) {
             // TODO : need to create zombies based on level data.
-            var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128)
+            var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128);
             objects.push(zombie);
             cur_level.remaining_zombies--;
         }
@@ -55,8 +55,8 @@ function populateZombie()
 var Time = {
     last : new Date().getTime(),
     now : null,
-    delta : 0,
-}
+    delta : 0
+};
 update();
 function update()
 {

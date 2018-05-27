@@ -87,17 +87,21 @@ var allZombieImages = {
 
 
 for( var type in allZombieImages ) {
-    for (var status in allZombieImages[type]) {
-        //console.log("load zombie of " + status + " in " + type );
-        allZombieImages[type][status].image = new Image();
-        allZombieImages[type][status].image.src = allZombieImages[type][status].image_src;
-        allZombieImages[type][status].image.onload = (function (type, it) {
-            return function () {
-                allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image.width / allZombieImages[type][it].num_sprites_horz);
-                allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image.height / allZombieImages[type][it].num_sprites_vert);
-                //console.log( "loaded " + it + " = " + JSON.stringify( allZombieImages[type][it] ) );
+    if( allZombieImages.hasOwnProperty(type) ) {
+        for (var status in allZombieImages[type]) {
+            if( allZombieImages[type].hasOwnProperty( status ) ) {
+                //console.log("load zombie of " + status + " in " + type );
+                allZombieImages[type][status].image = new Image();
+                allZombieImages[type][status].image.src = allZombieImages[type][status].image_src;
+                allZombieImages[type][status].image.onload = (function (type, it) {
+                    return function () {
+                        allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image.width / allZombieImages[type][it].num_sprites_horz);
+                        allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image.height / allZombieImages[type][it].num_sprites_vert);
+                        //console.log( "loaded " + it + " = " + JSON.stringify( allZombieImages[type][it] ) );
+                    }
+                }(type, status));
             }
-        }(type, status));
+        }
     }
 }
 

@@ -3,11 +3,11 @@ var UnitInfo = {
         name : "normal",
         hp : 100,
         // pixel per seconds
-        speed : 50,
+        speed : 50
     },
     fast : {
         name : "fast",
         hp : 80,
-        speed : 70,
+        speed : 70
     }
 };
