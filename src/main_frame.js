@@ -37,7 +37,7 @@ function populateZombie()
     if( start != null ) {
         if( level0.remaining_zombies > 0 ) {
             // TODO : need to create zombies based on level data.
-            var zombie = new ZombieObject( ["male", "female"][getRandom(2)], start.x, start.y, 128, 128)
+            var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128)
             objects.push(zombie);
             level0.remaining_zombies--;
         }

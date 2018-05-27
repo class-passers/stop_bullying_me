@@ -1,5 +1,5 @@
 var allZombieImages = {
-    male : {
+    normal : {
         idle: {
             image_src: "img/zombie_walk.png",
             max_num_sprites: 10,
@@ -41,7 +41,7 @@ var allZombieImages = {
             image: null
         }
     },
-    female : {
+    fast : {
         idle: {
             image_src: "img/female_zombie_walk.png",
             max_num_sprites: 10,

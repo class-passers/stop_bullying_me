@@ -5,26 +5,19 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.width = width;
     this.height = height;
 
-    // unit info
-    this.hp = 100;
-
-    // move speed is affected both horizontally and vertically. ( pixel per second )
-    this.moveSpeed = 50;
     // target tile index that zombie is pursuing
     this.moveIndex = 0;
     // render sprite index
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.zombieType = type;
-    this.curImage = allZombieImages[this.zombieType].walk;
+    this.unit = Object.create( UnitInfo[type] );
+    this.curImage = allZombieImages[this.unit.name].idle;
     this.state = "idle";
 
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
     this.corpse_interval = null;
-
-
 
     this.get_x = function()
     {
@@ -81,9 +74,9 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
             }
         }
         else if (this.state === 'attack') {
-            this.hp -= 1;
+            this.unit.hp -= 1;
 
-            if (this.hp <= 0) {
+            if (this.unit.hp <= 0) {
                 this.change_state('dying');
             }
         }
@@ -111,7 +104,7 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
     {
         // this.state.leave();
         this.state = newState;
-        this.curImage = allZombieImages[this.zombieType][newState];
+        this.curImage = allZombieImages[this.unit.name][newState];
         // this.state.enter();
     };
 
@@ -122,17 +115,17 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
         var distX = nextPos.x - ( this.x + this.width / 4 );
         var distY = nextPos.y - this.y;
         var hypotenuseSquared = distX * distX + distY * distY;
-        if( distX !== 0 || distY !== 0 ) {
+        if( hypotenuseSquared > 0 ) {
 
             var unitVector = Math.sqrt(hypotenuseSquared);
             var vx = distX / unitVector;
             var vy = distY / unitVector;
 
-            this.x += vx * this.moveSpeed * deltaTime;
-            this.y += vy * this.moveSpeed * deltaTime;
+            this.x += vx * this.unit.speed * deltaTime;
+            this.y += vy * this.unit.speed * deltaTime;
 
             // check if the zombie is already closed to the target position
-            if (hypotenuseSquared <= this.moveSpeed * this.moveSpeed) {
+            if (hypotenuseSquared <= this.unit.speed * this.unit.speed) {
                 this.moveIndex += 1;
             }
         }
