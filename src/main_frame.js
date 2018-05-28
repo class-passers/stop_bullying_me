@@ -7,6 +7,7 @@ var context = canvas.getContext("2d");
 var mouse = new mouseObject(canvas);
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.click);
+document.addEventListener('keydown', function(event){mouse.assignFunction(buildTower);});
 
 var world_map_img = new Image();
 world_map_img.src = "img/world_map.png";
@@ -49,6 +50,20 @@ function populateZombie()
             level0.populate_timer = null;
         }
     }
+}
+
+function buildTower()
+{
+	/*
+	var x = Math.floor(mouse.x / worldMap.tileWidth);
+	var y = Math.floor(mouse.y / worldMap.tileHeight);
+	var index;
+	
+	// check it is on road or not
+	if(
+	//*/
+	objects.push(new TowerObject(mouse.x, mouse.y, 85, 133));
+	return true;
 }
 
 // set fixed frame rate as 50fps
