@@ -12,7 +12,12 @@ world_map_img.onload = function()
     canvas.height = world_map_img.height;
 };
 
+var endPoint = find_node( worldMap.mapGrid, 20 )
+var base = new baseObject((endPoint.x*worldMap.tileWidth), 
+						((endPoint.y+1) * worldMap.tileHeight), 
+						85, 133);
 var objects = [];
+objects.push(base);
 objects.push( new TowerObject( 320, 320, 85, 133 ) );
 objects.push( new TowerObject( 250, 450, 85, 133 ) );
 

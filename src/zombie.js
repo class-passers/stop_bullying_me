@@ -63,7 +63,7 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
 
     // unit info
     this.hp = 100;
-
+	
     // move speed is affected both horizontally and vertically.
     this.moveSpeed = 1;
     // target tile index that zombie is pursuing

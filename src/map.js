@@ -28,7 +28,8 @@ var worldMap = {
     tileWidth : 0,
     tileHeight : 0,
     loaded : false,
-    movePath : null
+    movePath : null,
+	mapGrid : null
 };
 
 loadMapData();
@@ -46,9 +47,9 @@ function loadMapData()
     worldMap.tileWidth = jsonData["tilewidth"];
 
     //console.log("w = " + mapWidth + ", h = " + mapHeight );
-    var mapGrid = new Array( worldMap.height );
+    worldMap.mapGrid = new Array( worldMap.height );
     for( var i = 0; i < worldMap.height; i++ ) {
-        mapGrid[i] = new Array( worldMap.width );
+        worldMap.mapGrid[i] = new Array( worldMap.width );
     }
 
     var mapData = jsonData["layers"][0]["data"];
@@ -63,15 +64,15 @@ function loadMapData()
 
         if( tileData in mapTileType )
         {
-            mapGrid[y][x] = parseInt( mapTileType[tileData]['type'] );
+            worldMap.mapGrid[y][x] = parseInt( mapTileType[tileData]['type'] );
         }
         else
         {
-            mapGrid[y][x] = 0;
+            worldMap.mapGrid[y][x] = 0;
         }
     }
 
-    worldMap.movePath = search_path( mapGrid );
+    worldMap.movePath = search_path( worldMap.mapGrid );
     //console.log("path = " + JSON.stringify( worldMap.movePath ));
     worldMap.loaded = true;
 }
