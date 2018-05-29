@@ -4,14 +4,6 @@ canvas.height = 800;
 
 var context = canvas.getContext("2d");
 
-var world_map_img = new Image();
-world_map_img.src = "img/world_map.png";
-world_map_img.onload = function()
-{
-    canvas.width = world_map_img.width;
-    canvas.height = world_map_img.height;
-};
-
 var objects = [];
 objects.push( new TowerObject( 320, 320, 85, 133 ) );
 objects.push( new TowerObject( 250, 450, 85, 133 ) );
@@ -87,7 +79,7 @@ function update()
 function render()
 {
     // no need to clear context
-    context.drawImage( world_map_img, 0, 0 );
+    context.drawImage( worldMap.image, 0, 0 );
     // draw objects
     for( var i = 0; i < objects.length; i++ )
     {

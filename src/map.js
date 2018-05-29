@@ -5,6 +5,7 @@ var worldMap = {
     tileWidth : 0,
     tileHeight : 0,
     loaded : false,
+    image : new Image(),
     movePath : null
 };
 
@@ -18,6 +19,7 @@ function loadMapData()
     worldMap.tileHeight = jsonData["tileheight"];
     worldMap.tileWidth = jsonData["tilewidth"];
 
+
     //console.log("w = " + mapWidth + ", h = " + mapHeight );
     var mapGrid = new Array( worldMap.height );
     for( var i = 0; i < worldMap.height; i++ ) {
@@ -26,6 +28,13 @@ function loadMapData()
 
     var mapData = jsonData["layers"][0]["data"];
     var mapTileType = jsonData["tilesets"][0]["tiles"];
+    worldMap.image.src = "map/" + jsonData["tilesets"][0]["image"];
+    console.log("image = " + worldMap.image.src );
+    worldMap.image.onload = function() {
+        canvas.width = worldMap.image.width;
+        canvas.height = worldMap.image.height;
+    }
+
     for( var idx = 0; idx < mapData.length; idx++ )
     {
         var x = idx % worldMap.width;
