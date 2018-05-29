@@ -1,3 +1,4 @@
+
 var canvas = document.querySelector("#game_frame");
 canvas.width = 1000;
 canvas.height = 800;
@@ -12,10 +13,9 @@ world_map_img.onload = function()
     canvas.height = world_map_img.height;
 };
 
-var objects = [];
 var zombies = [];
 var bullets = [];
-
+var objects = [];
 objects.push( new TowerObject( 320, 320, 85, 133 ) );
 objects.push( new TowerObject( 250, 450, 85, 133 ) );
 
@@ -27,7 +27,10 @@ objects.push( new TowerObject( 250, 450, 85, 133 ) );
 //    window_focused = false;
 //};
 
-level0.populate_timer = setInterval( function() {
+var cur_level = levels[0];
+loadMapData();
+
+cur_level.populate_timer = setInterval( function() {
     //if( document.hasFocus() )
         populateZombie();
     }, 5000 );
@@ -36,28 +39,70 @@ level0.populate_timer = setInterval( function() {
 function populateZombie()
 {
     var start = get_start_location();
-    console.log( "remaining zombies = " + level0.remaining_zombies );
+    console.log( "remaining zombies = " + cur_level.remaining_zombies );
     if( start != null ) {
-        if( level0.remaining_zombies > 0 ) {
-            objects.push(new ZombieObject(start.x, start.y, 128, 128));
-            level0.remaining_zombies--;
+        if( cur_level.remaining_zombies > 0 ) {
+            // TODO : need to create zombies based on level data.
+            var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128);
+            objects.push(zombie);
+            cur_level.remaining_zombies--;
         }
         else
         {
-             clearInterval(level0.populate_timer);
-            level0.populate_timer = null;
+             clearInterval(cur_level.populate_timer);
+            cur_level.populate_timer = null;
         }
     }
 }
 
-// set fixed frame rate as 50fps
-setInterval( mainLoop, Math.floor(1000/50) );
-function mainLoop() {
-    update();
-}
+var Time = {
+    last : new Date().getTime(),
+    now : null,
+    delta : 0
+};
+update();
 function update()
 {
-    checkForDead();
+    Time.now = new Date().getTime();
+    Time.delta = (Time.now - Time.last) / 1000;
+    Time.last = Time.now;
+    //console.log( "delta = " + Time.delta );
+
+    //if( document.hasFocus() === false )
+    //    return;
+    for( var i = 0; i < objects.length; i++ )
+    {
+        objects[i].update( Time.delta );
+    }
+
+    objects = objects.filter(function (obj) {
+        return obj.to_be_removed === false;
+    });
+
+    // sort by y position to render properly
+    objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
+
+    render();
+
+    requestAnimationFrame(update);
+}
+
+function render()
+{
+    // no need to clear context
+    context.drawImage( world_map_img, 0, 0 );
+    // draw objects
+    for( var i = 0; i < objects.length; i++ )
+    {
+        objects[i].render( context );
+    }
+
+}
+
+/*
+function update()
+{
+
     //if( document.hasFocus() === false )
     //    return;
     for( var i = 0; i < objects.length; i++ )
@@ -112,9 +157,10 @@ function render()
     {
         zombies[j].render( context );
     }
-    for( var b = 0; b < zombies.length; b++ )
+    for( var b = 0; b < bullets.length; b++ )
     {
         bullets[b].render( context );
     }
 }
 
+*/

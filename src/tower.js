@@ -45,7 +45,7 @@ var TowerObject = function( pos_x, pos_y, width, height ){
             this.get_x(), this.get_y(), this.width, this.height );
     };
 };
-
+/*
 objects.findTarget = function() {
     //if no enemies, no target
     if(zombies.length === 0) {
@@ -80,4 +80,5 @@ objects.fire = function() {
     if(this.target && this.rateOfFire <=0) {
         bullets.push(new Bullet(this.xFire,this.yFire,this.target,this.hurt));
     };
-};
+}
+*/

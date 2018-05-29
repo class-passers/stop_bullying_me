@@ -7,5 +7,5 @@ function countTimer()
    var min = Math.floor((totalSec - hour*3600)/60);
    var sec = totalSec - (hour*3600 + min*60);
 
-   document.getElementById(“game_frame”).innerHTML = hour + ":" + min + ":" + sec;
+   document.getElementById("game_frame").innerHTML = hour + ":" + min + ":" + sec;
 }
