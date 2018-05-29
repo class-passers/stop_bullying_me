@@ -23,11 +23,11 @@ var baseObject = function( pos_x, pos_y, width, height )
 	
 	//about hp bar
 	this.hp_image = hpImage;
-	this.hp_x = this.x;
-	this.hp_y = this.y - this.height;
 	this.hp_width = this.width;
 	this.hp_onePercent = this.hp_width/100;
 	this.hp_height = Math.floor(this.hp_width / 8);
+	this.hp_x = this.x;
+	this.hp_y = this.y - (this.height + this.hp_height);
 	
 	// set this flag as true when a tower destroyed.
     this.to_be_removed = false;
