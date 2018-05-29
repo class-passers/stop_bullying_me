@@ -85,3 +85,11 @@ function get_start_location()
         return null;
     }
 }
+
+function get_tile_type( x, y )
+{
+    var colIdx = Math.floor(x / canvas.width) * worldMap.width;
+    var rowIdx = Math.floor(y / canvas.height) * worldMap.width;
+    console.log( x + ", " + y + " = " + worldMap.mapGrid[ rowIdx ][ colIdx ]);
+    return worldMap.mapGrid[ rowIdx ][ colIdx ];
+}
