@@ -32,7 +32,7 @@ var TowerObject = function( pos_x, pos_y, width, height ){
     {
         return 0;
     };
-    this.update = function()
+    this.update = function( deltaTime )
     {
     };
     this.render = function( context )

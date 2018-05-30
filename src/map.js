@@ -1,26 +1,3 @@
-console.log(level0_map);
-/*
-var map_data_file = "map/level0.json";
-var request = new XMLHttpRequest();
-
-request.open('GET', map_data_file);
-request.responsetype = 'json';
-request.send();
-
-
-request.onreadystatechange = function()
-{
-    //console.log("onreadystatechange ");
-    if (this.readyState === 4 && this.status === 200 && worldMap.loaded === false ) {
-        loadMapData();
-    }
-};
-//request.onload = function() {
-    //console.log("onload");
-    //loadMapData();
-//};
-
-*/
 
 var worldMap = {
     width : 0,
@@ -29,22 +6,20 @@ var worldMap = {
     tileHeight : 0,
     loaded : false,
     movePath : null,
-	mapGrid : null
+	mapGrid : null,
+    image : new Image()
 };
 
-loadMapData();
 function loadMapData()
 {
-    //console.log("loadMapData");
-
-    //var result = request.response;
-    var jsonData = level0_map;
-    console.log(jsonData);
+    var jsonData = cur_level.map;
+    //console.log(JSON.stringify(jsonData));
 
     worldMap.width = jsonData["layers"][0]["width"];
     worldMap.height = jsonData["layers"][0]["height"];
     worldMap.tileHeight = jsonData["tileheight"];
     worldMap.tileWidth = jsonData["tilewidth"];
+
 
     //console.log("w = " + mapWidth + ", h = " + mapHeight );
     worldMap.mapGrid = new Array( worldMap.height );
@@ -54,6 +29,13 @@ function loadMapData()
 
     var mapData = jsonData["layers"][0]["data"];
     var mapTileType = jsonData["tilesets"][0]["tiles"];
+    worldMap.image.src = "map/" + jsonData["tilesets"][0]["image"];
+    console.log("image = " + worldMap.image.src );
+    worldMap.image.onload = function() {
+        canvas.width = worldMap.image.width;
+        canvas.height = worldMap.image.height;
+    }
+
     for( var idx = 0; idx < mapData.length; idx++ )
     {
         var x = idx % worldMap.width;

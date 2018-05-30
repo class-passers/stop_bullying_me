@@ -1,78 +1,18 @@
 
-var zombieImages = {
-    idle : {
-        image_src : "img/zombie_walk.png",
-        max_num_sprites : 10,
-        num_sprites_horz : 4,
-        num_sprites_vert : 3,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : true,
-        image : null
-    },
-    walk : {
-        image_src : "img/zombie_walk.png",
-        max_num_sprites : 10,
-        num_sprites_horz : 4,
-        num_sprites_vert : 3,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : true,
-        image : null
-    },
-    dying : {
-        image_src : "img/zombie_dying.png",
-        max_num_sprites : 12,
-        num_sprites_horz : 2,
-        num_sprites_vert : 6,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : false,
-        image : null
-    },
-    attack : {
-        image_src : "img/zombie_attack.png",
-        max_num_sprites : 8,
-        num_sprites_horz : 4,
-        num_sprites_vert : 2,
-        sprite_width : 0,
-        sprite_height : 0,
-        repeat : true,
-        image : new Image()
-    }
-};
-
-for( var status in zombieImages )
-{
-    zombieImages[status].image = new Image();
-    zombieImages[status].image.src = zombieImages[status].image_src;
-    zombieImages[status].image.onload = (function( it ){
-        return function() {
-            zombieImages[it].sprite_width = Math.floor(zombieImages[it].image.width / zombieImages[it].num_sprites_horz);
-            zombieImages[it].sprite_height = Math.floor(zombieImages[it].image.height / zombieImages[it].num_sprites_vert);
-            //console.log( it + " = " + JSON.stringify( zombieImages[it] ) );
-        }
-    }( status ));
-}
-
-var ZombieObject = function( pos_x, pos_y, width, height ){
+var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
     this.width = width;
     this.height = height;
 
-    // unit info
-    this.hp = 100;
-	
-    // move speed is affected both horizontally and vertically.
-    this.moveSpeed = 1;
     // target tile index that zombie is pursuing
     this.moveIndex = 0;
     // render sprite index
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.curImage = zombieImages.walk;
+    this.unit = Object.create( UnitInfo[type] );
+    this.curImage = allZombieImages[this.unit.name].idle;
     this.state = "idle";
 
     // set this flag as true when a zombie died or go out of bound.
@@ -108,12 +48,12 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
         return this.curImage.sprite_height;
     };
 
-    this.update = function() {
+    this.update = function( deltaTime ) {
         if (this.state === 'idle') {
             this.change_state('walk');
         }
         else if (this.state === 'walk') {
-            this.move_ahead();
+            this.move_ahead( deltaTime );
 
             if (this.hp <= 0 ) {
                 this.change_state('dying');
@@ -127,19 +67,19 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
                 if( this.corpse_interval === null )
                 {
                     var self = this;
-					base.decreaseEnemies();
                     this.corpse_interval = setTimeout( function(){
                         self.to_be_removed = true;
                     }, 2000 );
+					base.decreaseEnemies();
                 }
             }
         }
         else if (this.state === 'attack') {
-            this.hp -= 1;
+            this.unit.hp -= 1;
 			if(this.spriteIndex == Math.floor(this.curImage.max_num_sprites/2))
 				base.decreaseHP(1);
 
-            if (this.hp <= 0) {
+            if (this.unit.hp <= 0) {
                 this.change_state('dying');
             }
         }
@@ -167,28 +107,28 @@ var ZombieObject = function( pos_x, pos_y, width, height ){
     {
         // this.state.leave();
         this.state = newState;
-        this.curImage = zombieImages[newState];
+        this.curImage = allZombieImages[this.unit.name][newState];
         // this.state.enter();
     };
 
-    this.move_ahead = function()
+    this.move_ahead = function( deltaTime )
     {
         var nextPos = get_next_position( this.moveIndex );
         // add a quarter size of the zombie to the position to look better on the road.
         var distX = nextPos.x - ( this.x + this.width / 4 );
         var distY = nextPos.y - this.y;
         var hypotenuseSquared = distX * distX + distY * distY;
-        if( distX !== 0 || distY !== 0 ) {
+        if( hypotenuseSquared > 0 ) {
 
             var unitVector = Math.sqrt(hypotenuseSquared);
             var vx = distX / unitVector;
             var vy = distY / unitVector;
 
-            this.x += vx * this.moveSpeed;
-            this.y += vy * this.moveSpeed;
+            this.x += vx * this.unit.speed * deltaTime;
+            this.y += vy * this.unit.speed * deltaTime;
 
             // check if the zombie is already closed to the target position
-            if (hypotenuseSquared <= this.moveSpeed * this.moveSpeed) {
+            if (hypotenuseSquared <= this.unit.speed * this.unit.speed) {
                 this.moveIndex += 1;
             }
         }

@@ -11,8 +11,8 @@ var baseObject = function( pos_x, pos_y, width, height )
 	this.hp = this.max_hp;
 	this.alive_enemies = 5;
 	
-	//interval for main game loop
-	this.interval = null;
+	//animation request for main game loop
+	this.loop = true;
 	
     this.x = pos_x;
     this.y = pos_y;
@@ -49,7 +49,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 	this.lose = function()
 	{
 		console.log("Lose");
-		clearInterval(this.interval);
+		this.loop = false;
 	}
 	
 	//called when an enemy is dead
@@ -64,7 +64,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 	this.win = function()
 	{
 		console.log("Win");
-		clearInterval(this.interval);
+		this.loop = false;
 	}
 	
 	
