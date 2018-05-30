@@ -1,9 +1,11 @@
 
 var ZombieObject = function( type, pos_x, pos_y, width, height ){
+    this.objectType = "zombie";
     this.x = pos_x;
     this.y = pos_y;
     this.width = width;
     this.height = height;
+
 
     // target tile index that zombie is pursuing
     this.moveIndex = 0;

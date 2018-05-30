@@ -15,9 +15,9 @@ world_map_img.onload = function()
 
 var zombies = [];
 var bullets = [];
-var objects = [];
-objects.push( new TowerObject( 320, 320, 85, 133 ) );
-objects.push( new TowerObject( 250, 450, 85, 133 ) );
+var gameObjects = [];
+gameObjects.push( new TowerObject( 320, 320, 85, 133 ) );
+gameObjects.push( new TowerObject( 250, 450, 85, 133 ) );
 
 //var window_focused = true;
 //window.onfocus = function() {
@@ -72,15 +72,15 @@ function update()
     //    return;
     for( var i = 0; i < objects.length; i++ )
     {
-        objects[i].update( Time.delta );
+        gameObjects[i].update( Time.delta );
     }
 
-    objects = objects.filter(function (obj) {
+    gameObjects = gameObjects.filter(function (obj) {
         return obj.to_be_removed === false;
     });
 
     // sort by y position to render properly
-    objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
+    gameObjects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
 
     render();
 
@@ -94,7 +94,7 @@ function render()
     // draw objects
     for( var i = 0; i < objects.length; i++ )
     {
-        objects[i].render( context );
+        gameObjects[i].render( context );
     }
 
 }

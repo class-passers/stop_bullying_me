@@ -1,9 +1,10 @@
 function Bullet(x,y,target,damage) {
-    this.x = x,
-        this.y = y,
-        this.target = target,
-        this.damage = damage
-};
+    this.objectType = "bullet";
+    this.x = x;
+    this.y = y;
+    this.target = target;
+    this.damage = damage;
+}
 
 Bullet.r = 10;
 Bullet.speed = 20;
