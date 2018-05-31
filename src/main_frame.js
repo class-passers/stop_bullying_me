@@ -5,15 +5,15 @@ canvas.height = 800;
 
 var context = canvas.getContext("2d");
 
-var world_map_img = new Image();
-world_map_img.src = "img/world_map.png";
-world_map_img.onload = function()
-{
-    canvas.width = world_map_img.width;
-    canvas.height = world_map_img.height;
-};
+var cur_level = levels[0];
+loadMapData();
 
+var endPoint = find_node( worldMap.mapGrid, 20 )
+var base = new baseObject((endPoint.x*worldMap.tileWidth), 
+						((endPoint.y+1) * worldMap.tileHeight), 
+						85, 133);
 var gameObjects = [];
+gameObjects.push(base);
 gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
 gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 
@@ -25,15 +25,13 @@ gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 //    window_focused = false;
 //};
 
-var cur_level = levels[0];
-loadMapData();
 
 cur_level.populate_timer = setInterval( function() {
     //if( document.hasFocus() )
         populateZombie();
     }, 5000 );
 
-//objects.push(new ZombieObject(0, 0, 128, 128));
+//gameObjects.push(new ZombieObject(0, 0, 128, 128));
 function populateZombie()
 {
     var start = get_start_location();
@@ -48,7 +46,7 @@ function populateZombie()
         else
         {
              clearInterval(cur_level.populate_timer);
-             cur_level.populate_timer = null;
+            cur_level.populate_timer = null;
         }
     }
 }
@@ -82,16 +80,19 @@ function update()
 
     render();
 
-    requestAnimationFrame(update);
+	if(base.loop == true)
+		requestAnimationFrame(update);
 }
 
 function render()
 {
     // no need to clear context
-    context.drawImage( world_map_img, 0, 0 );
-    // draw objects
+    context.drawImage( worldMap.image, 0, 0 );
+    // draw gameObjects
     for( var i = 0; i < gameObjects.length; i++ )
     {
         gameObjects[i].render( context );
     }
+
 }
+
