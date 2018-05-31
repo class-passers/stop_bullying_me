@@ -1,5 +1,5 @@
 
-var ZombieObject = function( type, pos_x, pos_y, width, height ){
+var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     this.objectType = "zombie";
     this.x = pos_x;
     this.y = pos_y;
@@ -13,8 +13,8 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.unit = Object.create( UnitInfo[type] );
-    this.curImage = allZombieImages[this.unit.name].idle;
+    this.unitInfo= new Unit( zombieType );
+    this.curImage = allZombieImages[this.unitInfo.name].idle;
     this.state = "idle";
 
     // set this flag as true when a zombie died or go out of bound.
@@ -29,7 +29,7 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.get_y = function()
     {
         // to render at proper position
-        return Math.floor(this.y - this.height);
+        return this.y;
     };
 
     this.get_source_x = function()
@@ -57,7 +57,7 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
         else if (this.state === 'walk') {
             this.move_ahead( deltaTime );
 
-            if (this.hp <= 0 ) {
+            if (this.unitInfo.hp <= 0 ) {
                 this.change_state('dying');
             }
             else if (is_reached_at_destination(this.moveIndex)) {
@@ -76,9 +76,9 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
             }
         }
         else if (this.state === 'attack') {
-            this.unit.hp -= 1;
+            this.unitInfo.hp -= 1;
 
-            if (this.unit.hp <= 0) {
+            if (this.unitInfo.hp <= 0) {
                 this.change_state('dying');
             }
         }
@@ -105,8 +105,9 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
     this.change_state = function( newState )
     {
         // this.state.leave();
+        console.log( JSON.stringify(this.unitInfo) + " state changed : " + newState );
         this.state = newState;
-        this.curImage = allZombieImages[this.unit.name][newState];
+        this.curImage = allZombieImages[this.unitInfo.name][newState];
         // this.state.enter();
     };
 
@@ -123,11 +124,11 @@ var ZombieObject = function( type, pos_x, pos_y, width, height ){
             var vx = distX / unitVector;
             var vy = distY / unitVector;
 
-            this.x += vx * this.unit.speed * deltaTime;
-            this.y += vy * this.unit.speed * deltaTime;
+            this.x += vx * this.unitInfo.speed * deltaTime;
+            this.y += vy * this.unitInfo.speed * deltaTime;
 
             // check if the zombie is already closed to the target position
-            if (hypotenuseSquared <= this.unit.speed * this.unit.speed) {
+            if (hypotenuseSquared <= this.unitInfo.speed * this.unitInfo.speed) {
                 this.moveIndex += 1;
             }
         }

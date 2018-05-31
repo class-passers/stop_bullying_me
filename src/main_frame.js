@@ -13,11 +13,9 @@ world_map_img.onload = function()
     canvas.height = world_map_img.height;
 };
 
-var zombies = [];
-var bullets = [];
 var gameObjects = [];
-gameObjects.push( new TowerObject( 320, 320, 85, 133 ) );
-gameObjects.push( new TowerObject( 250, 450, 85, 133 ) );
+gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
+gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 
 //var window_focused = true;
 //window.onfocus = function() {
@@ -44,13 +42,13 @@ function populateZombie()
         if( cur_level.remaining_zombies > 0 ) {
             // TODO : need to create zombies based on level data.
             var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128);
-            objects.push(zombie);
+            gameObjects.push(zombie);
             cur_level.remaining_zombies--;
         }
         else
         {
              clearInterval(cur_level.populate_timer);
-            cur_level.populate_timer = null;
+             cur_level.populate_timer = null;
         }
     }
 }
@@ -70,7 +68,7 @@ function update()
 
     //if( document.hasFocus() === false )
     //    return;
-    for( var i = 0; i < objects.length; i++ )
+    for( var i = 0; i < gameObjects.length; i++ )
     {
         gameObjects[i].update( Time.delta );
     }
@@ -92,75 +90,8 @@ function render()
     // no need to clear context
     context.drawImage( world_map_img, 0, 0 );
     // draw objects
-    for( var i = 0; i < objects.length; i++ )
+    for( var i = 0; i < gameObjects.length; i++ )
     {
         gameObjects[i].render( context );
     }
-
 }
-
-/*
-function update()
-{
-
-    //if( document.hasFocus() === false )
-    //    return;
-    for( var i = 0; i < objects.length; i++ )
-    {
-        objects[i].findTarget();
-        objects[i].findVector();
-        objects[i].fire();
-        objects[i].update();
-    }
-    for( var j = 0; j < zombies.length; j++ )
-    {
-        zombies[j].update();
-    }
-    for(var b = 0; b < bullets.length; b++)
-    {
-        bullets[i].move();
-        if(bullets[i].checkCollision()) {
-            bullets.splice(i,1);
-            j--;
-            i--;
-        }
-        bullets[b].update();
-    }
-    objects = objects.filter(function (obj) {
-        return obj.to_be_removed === false;
-    });
-    zombies = zombies.filter(function (zom) {
-        return zom.to_be_removed === false;
-    });
-    bullets = bullets.filter(function (bul) {
-        return bul.to_be_removed === false;
-    });
-
-    // sort by y position to render properly
-    objects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
-    zombies.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
-    bullets.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
-
-    render();
-}
-
-function render()
-{
-    // no need to clear context
-    context.drawImage( world_map_img, 0, 0 );
-    // draw objects
-    for( var i = 0; i < objects.length; i++ )
-    {
-        objects[i].render( context );
-    }
-    for( var j = 0; j < zombies.length; j++ )
-    {
-        zombies[j].render( context );
-    }
-    for( var b = 0; b < bullets.length; b++ )
-    {
-        bullets[b].render( context );
-    }
-}
-
-*/

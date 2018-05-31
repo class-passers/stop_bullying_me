@@ -1,36 +1,46 @@
-function Bullet(x,y,target,damage) {
+
+// Bullet is a kind of guided projectile so that this always follow the target.
+var Bullet = function( x, y, target, damage ) {
     this.objectType = "bullet";
+    // x, y should be center position of the bullet
     this.x = x;
     this.y = y;
     this.target = target;
     this.damage = damage;
-}
 
-Bullet.r = 10;
-Bullet.speed = 20;
 
-Bullet.move = function() {
-    var xDist = this.target.x+64-this.x;
-    var yDist = this.target.y+64-this.y;
-    var dist = Math.sqrt(xDist*xDist+yDist*yDist);
-    this.x = this.x+this.speed*xDist/dist;
-    this.y = this.y+this.speed*yDist/dist;
+    this.bulletRadius = 10;
+    this.bulletSpeed = 200;     // 200 pixels per second
+
+    this.to_be_removed = false;
+
+
+    this.update = function ( deltaTime ) {
+        var target_x = this.target.x + Math.floor( this.target.width / 2 );
+        var target_y = this.target.y + Math.floor( this.target.height / 2 );
+
+        var xDist = target_x - this.x;
+        var yDist = target_y - this.y;
+        var dist = Math.sqrt( xDist * xDist + yDist * yDist );
+
+        this.x += this.bulletSpeed * deltaTime * xDist / dist ;
+        this.y += this.bulletSpeed * deltaTime * yDist / dist;
+
+        if( isCollided( this, this.target ) )
+        {
+            this.target.unitInfo.hp -= this.damage;
+            console.log(JSON.stringify(this.target.unitInfo));
+            this.to_be_removed = true;
+        }
+    };
+
+    this.render = function (context)
+    {
+        context.beginPath();
+        context.arc( this.x, this.y, this.bulletRadius, 0, 2 * Math.PI );
+        context.fillStyle = 'grey';
+        context.fill();
+    };
 };
 
-Bullet.draw = function() {
-    context.beginPath();
-    context.arc(this.x,this.y,this.r,0,2*Math.PI);
-    context.fillStyle='black';
-    context.fill();
-};
 
-Bullet.prototype.checkCollision = function() {
-    if(this.x < this.target.x + 64 &&
-        this.x + this.r > this.target.x &&
-        this.y < this.target.y + 64 &&
-        this.y + this.r > this.target.y) {
-        this.target.hp -= this.damage;
-        return true;
-    }
-    return false;
-};
