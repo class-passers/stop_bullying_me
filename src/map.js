@@ -87,8 +87,8 @@ function get_start_location()
     if( worldMap.movePath !== null )
     {
         var nextLocation = worldMap.movePath[0];
-        return new Pos( Math.floor(nextLocation.x * worldMap.tileWidth - worldMap.tileWidth * 2.5 ) ,
-            Math.floor( nextLocation.y * worldMap.tileHeight + worldMap.tileHeight) );
+        return new Pos( Math.floor( ( nextLocation.x - 2 ) * worldMap.tileWidth ) ,
+            Math.floor( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
     }
     else
     {

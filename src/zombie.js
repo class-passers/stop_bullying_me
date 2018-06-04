@@ -2,7 +2,7 @@
 var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     this.objectType = "zombie";
     this.x = pos_x;
-    this.y = pos_y;
+    this.y = pos_y - height;
     this.width = width;
     this.height = height;
 
@@ -119,8 +119,8 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     {
         var nextPos = get_next_position( this.moveIndex );
         // add a quarter size of the zombie to the position to look better on the road.
-        var distX = nextPos.x - ( this.x + this.width / 4 );
-        var distY = nextPos.y - this.y;
+        var distX = nextPos.x - ( this.x + this.width / 2 );
+        var distY = nextPos.y - ( this.y + this.height );
         var hypotenuseSquared = distX * distX + distY * distY;
         if( hypotenuseSquared > 0 ) {
 

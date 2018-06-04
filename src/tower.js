@@ -5,7 +5,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
     this.objectType = "tower";
     // x, y position starts from the top left corner.
     this.x = pos_x;
-    this.y = pos_y;
+    this.y = pos_y - height;
     this.width = width;
     this.height = height;
 
