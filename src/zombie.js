@@ -8,7 +8,7 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
 
 
     // target tile index that zombie is pursuing
-    this.moveIndex = 0;
+    this.moveIndex = 1;
     // render sprite index
     this.spriteIndex = 0;
 
@@ -109,7 +109,7 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     this.change_state = function( newState )
     {
         // this.state.leave();
-        console.log( JSON.stringify(this.unitInfo) + " state changed : " + newState );
+        //console.log( JSON.stringify(this.unitInfo) + " state changed : " + newState );
         this.state = newState;
         this.curImage = allZombieImages[this.unitInfo.name][newState];
         // this.state.enter();
@@ -121,6 +121,7 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
         // add a quarter size of the zombie to the position to look better on the road.
         var distX = nextPos.x - ( this.x + this.width / 2 );
         var distY = nextPos.y - ( this.y + this.height );
+
         var hypotenuseSquared = distX * distX + distY * distY;
         if( hypotenuseSquared > 0 ) {
 
@@ -138,6 +139,8 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
         }
         else
         {
+            console.log("current = " + this.x + "+" + this.width + ", " + this.y + "+" + this.height);
+            console.log("next = " + nextPos.x + ", " + nextPos.y);
             console.log("out of distance");
         }
     };
