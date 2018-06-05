@@ -6,6 +6,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
     // x, y position starts from the top left corner.
     this.x = pos_x;
     this.y = pos_y - height;
+    this.z = 0;
     this.width = width;
     this.height = height;
 
@@ -63,6 +64,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
 
     this.findTarget = function() {
 
+
         // if  a zombie is already in target, fire him.
         if( this.curTarget && this.curTarget.unitInfo.hp > 0 ){
             if(getDistanceSquare( this, this.curTarget ) < this.towerInfo.attackRange * this.towerInfo.attackRange ) {
@@ -74,14 +76,17 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
             }
         }
 
+
+
         this.curTarget = null;
         // find any zombie in its attack range
         for( var i = 0; i < gameObjects.length; i++ ) {
             if (gameObjects[i].objectType === "zombie" && gameObjects[i].unitInfo.hp > 0 ) {
                 // check if the zombie is in tower's attack range
-                if( getDistanceSquare( this, gameObjects[i] ) < this.towerInfo.attackRange * this.towerInfo.attackRange )
+                if( getDistanceSquare( this, gameObjects[i] ) < this.towerInfo.attackRange * this.towerInfo.attackRange ) {
                     this.curTarget = gameObjects[i];
                     return;
+                }
             }
         }
     };
@@ -90,7 +95,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
         if( this.isOnCooldown === false && this.curTarget !== null )
         {
             var center_x = this.x + Math.floor(this.width / 2);
-            var center_y = this.y + Math.floor(this.height/ 2);
+            var center_y = this.y + Math.floor(this.height/ 5);
             gameObjects.push( new Bullet( center_x, center_y, this.curTarget, this.towerInfo.attackPower) );
             this.isOnCooldown = true;
             var self = this;

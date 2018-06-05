@@ -28,6 +28,14 @@ function getDistanceSquare( object1, object2 )
 
 function isCollided( rect1, rect2 )
 {
-    return !(rect1.x + rect1.width < rect2.x || rect1.x > rect2.x + rect2.width ||
-        rect1.y + rect1.height < rect1.target.y || rect1.y > rect2.y + rect2.height );
+    var collided = !(rect1.x + rect1.width < rect2.x || rect1.x > rect2.x + rect2.width ||
+        rect1.y + rect1.height < rect2.y || rect1.y > rect2.y + rect2.height );
+    /*
+    if( collided )
+    {
+        console.log("rect1 = " + JSON.stringify(rect1));
+        console.log("rect2 = " + JSON.stringify(rect2));
+    }
+    */
+    return collided;
 }

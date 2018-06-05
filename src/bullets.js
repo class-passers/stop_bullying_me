@@ -8,6 +8,9 @@ var Bullet = function( x, y, target, damage ) {
     // x, y should be center position of the bullet
     this.x = x;
     this.y = y;
+    this.z = 1000;  // z-order for drawing, when the object needs to be drawn on top of the screen like UI or bullet
+    this.width = bulletImage.width;
+    this.height = bulletImage.height;
     this.target = target;
     this.damage = damage;
 
@@ -28,12 +31,12 @@ var Bullet = function( x, y, target, damage ) {
 
         this.x += this.bulletSpeed * deltaTime * xDist / dist ;
         this.y += this.bulletSpeed * deltaTime * yDist / dist;
-        //console.log( "this = " + this.x + ", " + this.y + " ==> " + this.target.x + ", " + this.target.y );
+        //console.log( "this = " + this.x + ", " + this.y + " ==> " + this.target.x + ", " + this.target.y + " : " + dist );
 
         if( isCollided( this, this.target.get_bounding_rect() ) )
         {
             this.target.unitInfo.hp -= this.damage;
-            console.log(JSON.stringify(this.target.unitInfo));
+            //console.log("hit : " + JSON.stringify(this.target.unitInfo));
             this.to_be_removed = true;
         }
     };
@@ -47,7 +50,7 @@ var Bullet = function( x, y, target, damage ) {
 
         context.drawImage( bulletImage, 0, 0,
             bulletImage.width, bulletImage.height,
-            this.x, this.y, bulletImage.width, bulletImage.height );
+            Math.floor(this.x), Math.floor(this.y), bulletImage.width, bulletImage.height );
     };
 };
 

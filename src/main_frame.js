@@ -76,7 +76,8 @@ function update()
     });
 
     // sort by y position to render properly
-    gameObjects.sort( function(a, b){ return a.y + a.height - b.y - b.height } );
+    gameObjects.sort( function(a, b){ return (a.y + a.height + a.z) - (b.y + b.height + b.z) } );
+    //console.log( JSON.stringify(gameObjects));
 
     render();
 

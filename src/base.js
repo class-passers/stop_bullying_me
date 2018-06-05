@@ -7,15 +7,17 @@ hpImage.src = "img/base_hp_bar.png";
 // base object for storing player's hp and enemies which are still alive on map
 var baseObject = function( pos_x, pos_y, width, height )
 {
+    this.objectType = "basecamp";
 	this.max_hp = 10;
 	this.hp = this.max_hp;
-	this.alive_enemies = 5;
+	this.alive_enemies = cur_level.remaining_zombies;
 	
 	//animation request for main game loop
 	this.loop = true;
 	
     this.x = pos_x;
     this.y = pos_y;
+    this.z = 0;
     this.width = width;
     this.height = height;
 	this.image = baseImage;
