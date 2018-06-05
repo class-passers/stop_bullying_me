@@ -1,4 +1,7 @@
 
+var bulletImage = new Image();
+bulletImage.src = "img/bullet.png";
+
 // Bullet is a kind of guided projectile so that this always follow the target.
 var Bullet = function( x, y, target, damage ) {
     this.objectType = "bullet";
@@ -25,8 +28,9 @@ var Bullet = function( x, y, target, damage ) {
 
         this.x += this.bulletSpeed * deltaTime * xDist / dist ;
         this.y += this.bulletSpeed * deltaTime * yDist / dist;
+        //console.log( "this = " + this.x + ", " + this.y + " ==> " + this.target.x + ", " + this.target.y );
 
-        if( isCollided( this, this.target ) )
+        if( isCollided( this, this.target.get_bounding_rect() ) )
         {
             this.target.unitInfo.hp -= this.damage;
             console.log(JSON.stringify(this.target.unitInfo));
@@ -36,10 +40,14 @@ var Bullet = function( x, y, target, damage ) {
 
     this.render = function (context)
     {
-        context.beginPath();
-        context.arc( this.x, this.y, this.bulletRadius, 0, 2 * Math.PI );
-        context.fillStyle = 'grey';
-        context.fill();
+        //context.beginPath();
+        //context.arc( this.x, this.y, this.bulletRadius, 0, 2 * Math.PI );
+        //context.fillStyle = 'black';
+        //context.fill();
+
+        context.drawImage( bulletImage, 0, 0,
+            bulletImage.width, bulletImage.height,
+            this.x, this.y, bulletImage.width, bulletImage.height );
     };
 };
 

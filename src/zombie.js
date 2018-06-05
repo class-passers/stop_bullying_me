@@ -6,7 +6,6 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     this.width = width;
     this.height = height;
 
-
     // target tile index that zombie is pursuing
     this.moveIndex = 1;
     // render sprite index
@@ -30,6 +29,20 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     {
         // to render at proper position
         return this.y;
+    };
+
+    this.get_bounding_rect = function()
+    {
+        // get bounding box as its 60% of entire area.
+        var rect = new Rectangle( Math.floor( this.x + this.width * 0.2 ),
+            Math.floor( this.y + this.height * 0.2 ),
+            Math.floor( this.width * 0.6 ),
+            Math.floor( this.height * 0.6 ) );
+
+        //console.log("bounding of " + this.x + " : " + this.width + ", " + this.y + " : " + this.height + " is " );
+        //console.log(rect.x + " : " + rect.width + ", " + rect.y + " : " + rect.height + "." );
+
+        return rect;
     };
 
     this.get_source_x = function()

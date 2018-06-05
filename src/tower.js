@@ -64,8 +64,15 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
     this.findTarget = function() {
 
         // if  a zombie is already in target, fire him.
-        if( this.curTarget && this.curTarget.unitInfo.hp > 0 )
-            return ;
+        if( this.curTarget && this.curTarget.unitInfo.hp > 0 ){
+            if(getDistanceSquare( this, this.curTarget ) < this.towerInfo.attackRange * this.towerInfo.attackRange ) {
+                return;
+            }
+            else
+            {
+                console.log("a zombie goes out of range");
+            }
+        }
 
         this.curTarget = null;
         // find any zombie in its attack range
