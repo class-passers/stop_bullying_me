@@ -46,9 +46,9 @@ function loadMapData()
     worldMap.tileWidth = jsonData["tilewidth"];
 
     //console.log("w = " + mapWidth + ", h = " + mapHeight );
-    var mapGrid = new Array( worldMap.height );
+    worldMap.mapGrid = new Array( worldMap.height );
     for( var i = 0; i < worldMap.height; i++ ) {
-        mapGrid[i] = new Array( worldMap.width );
+        worldMap.mapGrid[i] = new Array( worldMap.width );
     }
 
     var mapData = jsonData["layers"][0]["data"];
@@ -63,15 +63,15 @@ function loadMapData()
 
         if( tileData in mapTileType )
         {
-            mapGrid[y][x] = parseInt( mapTileType[tileData]['type'] );
+            worldMap.mapGrid[y][x] = parseInt( mapTileType[tileData]['type'] );
         }
         else
         {
-            mapGrid[y][x] = 0;
+            worldMap.mapGrid[y][x] = 0;
         }
     }
 
-    worldMap.movePath = search_path( mapGrid );
+    worldMap.movePath = search_path( worldMap.mapGrid );
     //console.log("path = " + JSON.stringify( worldMap.movePath ));
     worldMap.loaded = true;
 }
@@ -111,4 +111,14 @@ function get_start_location()
     {
         return null;
     }
+}
+
+function get_tile_type( x, y )
+{
+    var colIdx = Math.floor(x / worldMap.tileWidth)>=worldMap.width?worldMap.width:Math.floor(x / worldMap.tileWidth);
+    var rowIdx = Math.floor(y / worldMap.tileHeight)>=worldMap.height?(worldMap.height-1):Math.floor(y / worldMap.tileHeight);
+	if(rowIdx < 0)
+		rowIdx = 0;
+    //console.log( x + ", " + y + " = " + worldMap.mapGrid[ rowIdx ][ colIdx ]);
+    return worldMap.mapGrid[ rowIdx ][ colIdx ];
 }

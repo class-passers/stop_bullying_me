@@ -13,7 +13,6 @@ var mouseObject = function(can)
 		self.x = event.clientX - rect.left;
 		self.y = event.clientY - rect.top;
 	}
-	
 	this.click = function(event)
 	{
 		//left moust button click
@@ -24,7 +23,7 @@ var mouseObject = function(can)
 			console.log(self.y);
 			//*/
 			
-						//run assigned function
+			//run assigned function
 			if(self.run() == true)
 			{
 				//If the function worked properly, change it to default
