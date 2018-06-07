@@ -8,6 +8,7 @@ invalidImage.src = "img/tower_invalid.png";
 var BuildIndicator = function(mouse, positions, pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
+	this.z = 0;
     this.width = width;
     this.height = height;
 	this.isValid = false;

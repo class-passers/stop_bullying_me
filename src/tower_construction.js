@@ -18,12 +18,13 @@ buildImage.onload = function(){
 var progressImage = new Image();
 progressImage.src = "img/progress_bar.png";
 
-var buildObject = function (pos_x, pos_y, width, height )
+var buildObject = function (interval, pos_x, pos_y, width, height )
 {
 	this.progress = 0;
 	
 	this.x = pos_x;
     this.y = pos_y;
+	this.z = 0;
 	this.width = width;
     this.height = height;
 	this.image = buildImage;
@@ -66,9 +67,9 @@ var buildObject = function (pos_x, pos_y, width, height )
 		return this.image.sprite_height;
 	};
 	
-	this.update = function()
+	this.update = function(deltaTime)
 	{
-		this.progress += 0.4;
+		this.progress += deltaTime*(100000/interval);
 		this.spriteIndex = this.progress/20;
 		if(this.progress >= 100)
 		{
