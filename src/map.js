@@ -34,7 +34,7 @@ function loadMapData()
     worldMap.image.onload = function() {
         canvas.width = worldMap.image.width;
         canvas.height = worldMap.image.height;
-    }
+    };
 
     for( var idx = 0; idx < mapData.length; idx++ )
     {
@@ -98,10 +98,8 @@ function get_start_location()
 
 function get_tile_type( x, y )
 {
-    var colIdx = Math.floor(x / worldMap.tileWidth)>=worldMap.width?worldMap.width:Math.floor(x / worldMap.tileWidth);
-    var rowIdx = Math.floor(y / worldMap.tileHeight)>=worldMap.height?(worldMap.height-1):Math.floor(y / worldMap.tileHeight);
-	if(rowIdx < 0)
-		rowIdx = 0;
-    //console.log( x + ", " + y + " = " + worldMap.mapGrid[ rowIdx ][ colIdx ]);
+    var colIdx = clamp( Math.floor(x / worldMap.tileWidth), 0, worldMap.width - 1 );
+    var rowIdx = clamp( Math.floor(y / worldMap.tileHeight), 0, worldMap.height - 1 );
+    //console.log( x + ", " + y + " = " + colIdx + ", " + rowIdx + " => " + worldMap.mapGrid[ rowIdx ][ colIdx ]);
     return worldMap.mapGrid[ rowIdx ][ colIdx ];
 }

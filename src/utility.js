@@ -13,6 +13,12 @@ function getRandom( maxValue )
     return Math.floor( Math.random() * maxValue );
 }
 
+// return a value between [minValue, maxValue]
+function clamp( value, minValue, maxValue )
+{
+    return Math.max( Math.min( value, maxValue ), minValue );
+}
+
 // return a squared distance between two objects ( center to center )
 // both objects should have properties for x, y, width and height
 function getDistanceSquare( object1, object2 )
@@ -28,14 +34,6 @@ function getDistanceSquare( object1, object2 )
 
 function isCollided( rect1, rect2 )
 {
-    var collided = !(rect1.x + rect1.width < rect2.x || rect1.x > rect2.x + rect2.width ||
+    return !(rect1.x + rect1.width < rect2.x || rect1.x > rect2.x + rect2.width ||
         rect1.y + rect1.height < rect2.y || rect1.y > rect2.y + rect2.height );
-    /*
-    if( collided )
-    {
-        console.log("rect1 = " + JSON.stringify(rect1));
-        console.log("rect2 = " + JSON.stringify(rect2));
-    }
-    */
-    return collided;
 }
