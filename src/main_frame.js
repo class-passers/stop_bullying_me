@@ -53,30 +53,36 @@ gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 //    window_focused = false;
 //};
 
-
-cur_level.populate_timer = setInterval( function() {
-    //if( document.hasFocus() )
-        populateZombie();
-    }, 5000 );
-
-//gameObjects.push(new ZombieObject(0, 0, 128, 128));
+populateZombie();
 function populateZombie()
 {
-    var start = get_start_location();
-    console.log( "remaining zombies = " + cur_level.remaining_zombies );
-    if( start != null ) {
-        if( cur_level.remaining_zombies > 0 ) {
-            // TODO : need to create zombies based on level data.
-            var zombie = new ZombieObject( ["normal", "fast"][getRandom(2)], start.x, start.y, 128, 128);
-            gameObjects.push(zombie);
-            cur_level.remaining_zombies--;
-        }
-        else
-        {
-             clearInterval(cur_level.populate_timer);
-            cur_level.populate_timer = null;
-        }
+    for( var i = 0; i < cur_level.populate_info.length; i++ )
+    {
+        var pop_info = cur_level.populate_info[i];
+        console.log("populate : " + JSON.stringify(pop_info));
+        setTimeout( registerPopulateZombie( pop_info ), pop_info.start * 1000 );
     }
+}
+
+function registerPopulateZombie( pop_info )
+{
+    pop_info.timer = setInterval( function()
+        {
+            var start = get_start_location();
+            if( start != null ) {
+                console.log( pop_info.type + " remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
+                var zombie = new ZombieObject(pop_info.type, start.x, start.y, 128, 128);
+                gameObjects.push(zombie);
+                pop_info.amount--;
+                cur_level.remaining_zombies--;
+
+                if (pop_info.amount <= 0) {
+                    clearInterval(pop_info.timer);
+                }
+            }
+        },
+        pop_info.interval * 1000
+    );
 }
 
 function buildTower()
