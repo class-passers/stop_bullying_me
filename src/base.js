@@ -16,7 +16,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 	this.loop = true;
 	
     this.x = pos_x;
-    this.y = pos_y;
+    this.y = pos_y - height;
     this.z = 0;
     this.width = width;
     this.height = height;
@@ -29,7 +29,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 	this.hp_onePercent = this.hp_width/100;
 	this.hp_height = Math.floor(this.hp_width / 8);
 	this.hp_x = this.x;
-	this.hp_y = this.y - (this.height + this.hp_height);
+	this.hp_y = this.y - this.hp_height;
 	
 	// set this flag as true when a tower destroyed.
     this.to_be_removed = false;
@@ -47,12 +47,12 @@ var baseObject = function( pos_x, pos_y, width, height )
 			this.hp_width = 0;
 			this.lose();
 		}
-	}
+	};
 	this.lose = function()
 	{
 		console.log("Lose");
 		this.loop = false;
-	}
+	};
 	
 	//called when an enemy is dead
 	this.decreaseEnemies = function()
@@ -62,12 +62,12 @@ var baseObject = function( pos_x, pos_y, width, height )
 		{
 			this.win();
 		}
-	}
+	};
 	this.win = function()
 	{
 		console.log("Win");
 		this.loop = false;
-	}
+	};
 	
 	
 	//functions for rendering
@@ -78,7 +78,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 
     this.get_y = function()
     {
-        return this.y - this.height;
+        return this.y;
     };
 
     this.get_source_x = function()
@@ -91,11 +91,11 @@ var baseObject = function( pos_x, pos_y, width, height )
     };
 	
 	//functions run evey frame
-	this.update = function(){}
+	this.update = function(){};
 	this.render = function(context)
 	{
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
 		
 		context.drawImage(this.hp_image, this.hp_x, this.hp_y, this.hp_width, this.hp_height);
-	}
-}
+	};
+};

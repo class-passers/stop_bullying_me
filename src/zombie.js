@@ -36,15 +36,10 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     this.get_bounding_rect = function()
     {
         // get bounding box as its 50% of entire area.
-        var rect = new Rectangle( Math.floor( this.x + this.width * 0.25 ),
+        return new Rectangle( Math.floor( this.x + this.width * 0.25 ),
             Math.floor( this.y + this.height * 0.25 ),
             Math.floor( this.width * 0.5 ),
             Math.floor( this.height * 0.5 ) );
-
-        //console.log("bounding of " + this.x + " : " + this.width + ", " + this.y + " : " + this.height + " is " );
-        //console.log(rect.x + " : " + rect.width + ", " + rect.y + " : " + rect.height + "." );
-
-        return rect;
     };
 
     this.get_source_x = function()
@@ -94,7 +89,7 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
         else if (this.state === 'attack') {
 
             this.unitInfo.hp -= 1;
-			if(this.spriteIndex == Math.floor(this.curImage.max_num_sprites/2))
+			if(this.spriteIndex === Math.floor(this.curImage.max_num_sprites/2))
 				base.decreaseHP(1);
 
             if (this.unitInfo.hp <= 0) {
