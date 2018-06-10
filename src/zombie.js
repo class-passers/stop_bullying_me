@@ -82,7 +82,7 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
                     this.corpse_interval = setTimeout( function(){
                         self.to_be_removed = true;
                     }, 2000 );
-					base.decreaseEnemies();
+					base.decreaseEnemies(this.unitInfo.cost);
                 }
             }
         }
@@ -90,7 +90,7 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
 
             this.unitInfo.hp -= 1;
 			if(this.spriteIndex === Math.floor(this.curImage.max_num_sprites/2))
-				base.decreaseHP(1);
+				base.decreaseHP(this.unitInfo.attackPower);
 
             if (this.unitInfo.hp <= 0) {
                 this.change_state('dying');

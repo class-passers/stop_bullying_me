@@ -5,12 +5,14 @@ var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
 
 // base object for storing player's hp and enemies which are still alive on map
-var baseObject = function( pos_x, pos_y, width, height )
+var baseObject = function(startMoney, pos_x, pos_y, width, height )
 {
     this.objectType = "basecamp";
-	this.max_hp = 10;
+	this.max_hp = 100;
 	this.hp = this.max_hp;
 	this.alive_enemies = cur_level.remaining_zombies;
+	this.resource = startMoney;
+	this.earn_interval = null;
 	
 	//animation request for main game loop
 	this.loop = true;
@@ -52,12 +54,14 @@ var baseObject = function( pos_x, pos_y, width, height )
 	{
 		console.log("Lose");
 		this.loop = false;
+		this.earn_interval = null;
 	};
 	
 	//called when an enemy is dead
-	this.decreaseEnemies = function()
+	this.decreaseEnemies = function(earn)
 	{
 		this.alive_enemies--;
+		this.earnMoney(earn);
 		if(this.alive_enemies <= 0)
 		{
 			this.win();
@@ -67,6 +71,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 	{
 		console.log("Win");
 		this.loop = false;
+		this.earn_interval = null;
 	};
 	
 	
@@ -90,6 +95,14 @@ var baseObject = function( pos_x, pos_y, width, height )
         return 0;
     };
 	
+	this.earnMoney = function(amt)
+	{
+		this.resource += amt;
+	}
+	this.spendMoney = function(amt)
+	{
+		this.resource -= amt;
+	}
 	//functions run evey frame
 	this.update = function(){};
 	this.render = function(context)
@@ -97,5 +110,13 @@ var baseObject = function( pos_x, pos_y, width, height )
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
 		
 		context.drawImage(this.hp_image, this.hp_x, this.hp_y, this.hp_width, this.hp_height);
+		
+		//*  Drawing text will be changed or removed when UI design is confirmed
+		context.fillStyle = 'black';
+		context.font = '48px Arial';
+		context.textAlign = 'right';
+		context.textBaseline = 'top';
+		context.fillText(this.resource.toString(), 1270, 0);
+		//*/
 	};
 };

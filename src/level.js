@@ -20,6 +20,7 @@ var levels = [
         ],
         boss_zombie_type : "heavy",
         populate_timer : null,
-        map : level0_map
+        map : level0_map,
+		start_money : 100
     }
 ];

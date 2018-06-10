@@ -17,7 +17,8 @@ var cur_level = levels[0];
 loadMapData();
 
 var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
 
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.click);
@@ -88,15 +89,19 @@ function registerPopulateZombie( pop_info )
 function buildTower()
 {
 	// check it is on road or not
-	if(build_indicator.isValid == true)
+	if(build_indicator.isValid == true && base.resource >= TroopInfo["normal"].cost)
 	{
 		// 5second build time
 		var build_interval = 5000;
+		
+		base.spendMoney(TroopInfo["normal"].cost);
+		
 		gameObjects.push(new buildObject(build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
 		
 		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
 		
 		setTimeout(function(){gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;}, build_interval);
+		
 		build_indicator.to_be_removed = true;
 		build_mode = false;
 		return true;
