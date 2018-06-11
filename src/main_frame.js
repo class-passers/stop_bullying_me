@@ -56,22 +56,31 @@ gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 populateZombie();
 function populateZombie()
 {
-    for( var i = 0; i < cur_level.populate_info.length; i++ )
+    cur_level.remaining_zombies = 0;
+    for( var i = 0; i < cur_level.populate_zombie_info.length; i++ )
     {
-        var pop_info = cur_level.populate_info[i];
-        console.log("populate : " + JSON.stringify(pop_info));
-        setTimeout( registerPopulateZombie( pop_info ), pop_info.start * 1000 );
+        var pop_info = cur_level.populate_zombie_info[i];
+        console.log("populate zombie: " + JSON.stringify(pop_info));
+        cur_level.remaining_zombies += pop_info.amount;
+        setTimeout( registerPopulateZombie( pop_info, false ), pop_info.start * 1000 );
+    }
+    for( var i = 0; i < cur_level.populate_boss_info.length; i++ )
+    {
+        var pop_info = cur_level.populate_boss_info[i];
+        console.log("populate boss: " + JSON.stringify(pop_info));
+        cur_level.remaining_zombies += pop_info.amount;
+        setTimeout( registerPopulateZombie( pop_info, true ), pop_info.start * 1000 );
     }
 }
 
-function registerPopulateZombie( pop_info )
+function registerPopulateZombie( pop_info, is_boss )
 {
     pop_info.timer = setInterval( function()
         {
             var start = get_start_location();
             if( start != null ) {
                 console.log( pop_info.type + " remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
-                var zombie = new ZombieObject(pop_info.type, start.x, start.y, 128, 128);
+                var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
                 gameObjects.push(zombie);
                 pop_info.amount--;
                 cur_level.remaining_zombies--;
