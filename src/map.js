@@ -1,3 +1,7 @@
+// EMPTY = 0;
+// ROAD = 1;
+// START = 10;
+// END = 20;
 
 var worldMap = {
     width : 0,
@@ -13,7 +17,7 @@ var worldMap = {
 function loadMapData()
 {
     var jsonData = cur_level.map;
-    //console.log(JSON.stringify(jsonData));
+
 
     worldMap.width = jsonData["layers"][0]["width"];
     worldMap.height = jsonData["layers"][0]["height"];
@@ -21,11 +25,12 @@ function loadMapData()
     worldMap.tileWidth = jsonData["tilewidth"];
 
 
-    //console.log("w = " + mapWidth + ", h = " + mapHeight );
+    console.log("w = " + worldMap.width + ", h = " + worldMap.height );
     worldMap.mapGrid = new Array( worldMap.height );
     for( var i = 0; i < worldMap.height; i++ ) {
         worldMap.mapGrid[i] = new Array( worldMap.width );
     }
+
 
     var mapData = jsonData["layers"][0]["data"];
     var mapTileType = jsonData["tilesets"][0]["tiles"];
@@ -53,6 +58,7 @@ function loadMapData()
             worldMap.mapGrid[y][x] = 0;
         }
     }
+    //console.log(JSON.stringify(worldMap.mapGrid));
 
     worldMap.movePath = search_path( worldMap.mapGrid );
     //console.log("path = " + JSON.stringify( worldMap.movePath ));

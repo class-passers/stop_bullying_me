@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.0" tiledversion="1.1.5" orientation="orthogonal" renderorder="right-down" width="40" height="20" tilewidth="32" tileheight="32" infinite="0" nextobjectid="1">
  <tileset firstgid="1" name="world_map" tilewidth="32" tileheight="32" tilecount="780" columns="39">
-  <image source="../img/world_map.png" width="1279" height="660"/>
+  <image source="world_map.png" width="1279" height="660"/>
   <tile id="78" type="1"/>
   <tile id="79" type="1"/>
   <tile id="80" type="1"/>
@@ -86,7 +86,7 @@
   <tile id="700" type="1"/>
   <tile id="701" type="1"/>
  </tileset>
- <tileset firstgid="781" name="world_map" tilewidth="32" tileheight="32" tilecount="780" columns="39">
+ <tileset firstgid="781" name="world_map" tilewidth="32" tileheight="32" tilecount="0" columns="39">
   <image source="../img/world_map.png" width="1279" height="660"/>
  </tileset>
  <layer name="Tile Layer 1" width="40" height="20">
