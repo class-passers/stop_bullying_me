@@ -16,8 +16,6 @@ var tower_index = 0;
 var cur_level = levels[0];
 loadMapData();
 
-var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
 
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.click);
@@ -40,10 +38,6 @@ document.addEventListener('keydown', function(event){
 		build_mode = false;
 	}
 });
-
-gameObjects.push(base);
-gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
-gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 
 //var window_focused = true;
 //window.onfocus = function() {
@@ -121,6 +115,13 @@ var Time = {
     now : null,
     delta : 0
 };
+
+var endPoint = find_node( worldMap.mapGrid, 20 )
+var base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+gameObjects.push(base);
+gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
+gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
+
 update();
 function update()
 {
