@@ -1,13 +1,20 @@
 
-var ZombieObject = function( zombieType, is_boss, pos_x, pos_y, width, height ){
+var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ){
     this.objectType = "zombie";
     this.isBoss = is_boss;
-    this.x = pos_x;
-    this.y = pos_y - height;
-    this.z = 0;
-    this.width = width;
-    this.height = height;
+    if( is_boss )
+    {
+        this.unitInfo = new Boss( zombieType );
+    }
+    else {
+        this.unitInfo = new Unit(zombieType);
+    }
 
+    this.width = this.unitInfo.width;
+    this.height = this.unitInfo.height;
+    this.x = pos_x;
+    this.y = pos_y - this.height;
+    this.z = 0;
 
     // target tile index that zombie is pursuing
     this.moveIndex = 1;
@@ -15,7 +22,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y, width, height ){
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.unitInfo = new Unit( zombieType );
     this.curImage = allZombieImages[this.unitInfo.name].idle;
     this.state = "idle";
 

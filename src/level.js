@@ -20,7 +20,7 @@ var levels = [
         ],
         populate_boss_info : [
             {
-                start : 30,
+                start : 25,
                 interval : 0,
                 type : "heavy",
                 amount : 1,

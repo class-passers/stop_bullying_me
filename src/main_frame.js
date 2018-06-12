@@ -57,19 +57,21 @@ populateZombie();
 function populateZombie()
 {
     cur_level.remaining_zombies = 0;
+
     for( var i = 0; i < cur_level.populate_zombie_info.length; i++ )
     {
         var pop_info = cur_level.populate_zombie_info[i];
         console.log("populate zombie: " + JSON.stringify(pop_info));
         cur_level.remaining_zombies += pop_info.amount;
-        setTimeout( registerPopulateZombie( pop_info, false ), pop_info.start * 1000 );
+        setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, false );
     }
+
     for( var i = 0; i < cur_level.populate_boss_info.length; i++ )
     {
         var pop_info = cur_level.populate_boss_info[i];
         console.log("populate boss: " + JSON.stringify(pop_info));
         cur_level.remaining_zombies += pop_info.amount;
-        setTimeout( registerPopulateZombie( pop_info, true ), pop_info.start * 1000 );
+        setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, true );
     }
 }
 
@@ -79,7 +81,7 @@ function registerPopulateZombie( pop_info, is_boss )
         {
             var start = get_start_location();
             if( start != null ) {
-                console.log( pop_info.type + " remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
+                console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
                 var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
                 gameObjects.push(zombie);
                 pop_info.amount--;

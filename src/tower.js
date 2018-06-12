@@ -70,10 +70,12 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
             if(getDistanceSquare( this, this.curTarget ) < this.towerInfo.attackRange * this.towerInfo.attackRange ) {
                 return;
             }
+            /*
             else
             {
                 console.log("a zombie goes out of range");
             }
+            */
         }
 
 

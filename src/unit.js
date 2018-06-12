@@ -3,6 +3,11 @@ var Unit = function( unitType )
     return Object.create( UnitInfo[unitType] );
 };
 
+var Boss = function( unitType )
+{
+    return Object.create( BossInfo[unitType] );
+};
+
 var Tower = function( towerType )
 {
     return Object.create( TowerInfo[towerType] );
@@ -28,7 +33,7 @@ var UnitInfo = {
         width : 200,
         height : 200,
         hp : 300,
-        moveSpeed : 30
+        moveSpeed : 10
 
     },
     ranged : {
@@ -43,20 +48,23 @@ var UnitInfo = {
 var BossInfo = {
     heavy : {
         name : "heavy",
+        width : 250,
+        height : 250,
         hp : 300,
         moveSpeed : 30,
         attackRange : 60,
         attackSpeed : 1500,
-        attackPower : 30,
-
+        attackPower : 30
     },
     ranged : {
         name : "ranged",
+        width : 160,
+        height : 160,
         hp : 100,
         moveSpeed : 45,
         attackRange : 250,
         attackSpeed : 500,
-        attackPower : 10,
+        attackPower : 10
     }
 };
 
