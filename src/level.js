@@ -1,7 +1,7 @@
 var levels = [
     {   // for level 0
         //max_zombies : 6,
-        remaining_zombies : 14,
+        remaining_zombies : 15,
         populate_zombie_info : [
             {
                 start : 0,          // when to start populating a zombie in seconds
@@ -20,7 +20,7 @@ var levels = [
         ],
         populate_boss_info : [
             {
-                start : 25,
+                start : 30,
                 interval : 0,
                 type : "heavy",
                 amount : 1,

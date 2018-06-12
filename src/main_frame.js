@@ -47,7 +47,12 @@ document.addEventListener('keydown', function(event){
 //    window_focused = false;
 //};
 
-populateZombie();
+startGame();
+function startGame()
+{
+    populateZombie();
+}
+
 function populateZombie()
 {
     cur_level.remaining_zombies = 0;
