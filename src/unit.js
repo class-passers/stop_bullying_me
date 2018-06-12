@@ -19,29 +19,36 @@ var UnitInfo = {
         width : 128,
         height : 128,
         hp : 120,
-        moveSpeed : 50      // pixel per seconds
+		moveSpeed : 50,      // pixel per seconds
+		attackPower : 10,
+		cost : 5
     },
     fast : {
         name : "fast",
         width : 128,
         height : 128,
         hp : 80,
-        moveSpeed : 70
+        moveSpeed : 70,
+		attackPower : 5,
+		cost : 7 
     },
     heavy : {
         name : "heavy",
         width : 200,
         height : 200,
         hp : 300,
-        moveSpeed : 10
-
+        moveSpeed : 10,
+		attackPower : 15,
+		cost : 10
     },
     ranged : {
         name : "ranged",
         width : 128,
         height : 128,
         hp : 100,
-        moveSpeed : 50
+        moveSpeed : 50,
+		attackPower : 10,
+		cost : 7
     }
 };
 
@@ -54,7 +61,8 @@ var BossInfo = {
         moveSpeed : 30,
         attackRange : 60,
         attackSpeed : 1500,
-        attackPower : 30
+        attackPower : 30,
+		cost : 20
     },
     ranged : {
         name : "ranged",
@@ -64,7 +72,8 @@ var BossInfo = {
         moveSpeed : 45,
         attackRange : 250,
         attackSpeed : 500,
-        attackPower : 10
+        attackPower : 10,
+		cost : 20
     }
 };
 
@@ -75,6 +84,8 @@ var TowerInfo =
         hp : 100,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1000,     // once per second
-        attackPower : 15
+        attackPower : 15,
+		cost : 50,
+		build_interval : 5000
     }
 };
