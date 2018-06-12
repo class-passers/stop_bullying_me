@@ -73,8 +73,9 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
 	};
 	this.win = function()
 	{
+		startGame(++cur_level_index);
 		//console.log("Win");
-		this.loop = false;
+		//this.loop = false;
 		this.earn_interval = null;
 	};
 	

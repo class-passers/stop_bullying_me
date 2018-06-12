@@ -13,8 +13,6 @@ var build_mode = false;
 var tower_positions = [];
 var tower_index = 0;
 
-var cur_level = levels[0];
-loadMapData();
 
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.click);
@@ -46,10 +44,28 @@ document.addEventListener('keydown', function(event){
 //    window_focused = false;
 //};
 
-startGame();
-function startGame()
+var base = null;
+var cur_level = null;
+var cur_level_index = 0;
+startGame( cur_level_index );
+function startGame( level )
 {
+    cur_level = levels[level];
+    loadMapData();
+
     populateZombie();
+
+    if( base != null && base.earn_interval != null)
+    {
+        clearInterval(base.earn_interval);
+    }
+
+    gameObjects = [];
+
+    var endPoint = find_node( worldMap.mapGrid, 20 )
+    base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+    base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
+    gameObjects.push(base);
 }
 
 function populateZombie()
@@ -120,13 +136,6 @@ var Time = {
     now : null,
     delta : 0
 };
-
-var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
-base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
-gameObjects.push(base);
-gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
-gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 
 update();
 function update()
