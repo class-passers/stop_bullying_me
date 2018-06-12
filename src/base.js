@@ -50,7 +50,11 @@ var baseObject = function( pos_x, pos_y, width, height )
 	};
 	this.lose = function()
 	{
-		console.log("Lose");
+		//console.log("Lose");
+        object.onlick = function()
+        {
+            startGame();
+        }
 		this.loop = false;
 	};
 	
@@ -65,7 +69,7 @@ var baseObject = function( pos_x, pos_y, width, height )
 	};
 	this.win = function()
 	{
-		console.log("Win");
+		//console.log("Win");
 		this.loop = false;
 	};
 	
