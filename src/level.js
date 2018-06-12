@@ -29,6 +29,7 @@ var levels = [
         ],
         populate_timer : null,
         map : level0_map,
-		start_money : 100
+		start_money : 100,
+		base_hp : 100
     }
 ];

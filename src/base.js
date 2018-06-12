@@ -8,7 +8,7 @@ hpImage.src = "img/base_hp_bar.png";
 var baseObject = function(startMoney, pos_x, pos_y, width, height )
 {
     this.objectType = "basecamp";
-	this.max_hp = 100;
+	this.max_hp = cur_level.base_hp;
 	this.hp = this.max_hp;
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = startMoney;
