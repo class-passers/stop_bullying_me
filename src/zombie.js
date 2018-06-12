@@ -1,12 +1,20 @@
 
-var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
+var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ){
     this.objectType = "zombie";
-    this.x = pos_x;
-    this.y = pos_y - height;
-    this.z = 0;
-    this.width = width;
-    this.height = height;
+    this.isBoss = is_boss;
+    if( is_boss )
+    {
+        this.unitInfo = new Boss( zombieType );
+    }
+    else {
+        this.unitInfo = new Unit(zombieType);
+    }
 
+    this.width = this.unitInfo.width;
+    this.height = this.unitInfo.height;
+    this.x = pos_x;
+    this.y = pos_y - this.height;
+    this.z = 0;
 
     // target tile index that zombie is pursuing
     this.moveIndex = 1;
@@ -14,7 +22,6 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.unitInfo= new Unit( zombieType );
     this.curImage = allZombieImages[this.unitInfo.name].idle;
     this.state = "idle";
 
@@ -132,18 +139,18 @@ var ZombieObject = function( zombieType, pos_x, pos_y, width, height ){
         var distX = nextPos.x - ( this.x + this.width / 2 );
         var distY = nextPos.y - ( this.y + this.height );
 
-        var hypotenuseSquared = distX * distX + distY * distY;
-        if( hypotenuseSquared > 0 ) {
+        var distSquared = distX * distX + distY * distY;
+        if( distSquared > 0 ) {
 
-            var unitVector = Math.sqrt(hypotenuseSquared);
+            var unitVector = Math.sqrt(distSquared);
             var vx = distX / unitVector;
             var vy = distY / unitVector;
 
-            this.x += vx * this.unitInfo.speed * deltaTime;
-            this.y += vy * this.unitInfo.speed * deltaTime;
+            this.x += vx * this.unitInfo.moveSpeed * deltaTime;
+            this.y += vy * this.unitInfo.moveSpeed * deltaTime;
 
             // check if the zombie is already closed to the target position
-            if (hypotenuseSquared <= this.unitInfo.speed * this.unitInfo.speed) {
+            if (distSquared <= this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
                 this.moveIndex += 1;
             }
         }

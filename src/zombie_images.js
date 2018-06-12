@@ -1,10 +1,10 @@
 var allZombieImages = {
     normal : {
         idle: {
-            image_src: "img/zombie_walk.png",
-            max_num_sprites: 10,
+            image_src: "img/zombie_idle.png",
+            max_num_sprites: 15,
             num_sprites_horz: 4,
-            num_sprites_vert: 3,
+            num_sprites_vert: 4,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -43,10 +43,10 @@ var allZombieImages = {
     },
     fast : {
         idle: {
-            image_src: "img/female_zombie_walk.png",
-            max_num_sprites: 10,
+            image_src: "img/female_zombie_idle.png",
+            max_num_sprites: 15,
             num_sprites_horz: 5,
-            num_sprites_vert: 2,
+            num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -83,7 +83,49 @@ var allZombieImages = {
             image: null
         }
     },
-    
+    heavy : {
+        idle: {
+            image_src: "img/zombie_idle.png",
+            max_num_sprites: 15,
+            num_sprites_horz: 4,
+            num_sprites_vert: 4,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        walk: {
+            image_src: "img/zombie_walk.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        dying: {
+            image_src: "img/zombie_dying.png",
+            max_num_sprites: 12,
+            num_sprites_horz: 2,
+            num_sprites_vert: 6,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image: null
+        },
+        attack: {
+            image_src: "img/zombie_attack.png",
+            max_num_sprites: 8,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        }
+    }
+    /*
     heavy : {
         idle: {
             image_src: "img/zombie-punk_hurt.png",
@@ -126,6 +168,7 @@ var allZombieImages = {
             image: null
         }
     },
+    */
 };
 
 

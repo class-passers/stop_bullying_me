@@ -16,10 +16,6 @@ var tower_index = 0;
 var cur_level = levels[0];
 loadMapData();
 
-var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
-base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
-
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.click);
 //turn on build mode
@@ -42,10 +38,6 @@ document.addEventListener('keydown', function(event){
 	}
 });
 
-gameObjects.push(base);
-gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
-gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
-
 //var window_focused = true;
 //window.onfocus = function() {
 //    window_focused = true;
@@ -57,22 +49,33 @@ gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 populateZombie();
 function populateZombie()
 {
-    for( var i = 0; i < cur_level.populate_info.length; i++ )
+    cur_level.remaining_zombies = 0;
+
+    for( var i = 0; i < cur_level.populate_zombie_info.length; i++ )
     {
-        var pop_info = cur_level.populate_info[i];
-        console.log("populate : " + JSON.stringify(pop_info));
-        setTimeout( registerPopulateZombie( pop_info ), pop_info.start * 1000 );
+        var pop_info = cur_level.populate_zombie_info[i];
+        console.log("populate zombie: " + JSON.stringify(pop_info));
+        cur_level.remaining_zombies += pop_info.amount;
+        setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, false );
+    }
+
+    for( var i = 0; i < cur_level.populate_boss_info.length; i++ )
+    {
+        var pop_info = cur_level.populate_boss_info[i];
+        console.log("populate boss: " + JSON.stringify(pop_info));
+        cur_level.remaining_zombies += pop_info.amount;
+        setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, true );
     }
 }
 
-function registerPopulateZombie( pop_info )
+function registerPopulateZombie( pop_info, is_boss )
 {
     pop_info.timer = setInterval( function()
         {
             var start = get_start_location();
             if( start != null ) {
-                console.log( pop_info.type + " remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
-                var zombie = new ZombieObject(pop_info.type, start.x, start.y, 128, 128);
+                console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
+                var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
                 gameObjects.push(zombie);
                 pop_info.amount--;
                 cur_level.remaining_zombies--;
@@ -89,18 +92,15 @@ function registerPopulateZombie( pop_info )
 function buildTower()
 {
 	// check it is on road or not
-	if(build_indicator.isValid == true && base.resource >= TroopInfo["normal"].cost)
+	if(build_indicator.isValid == true && base.resource >= TowerInfo["normal"].cost)
 	{
-		// 5second build time
-		var build_interval = 5000;
+		base.spendMoney(TowerInfo["normal"].cost);
 		
-		base.spendMoney(TroopInfo["normal"].cost);
-		
-		gameObjects.push(new buildObject(build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
+		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
 		
 		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
 		
-		setTimeout(function(){gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;}, build_interval);
+		setTimeout(function(){gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;}, TowerInfo["normal"].build_interval);
 		
 		build_indicator.to_be_removed = true;
 		build_mode = false;
@@ -115,6 +115,14 @@ var Time = {
     now : null,
     delta : 0
 };
+
+var endPoint = find_node( worldMap.mapGrid, 20 )
+var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
+gameObjects.push(base);
+gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
+gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
+
 update();
 function update()
 {
