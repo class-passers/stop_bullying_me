@@ -50,15 +50,14 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
 			this.lose();
 		}
 	};
+
 	this.lose = function()
 	{
-		//console.log("Lose");
-        object.onlick = function()
-        {
-            startGame();
-        }
-		this.loop = false;
-		this.earn_interval = null;
+		console.log("Lose");
+		restartGame();
+
+		//this.loop = false;
+		//this.earn_interval = null;
 	};
 	
 	//called when an enemy is dead
@@ -73,10 +72,12 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
 	};
 	this.win = function()
 	{
-		startGame(++cur_level_index);
-		//console.log("Win");
+
+		console.log("Win");
+		nextLevel();
+
 		//this.loop = false;
-		this.earn_interval = null;
+		//this.earn_interval = null;
 	};
 	
 	
