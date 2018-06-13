@@ -15,6 +15,9 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ){
     this.x = pos_x;
     this.y = pos_y - this.height;
     this.z = 0;
+    // for move vector
+    this.vx = 0;
+    this.vy = 0;
 
     // target tile index that zombie is pursuing
     this.moveIndex = 1;
@@ -118,7 +121,12 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ){
 
     this.render = function( context )
     {
-        context.drawImage( this.curImage.image, this.get_source_x(), this.get_source_y(),
+        var image = this.curImage.image_left;
+        if( this.vx < 0 )
+        {
+            image = this.curImage.image_right;
+        }
+        context.drawImage( image, this.get_source_x(), this.get_source_y(),
             this.get_sprite_width(), this.get_sprite_height(),
             this.get_x(), this.get_y(), this.width, this.height );
     };
@@ -143,11 +151,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ){
         if( distSquared > 0 ) {
 
             var unitVector = Math.sqrt(distSquared);
-            var vx = distX / unitVector;
-            var vy = distY / unitVector;
+            this.vx = distX / unitVector;
+            this.vy = distY / unitVector;
 
-            this.x += vx * this.unitInfo.moveSpeed * deltaTime;
-            this.y += vy * this.unitInfo.moveSpeed * deltaTime;
+            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
+            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
 
             // check if the zombie is already closed to the target position
             if (distSquared <= this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
