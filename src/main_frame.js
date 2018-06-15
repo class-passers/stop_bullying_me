@@ -67,7 +67,7 @@ function startGame( level )
     loadMapData();
     populateZombie();
 
-    console.log("start game, level = " + level + " : " + JSON.stringify(cur_level));
+    //console.log("start game, level = " + level + " : " + JSON.stringify(cur_level));
 
     if( base != null && base.earn_interval != null)
     {

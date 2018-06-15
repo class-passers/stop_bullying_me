@@ -89,3 +89,34 @@ var TowerInfo =
 		build_interval : 5000
     }
 };
+
+var BaseInfo =
+[
+    {
+        name : "level0",
+        hp : 300,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 500,     // once per second
+        attackPower : 10,
+        cost : 1000,
+        build_interval : 5000
+    },
+    {
+        name : "level1",
+        hp : 300,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 500,     // once per second
+        attackPower : 10,
+        cost : 1000,
+        build_interval : 5000
+    },
+    {
+        name : "level2",
+        hp : 300,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 500,     // once per second
+        attackPower : 10,
+        cost : 1000,
+        build_interval : 5000
+    }
+];

@@ -24,6 +24,8 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
     this.height = height;
 	this.image = baseImage;
 	this.max_num_sprites = 1;
+
+	this.unitInfo = BaseInfo[ cur_level_index ];
 	
 	//about hp bar
 	this.hp_image = hpImage;
@@ -38,7 +40,7 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
 	
 //functions
 	//called when an enemy is attacking the player's base
-	this.decreaseHP = function(damage)
+	this.takeDamage = function(damage)
 	{
 		this.hp -= damage;
 		var percent = Math.floor((this.hp / this.max_hp)*100);

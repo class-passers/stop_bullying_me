@@ -10,7 +10,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
     this.width = width;
     this.height = height;
 
-    this.towerInfo = new Tower( towerType );
+    this.unitInfo = new Tower( towerType );
     this.isOnCooldown = false;
 
     this.curTarget = null;
@@ -53,7 +53,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
         context.beginPath();
         var center_x = this.x + Math.floor(this.width / 2);
         var center_y = this.y + Math.floor(this.height/ 2);
-        context.arc( center_x, center_y, this.towerInfo.attackRange, 0, 2 * Math.PI );
+        context.arc( center_x, center_y, this.unitInfo.attackRange, 0, 2 * Math.PI );
         context.fillStyle = 'blue';
         context.fill();
 */
@@ -67,7 +67,7 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
 
         // if  a zombie is already in target, fire him.
         if( this.curTarget && this.curTarget.unitInfo.hp > 0 ){
-            if(getDistanceSquare( this, this.curTarget ) < this.towerInfo.attackRange * this.towerInfo.attackRange ) {
+            if(getDistanceSquare( this, this.curTarget ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                 return;
             }
             /*
@@ -78,14 +78,12 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
             */
         }
 
-
-
         this.curTarget = null;
         // find any zombie in its attack range
         for( var i = 0; i < gameObjects.length; i++ ) {
             if (gameObjects[i].objectType === "zombie" && gameObjects[i].unitInfo.hp > 0 ) {
                 // check if the zombie is in tower's attack range
-                if( getDistanceSquare( this, gameObjects[i] ) < this.towerInfo.attackRange * this.towerInfo.attackRange ) {
+                if( getDistanceSquare( this, gameObjects[i] ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                     this.curTarget = gameObjects[i];
                     return;
                 }
@@ -98,15 +96,24 @@ var TowerObject = function( towerType, pos_x, pos_y, width, height ){
         {
             var center_x = this.x + Math.floor(this.width / 2);
             var center_y = this.y + Math.floor(this.height/ 5);
-            gameObjects.push( new Bullet( center_x, center_y, this.curTarget, this.towerInfo.attackPower) );
+            gameObjects.push( new Bullet( center_x, center_y, this.curTarget, this.unitInfo.attackPower) );
             this.isOnCooldown = true;
             var self = this;
             setTimeout( function()
             {
                 self.isOnCooldown = false;
-            }, this.towerInfo.attackSpeed )
+            }, this.unitInfo.attackSpeed )
         }
     };
+
+    this.takeDamage = function( damage )
+    {
+        this.unitInfo.hp -= damage;
+        if( this.unitInfo.hp <= 0 )
+        {
+            this.to_be_removed = true;
+        }
+    }
 };
 
 
