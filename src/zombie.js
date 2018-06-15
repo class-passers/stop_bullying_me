@@ -27,8 +27,9 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.spriteIndex = 0;
 
     // represents current zombie's status and its image object
-    this.curImage = allZombieImages[this.unitInfo.name].idle;
     this.state = "walk";
+    this.curImage = allZombieImages[this.unitInfo.name][this.state];
+
 
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
@@ -97,7 +98,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
 
             if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
-                this.curTarget = base;
                 this.changeState('attack');
             }
             else {
@@ -114,26 +114,30 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         }
         else if (this.state === 'attack') {
 
-            if (this.curTarget === null || this.curTarget.hp <= 0) {
-                this.curTarget = this.findClosestTarget();
+            if (this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false ) {
+                this.changeState('walk');
+                this.curTarget = null;
             }
-
-            if (this.isOnCooldown === false && this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
-                if (this.spriteIndex === Math.floor(this.curImage.max_num_sprites / 2)) {
-                    this.curTarget.takeDamage(this.unitInfo.attackPower);
-                }
-                else if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
-                    this.isOnCooldown = true;
-                    this.changeState('idle');
-                    var self = this;
-                    // to have attack interval
-                    setTimeout(
-                        function () {
-                            self.isOnCooldown = false;
-                            self.changeState('attack');
-                        },
-                        this.unitInfo.attackSpeed
-                    );
+            else {
+                if (this.isOnCooldown === false ) {
+                    if (this.spriteIndex === Math.floor(this.curImage.max_num_sprites / 2)) {
+                        console.log("boss attacks " + this.curTarget.unitInfo.name + ", hp = " + this.curTarget.unitInfo.hp);
+                        this.curTarget.takeDamage(this.unitInfo.attackPower);
+                    }
+                    else if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
+                        this.isOnCooldown = true;
+                        this.changeState('idle');
+                        var self = this;
+                        // to have attack interval
+                        setTimeout(
+                            function () {
+                                console.log("set cooldown false");
+                                self.isOnCooldown = false;
+                                self.changeState('attack');
+                            },
+                            this.unitInfo.attackSpeed
+                        );
+                    }
                 }
             }
 
@@ -147,6 +151,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     this.updateNormal = function (deltaTime) {
         if (this.state === 'idle') {
+            // isOncooldown "true" means the zombie is in attacking something.
+            // don't change any state if in that case.
             if (this.isOnCooldown === false) {
                 this.changeState('walk');
             }
@@ -165,9 +171,10 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         else if (this.state === 'attack') {
             if (this.isOnCooldown === false) {
                 if (this.spriteIndex === Math.floor(this.curImage.max_num_sprites / 2)) {
-                    base.takeDamage(this.unitInfo.attackPower);
+                    this.curTarget.takeDamage(this.unitInfo.attackPower);
                 }
                 else if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                    // change idle state while cooling down
                     this.isOnCooldown = true;
                     this.changeState('idle');
                     var self = this;
@@ -175,7 +182,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                     setTimeout(
                         function () {
                             self.isOnCooldown = false;
-                            self.curTarget = base;
                             self.changeState('attack');
                         },
                         this.unitInfo.attackSpeed
@@ -203,9 +209,10 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     this.changeState = function (newState) {
         // this.state.leave();
-        console.log( JSON.stringify(this.unitInfo) + " state changed : " + newState );
+        //console.log( JSON.stringify(this.unitInfo) + " state changed : " + newState );
         this.state = newState;
         this.curImage = allZombieImages[this.unitInfo.name][newState];
+        this.spriteIndex = 0;
         // this.state.enter();
     };
 

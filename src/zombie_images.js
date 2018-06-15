@@ -44,7 +44,7 @@ var allZombieImages = {
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
-            repeat: true,
+            repeat: false,
             image_left: null,
             image_right: null
         }
@@ -94,7 +94,7 @@ var allZombieImages = {
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
-            repeat: true,
+            repeat: false,
             image_left: null,
             image_right: null
         }
@@ -146,7 +146,7 @@ var allZombieImages = {
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
-            repeat: true,
+            repeat: false,
             image_left: null,
             image_right: null
 

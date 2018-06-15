@@ -59,9 +59,9 @@ var BossInfo = {
         height : 250,
         hp : 300,
         moveSpeed : 30,
-        attackRange : 60,
-        attackSpeed : 1500,
-        attackPower : 30,
+        attackRange : 150,
+        attackSpeed : 2000,
+        attackPower : 60,
 		cost : 20
     },
     ranged : {
@@ -94,28 +94,28 @@ var BaseInfo =
 [
     {
         name : "level0",
-        hp : 300,
+        hp : 500,
         attackRange : 200,      // 200 pixels
         attackSpeed : 500,     // once per second
-        attackPower : 10,
+        attackPower : 25,
         cost : 1000,
         build_interval : 5000
     },
     {
         name : "level1",
-        hp : 300,
+        hp : 500,
         attackRange : 200,      // 200 pixels
         attackSpeed : 500,     // once per second
-        attackPower : 10,
+        attackPower : 25,
         cost : 1000,
         build_interval : 5000
     },
     {
         name : "level2",
-        hp : 300,
+        hp : 500,
         attackRange : 200,      // 200 pixels
         attackSpeed : 500,     // once per second
-        attackPower : 10,
+        attackPower : 25,
         cost : 1000,
         build_interval : 5000
     }

@@ -32,7 +32,7 @@ var levels = [
         ],
         populate_timer : null,
         map : level0_map,
-		start_money : 100
+		start_money : 200
     },
     {   // for level 2
         num_zombies : 15,
@@ -67,7 +67,7 @@ var levels = [
         ],
         populate_timer : null,
         map : level1_map,
-        start_money : 100
+        start_money : 200
     },
     {   // for level 2
         num_zombies : 15,
@@ -102,6 +102,6 @@ var levels = [
         ],
         populate_timer : null,
         map : level2_map,
-        start_money : 100
+        start_money : 200
     }
 ];
