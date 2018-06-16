@@ -7,17 +7,14 @@ var context = canvas.getContext("2d");
 
 var gameObjects = [];
 var uiObjects = [];
+addUIButtons();
+
 var tower_positions = [];
 
-var cur_level = levels[0];
-loadMapData();
+var cur_level = null;
+var cur_level_index = 0;
 
-var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject(cur_level.start_money,0, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
-base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
-gameObjects.push(base);
-
-uiObjects = loadUIButtons(base, gameObjects, buildTower);
+var base = null;
 var mouse = new mouseObject(canvas, uiObjects);
 var build_indicator = null;
 var build_mode = false;
@@ -26,16 +23,18 @@ var tower_index = 0;
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
+
 //turn on build mode
-document.addEventListener('keydown', function(event){
-	if(event.keyCode == 84 && build_mode == false) // Keyboard 'T'
+function turnOnBuildMode()
+{
+	if(build_mode == false)
 	{
 		mouse.assignFunction(buildTower);
 		build_indicator = new BuildIndicator(mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
-});
+}
 // turn off build mode
 document.addEventListener('keydown', function(event){
 	if(event.keyCode == 78 && build_mode == true) // Keyboard 'N'
@@ -45,6 +44,23 @@ document.addEventListener('keydown', function(event){
 		build_mode = false;
 	}
 });
+function addUIButtons()
+{
+	ButtonInfo["next"].execute = nextLevel;
+	ButtonInfo["replay"].execute = restartGame;
+	ButtonInfo["build"].execute = turnOnBuildMode;
+	
+	//functions for these 3 have to be made
+	ButtonInfo["pause"].execute = null;
+	ButtonInfo["exit"].execute = null;
+	ButtonInfo["resume"].execute = null;
+	
+	var temp_pos = 300;
+	for(var type in ButtonInfo)
+	{
+		uiObjects.push(new ButtonObject(ButtonInfo[type].name, ButtonInfo[type].visible, temp_pos += 100, 10));
+	}
+}
 
 //var window_focused = true;
 //window.onfocus = function() {
@@ -54,9 +70,7 @@ document.addEventListener('keydown', function(event){
 //    window_focused = false;
 //};
 
-var base = null;
-var cur_level = null;
-var cur_level_index = 0;
+
 restartGame();
 function restartGame()
 {
@@ -93,7 +107,7 @@ function startGame( level )
     populateZombie();
 
     var endPoint = find_node( worldMap.mapGrid, 20 );
-    base = new baseObject( cur_level.start_money, level, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
+    base = new baseObject( cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
     base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
     gameObjects.push(base);
 }

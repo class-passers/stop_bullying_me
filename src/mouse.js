@@ -86,7 +86,7 @@ var mouseObject = function(can, uiObjects)
 				if(isInside(self.x, self.y, new Rectangle(self.interacting_button.x, self.interacting_button.y, self.interacting_button.width, self.interacting_button.height)))
 				{
 					//console.log(self.interacting_button);
-					self.interacting_button.execute(self.interacting_button.buttonInfo.param);
+					self.interacting_button.execute();
 				}
 			}
 		}

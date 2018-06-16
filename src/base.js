@@ -5,7 +5,7 @@ var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
 
 // base object for storing player's hp and enemies which are still alive on map
-var baseObject = function(startMoney,cur_level_index, pos_x, pos_y )
+var baseObject = function(startMoney, pos_x, pos_y )
 {
     this.objectType = "basecamp";
     this.unitInfo = BaseInfo[ cur_level_index ];

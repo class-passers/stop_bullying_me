@@ -13,44 +13,44 @@ var ButtonInfo = {
 		name : "pause",
 		width : 70,
 		height : 70,
-		param : null,
-		execute : function(para){para.loop = false; para.earn_interval = null;}
+		visible : false,
+		execute : null
 	},
 	next : {
 		name : "next",
 		width : 70,
 		height : 70,
-		param : null,
-		execute : function(){}
+		visible : false,
+		execute : null
 	},
 	replay : {
 		name : "replay",
 		width : 70,
 		height : 70,
-		param : null,
-		execute : function(){}
+		visible : false,
+		execute : null
 	},
 	exit : {
 		name : "exit",
 		width : 70,
 		height : 70,
-		param : null,
-		execute : function(){}
+		visible : false,
+		execute : null
 	},
 	build : {
 		name : "build",
 		width : 70,
 		height : 70,
 		param : null,
-		param2 : null,
-		execute : function(){}
+		visible : true,
+		execute : null
 	},
 	resume : {
 		name : "resume",
 		width : 70,
 		height : 70,
-		param : null,
-		execute : function(){param.earn_interval = setInterval(function(){param.earnMoney(1);}, 1000);}
+		visible : false,
+		execute : null
 	}
 }
 

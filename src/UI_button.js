@@ -1,4 +1,4 @@
-var ButtonObject = function( buttonType, pos_x, pos_y)
+var ButtonObject = function( buttonType, visibility, pos_x, pos_y)
 {
 	this.buttonInfo = Button(buttonType);
 	this.x = pos_x;
@@ -8,6 +8,7 @@ var ButtonObject = function( buttonType, pos_x, pos_y)
 	
 	this.execute = this.buttonInfo.execute;
 	this.isClickable = true;
+	this.isVisible = visibility;
 	this.curImage = buttonImages[this.buttonInfo.name].default.image;
 	
 	this.to_be_removed = false;
@@ -24,28 +25,13 @@ var ButtonObject = function( buttonType, pos_x, pos_y)
 		return true;
 	}
 	
-	this.update = function(deltaTime){}
+	this.update = function(deltaTime){ if(self.isVisible == false)self.isClickable = false;}
 	
 	this.render = function(context)
 	{
-		context.drawImage(self.curImage, self.x, self.y, self.width, self.height);
+		if(self.isVisible == true)
+		{
+			context.drawImage(self.curImage, self.x, self.y, self.width, self.height);
+		}
 	}
-}
-
-var loadUIButtons = function(base, gameObjects, build)
-{
-	var ui = [];
-	
-	ButtonInfo["pause"].param = base;
-	ButtonInfo["resume"].param = base;
-	ButtonInfo["build"].param = build;
-	ButtonInfo["build"].param2 = gameObjects;
-	
-	//these 3 need parameters
-	ButtonInfo["next"].param = null;
-	ButtonInfo["replay"].param = null;
-	ButtonInfo["exit"].param = null;
-	
-	ui.push(new ButtonObject("pause", 1000, 10));
-	return ui;
 }
