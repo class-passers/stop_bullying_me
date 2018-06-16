@@ -6,24 +6,36 @@ canvas.height = 800;
 var context = canvas.getContext("2d");
 
 var gameObjects = [];
-
-var mouse = new mouseObject(canvas);
-var build_indicator = null;
-var build_mode = false;
+var uiObjects = [];
 var tower_positions = [];
-var tower_index = 0;
 
 var cur_level = levels[0];
 loadMapData();
 
+var endPoint = find_node( worldMap.mapGrid, 20 )
+var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
+gameObjects.push(base);
+
+uiObjects = loadUIButtons(base, gameObjects, buildTower);
+var mouse = new mouseObject(canvas, uiObjects);
+var build_indicator = null;
+var build_mode = false;
+var tower_index = 0;
+
+
+
+
+
 window.addEventListener("mousemove", mouse.position);
-window.addEventListener("mousedown", mouse.click);
+window.addEventListener("mousedown", mouse.down);
+window.addEventListener("mouseup", mouse.up);
 //turn on build mode
 document.addEventListener('keydown', function(event){
 	if(event.keyCode == 84 && build_mode == false) // Keyboard 'T'
 	{
 		mouse.assignFunction(buildTower);
-		build_indicator = new BuildIndicator(mouse, tower_positions, mouse.x, mouse.y, 85, 133);
+		build_indicator = new BuildIndicator(mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
@@ -97,8 +109,9 @@ function registerPopulateZombie( pop_info, is_boss )
 function buildTower()
 {
 	// check it is on road or not
-	if(build_indicator.isValid == true && base.resource >= TowerInfo["normal"].cost)
+	if(build_indicator.isValid == true)
 	{
+		uiObjects.push(new IndicatorOjbect("spend", build_indicator.x, build_indicator.y-150, TowerInfo["normal"].cost));
 		base.spendMoney(TowerInfo["normal"].cost);
 		
 		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
@@ -121,12 +134,6 @@ var Time = {
     delta : 0
 };
 
-var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
-base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
-gameObjects.push(base);
-gameObjects.push( new TowerObject( "normal", 320, 320, 85, 133 ) );
-gameObjects.push( new TowerObject( "normal", 250, 450, 85, 133 ) );
 
 update();
 function update()
@@ -142,8 +149,15 @@ function update()
     {
         gameObjects[i].update( Time.delta );
     }
+	for(var i = 0; i < uiObjects.length; i++)
+	{
+		uiObjects[i].update( Time.delta);
+	}
 
     gameObjects = gameObjects.filter(function (obj) {
+        return obj.to_be_removed === false;
+    });
+	uiObjects = uiObjects.filter(function (obj) {
         return obj.to_be_removed === false;
     });
 
@@ -166,6 +180,11 @@ function render()
     {
         gameObjects[i].render( context );
     }
+	
+	for(var i = 0; i < uiObjects.length; i++)
+	{
+		uiObjects[i].render(context);
+	}
 
 }
 

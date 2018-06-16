@@ -1,0 +1,91 @@
+var Button = function(buttonType)
+{
+	return Object.create(ButtonInfo[buttonType]);
+}
+
+var Indicator = function(indicatorType)
+{
+	return Object.create(IndicatorInfo[indicatorType]);
+}
+
+var ButtonInfo = {
+	pause : {
+		name : "pause",
+		width : 70,
+		height : 70,
+		param : null,
+		execute : function(para){para.loop = false; para.earn_interval = null;}
+	},
+	next : {
+		name : "next",
+		width : 70,
+		height : 70,
+		param : null,
+		execute : function(){}
+	},
+	replay : {
+		name : "replay",
+		width : 70,
+		height : 70,
+		param : null,
+		execute : function(){}
+	},
+	exit : {
+		name : "exit",
+		width : 70,
+		height : 70,
+		param : null,
+		execute : function(){}
+	},
+	build : {
+		name : "build",
+		width : 70,
+		height : 70,
+		param : null,
+		param2 : null,
+		execute : function(){}
+	},
+	resume : {
+		name : "resume",
+		width : 70,
+		height : 70,
+		param : null,
+		execute : function(){param.earn_interval = setInterval(function(){param.earnMoney(1);}, 1000);}
+	}
+}
+
+var IndicatorInfo = {
+	money : {
+		name : "money",
+		width : 70,
+		height : 70,
+		txt_sign : "",
+		txt_x : 20,
+		txt_y : 0,
+		txt_color : 'yellow',
+		txt_font : '48px Arial',
+		interval : 0
+	},
+	spend : {
+		name : "spend",
+		width : 44,
+		height : 40,
+		txt_sign : "-",
+		txt_x : 10,
+		txt_y : 0,
+		txt_color : 'yellow',
+		txt_font : '48px Arial',
+		interval : 1500
+	},
+	earn : {
+		name : "earn",
+		width : 44,
+		height : 40,
+		txt_sign : "+",
+		txt_x : 10,
+		txt_y : 0,
+		txt_color : 'yellow',
+		txt_font : '48px Arial',
+		interval : 1500
+	}
+}
