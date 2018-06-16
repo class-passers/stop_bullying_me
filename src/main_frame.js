@@ -13,7 +13,7 @@ var cur_level = levels[0];
 loadMapData();
 
 var endPoint = find_node( worldMap.mapGrid, 20 )
-var base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+var base = new baseObject(cur_level.start_money,0, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
 base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
 gameObjects.push(base);
 
@@ -22,10 +22,6 @@ var mouse = new mouseObject(canvas, uiObjects);
 var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
-
-
-
-
 
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
@@ -58,21 +54,59 @@ document.addEventListener('keydown', function(event){
 //    window_focused = false;
 //};
 
-startGame();
-function startGame()
+var base = null;
+var cur_level = null;
+var cur_level_index = 0;
+restartGame();
+function restartGame()
 {
+    //cur_level_index = 0;
+    startGame(cur_level_index);
+}
+
+function nextLevel()
+{
+    cur_level_index++;
+    startGame(cur_level_index);
+}
+
+function startGame( level )
+{
+    // delete existing level
+    if( base != null && base.earn_interval != null)
+    {
+        clearInterval(base.earn_interval);
+    }
+    base = null;
+    if( build_indicator !== null && build_indicator.buildTimer !== null )
+    {
+        clearTimeout( build_indicator.buildTimer );
+    }
+    build_indicator = null;
+    gameObjects = [];
+    tower_positions = [];
+    tower_index = 0;
+
+    // create new level
+    cur_level = levels[level];
+    loadMapData();
     populateZombie();
+
+    var endPoint = find_node( worldMap.mapGrid, 20 );
+    base = new baseObject( cur_level.start_money, level, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
+    base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
+    gameObjects.push(base);
 }
 
 function populateZombie()
 {
-    cur_level.remaining_zombies = 0;
+    cur_level.remaining_zombies = cur_level.num_zombies;
 
     for( var i = 0; i < cur_level.populate_zombie_info.length; i++ )
     {
         var pop_info = cur_level.populate_zombie_info[i];
         console.log("populate zombie: " + JSON.stringify(pop_info));
-        cur_level.remaining_zombies += pop_info.amount;
+        pop_info.remaining = pop_info.amount;
         setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, false );
     }
 
@@ -80,24 +114,32 @@ function populateZombie()
     {
         var pop_info = cur_level.populate_boss_info[i];
         console.log("populate boss: " + JSON.stringify(pop_info));
-        cur_level.remaining_zombies += pop_info.amount;
+        pop_info.remaining = pop_info.amount;
         setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, true );
     }
 }
 
 function registerPopulateZombie( pop_info, is_boss )
 {
+    if( pop_info.timer != null )
+    {
+        clearInterval( pop_info.timer );
+        //console.log("clear timer = " + pop_info.timer );
+    }
+
     pop_info.timer = setInterval( function()
         {
             var start = get_start_location();
             if( start != null ) {
-                console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.amount + ", total remaining zombies = " + cur_level.remaining_zombies  );
-                var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
-                gameObjects.push(zombie);
-                pop_info.amount--;
+                pop_info.remaining--;
                 cur_level.remaining_zombies--;
 
-                if (pop_info.amount <= 0) {
+                console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
+
+                var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
+                gameObjects.push(zombie);
+
+                if (pop_info.remaining <= 0) {
                     clearInterval(pop_info.timer);
                 }
             }
@@ -113,12 +155,20 @@ function buildTower()
 	{
 		uiObjects.push(new IndicatorOjbect("spend", build_indicator.x, build_indicator.y-150, TowerInfo["normal"].cost));
 		base.spendMoney(TowerInfo["normal"].cost);
-		
-		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
+
+		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval,
+            build_indicator.x, build_indicator.y+worldMap.tileHeight,
+            TowerInfo["normal"].width, TowerInfo["normal"].height ) );
 		
 		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
-		
-		setTimeout(function(){gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;}, TowerInfo["normal"].build_interval);
+
+        build_indicator.buildTimer = setTimeout(
+            function(){
+                gameObjects.push( new TowerObject("normal",
+                    tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight) ) );
+                tower_index++;
+                },
+            TowerInfo["normal"].build_interval);
 		
 		build_indicator.to_be_removed = true;
 		build_mode = false;
@@ -134,7 +184,6 @@ var Time = {
     delta : 0
 };
 
-
 update();
 function update()
 {
@@ -147,6 +196,7 @@ function update()
     //    return;
     for( var i = 0; i < gameObjects.length; i++ )
     {
+        //console.log("["+i+"]: "+JSON.stringify(gameObjects[i]));
         gameObjects[i].update( Time.delta );
     }
 	for(var i = 0; i < uiObjects.length; i++)

@@ -59,9 +59,9 @@ var BossInfo = {
         height : 250,
         hp : 300,
         moveSpeed : 30,
-        attackRange : 60,
-        attackSpeed : 1500,
-        attackPower : 30,
+        attackRange : 150,
+        attackSpeed : 2000,
+        attackPower : 60,
 		cost : 20
     },
     ranged : {
@@ -82,6 +82,8 @@ var TowerInfo =
     normal : {
         name : "normal",
         hp : 100,
+        width : 85,
+        height : 133,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1000,     // once per second
         attackPower : 15,
@@ -89,3 +91,40 @@ var TowerInfo =
 		build_interval : 5000
     }
 };
+
+var BaseInfo =
+[
+    {
+        name : "level0",
+        hp : 500,
+        width : 85,
+        height : 133,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 500,     // once per second
+        attackPower : 25,
+        cost : 1000,
+        build_interval : 5000
+    },
+    {
+        name : "level1",
+        hp : 500,
+        width : 85,
+        height : 133,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 500,     // once per second
+        attackPower : 25,
+        cost : 1000,
+        build_interval : 5000
+    },
+    {
+        name : "level2",
+        hp : 500,
+        width : 85,
+        height : 133,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 500,     // once per second
+        attackPower : 25,
+        cost : 1000,
+        build_interval : 5000
+    }
+];

@@ -6,14 +6,14 @@ var buildImage = {
 	max_num_sprites : 5,
 	sprite_width : 85,
     sprite_height : 133
-}
+};
 
 buildImage.image = new Image();
 buildImage.image.src = buildImage.image_src;
-buildImage.onload = function(){
-	buildImage.sprite_width = Math.floor(buildImage.image.width / num_sprite_horz);
+buildImage.image.onload = function(){
+	buildImage.sprite_width = Math.floor(buildImage.image.width / buildImage.num_sprite_horz);
 	buildImage.sprite_height = Math.floor(buildImage.image.height / buildImage.num_sprite_vert);
-}
+};
 
 var progressImage = new Image();
 progressImage.src = "img/progress_bar.png";
@@ -23,7 +23,7 @@ var buildObject = function (interval, pos_x, pos_y, width, height )
 	this.progress = 0;
 	
 	this.x = pos_x;
-    this.y = pos_y;
+    this.y = pos_y - height;
 	this.z = 0;
 	this.width = width;
     this.height = height;
@@ -35,7 +35,7 @@ var buildObject = function (interval, pos_x, pos_y, width, height )
 	this.progress_onePercent = this.progress_width/100;
 	this.progress_height = Math.floor(this.progress_width / 8);
 	this.progress_x = this.x;
-	this.progress_y = this.y - (this.height + this.progress_height);
+	this.progress_y = this.y - this.progress_height;
 	
 	this.to_be_removed = false;
 	
@@ -47,7 +47,7 @@ var buildObject = function (interval, pos_x, pos_y, width, height )
 
     this.get_y = function()
     {
-        return this.y - this.height;
+        return this.y;
     };
 
     this.get_source_x = function()
@@ -79,7 +79,8 @@ var buildObject = function (interval, pos_x, pos_y, width, height )
 			this.to_be_removed = true;
 		}
 		this.progress_width = Math.floor(this.progress_onePercent * this.progress);
-	}
+	};
+
 	this.render = function(context)
 	{
 		// build animation
@@ -89,5 +90,5 @@ var buildObject = function (interval, pos_x, pos_y, width, height )
 		
 		// progress bar
 		context.drawImage(this.progress_image, this.progress_x, this.progress_y, this.progress_width, this.progress_height);
-	}
-}
+	};
+};

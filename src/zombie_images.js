@@ -1,128 +1,155 @@
 var allZombieImages = {
     normal : {
         idle: {
-            image_src: "img/zombie_idle.png",
+            image_src_left: "img/zombie_idle.png",
+            image_src_right: "img/zombie_idle_flip.png",
             max_num_sprites: 15,
             num_sprites_horz: 4,
             num_sprites_vert: 4,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image: null
+            image_left: null,
+            image_right: null
         },
         walk: {
-            image_src: "img/zombie_walk.png",
+            image_src_left: "img/zombie_walk.png",
+            image_src_right: "img/zombie_walk_flip.png",
             max_num_sprites: 10,
             num_sprites_horz: 4,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image: null
+            image_left: null,
+            image_right: null
         },
         dying: {
-            image_src: "img/zombie_dying.png",
+            image_src_left: "img/zombie_dying.png",
+            image_src_right: "img/zombie_dying_flip.png",
             max_num_sprites: 12,
             num_sprites_horz: 2,
             num_sprites_vert: 6,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image_left: null,
+            image_right: null
         },
         attack: {
-            image_src: "img/zombie_attack.png",
+            image_src_left: "img/zombie_attack.png",
+            image_src_right: "img/zombie_attack_flip.png",
             max_num_sprites: 8,
             num_sprites_horz: 4,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
-            repeat: true,
-            image: null
+            repeat: false,
+            image_left: null,
+            image_right: null
         }
     },
     fast : {
         idle: {
-            image_src: "img/female_zombie_idle.png",
+            image_src_left: "img/female_zombie_idle.png",
+            image_src_right: "img/female_zombie_idle_flip.png",
             max_num_sprites: 15,
             num_sprites_horz: 5,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image: null
+            image_left: null,
+            image_right: null
         },
         walk: {
-            image_src: "img/female_zombie_walk.png",
+            image_src_left: "img/female_zombie_walk.png",
+            image_src_right: "img/female_zombie_walk_flip.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image: null
+            image_left: null,
+            image_right: null
         },
         dying: {
-            image_src: "img/female_zombie_dying.png",
+            image_src_left: "img/female_zombie_dying.png",
+            image_src_right: "img/female_zombie_dying_flip.png",
             max_num_sprites: 12,
             num_sprites_horz: 4,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image_left: null,
+            image_right: null
         },
         attack: {
-            image_src: "img/female_zombie_attack.png",
+            image_src_left: "img/female_zombie_attack.png",
+            image_src_right: "img/female_zombie_attack_flip.png",
             max_num_sprites: 8,
             num_sprites_horz: 3,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
-            repeat: true,
-            image: null
+            repeat: false,
+            image_left: null,
+            image_right: null
         }
     },
     heavy : {
         idle: {
-            image_src: "img/zombie_idle.png",
+            image_src_left: "img/zombie_idle.png",
+            image_src_right: "img/zombie_idle_flip.png",
             max_num_sprites: 15,
             num_sprites_horz: 4,
             num_sprites_vert: 4,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image: null
+            image_left: null,
+            image_right: null
         },
         walk: {
-            image_src: "img/zombie_walk.png",
+            image_src_left: "img/zombie_walk.png",
+            image_src_right: "img/zombie_walk_flip.png",
             max_num_sprites: 10,
             num_sprites_horz: 4,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image: null
+            image_left: null,
+            image_right: null
+
         },
         dying: {
-            image_src: "img/zombie_dying.png",
+            image_src_left: "img/zombie_dying.png",
+            image_src_right: "img/zombie_dying_flip.png",
             max_num_sprites: 12,
             num_sprites_horz: 2,
             num_sprites_vert: 6,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image_left: null,
+            image_right: null
+
         },
         attack: {
-            image_src: "img/zombie_attack.png",
+            image_src_left: "img/zombie_attack.png",
+            image_src_right: "img/zombie_attack_flip.png",
             max_num_sprites: 8,
             num_sprites_horz: 4,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
-            repeat: true,
-            image: null
+            repeat: false,
+            image_left: null,
+            image_right: null
+
         }
     }
     /*
@@ -177,15 +204,17 @@ for( var type in allZombieImages ) {
         for (var status in allZombieImages[type]) {
             if( allZombieImages[type].hasOwnProperty( status ) ) {
                 //console.log("load zombie of " + status + " in " + type );
-                allZombieImages[type][status].image = new Image();
-                allZombieImages[type][status].image.src = allZombieImages[type][status].image_src;
-                allZombieImages[type][status].image.onload = (function (type, it) {
+                allZombieImages[type][status].image_left = new Image();
+                allZombieImages[type][status].image_left.src = allZombieImages[type][status].image_src_left;
+                allZombieImages[type][status].image_left.onload = (function (type, it) {
                     return function () {
-                        allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image.width / allZombieImages[type][it].num_sprites_horz);
-                        allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image.height / allZombieImages[type][it].num_sprites_vert);
-                        //console.log( "loaded " + it + " = " + JSON.stringify( allZombieImages[type][it] ) );
+                        allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image_left.width / allZombieImages[type][it].num_sprites_horz);
+                        allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image_left.height / allZombieImages[type][it].num_sprites_vert);
                     }
                 }(type, status));
+
+                allZombieImages[type][status].image_right = new Image();
+                allZombieImages[type][status].image_right.src = allZombieImages[type][status].image_src_right;
             }
         }
     }
