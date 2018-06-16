@@ -14,6 +14,7 @@ var BuildIndicator = function(mouse, positions, pos_x, pos_y, width, height ){
 	this.isValid = false;
 
     this.image = validImage;
+    this.buildTimer = null;
 
     // set this flag as true when a tower destroyed.
     this.to_be_removed = false;
@@ -37,8 +38,8 @@ var BuildIndicator = function(mouse, positions, pos_x, pos_y, width, height ){
     };
 	this.canBuild = function()
 	{
-		if(get_tile_type(mouse.x, mouse.y) == 0 &&
-		get_tile_type((this.x+this.width), mouse.y) == 0)
+		if(get_tile_type(mouse.x, mouse.y) === 0 &&
+			get_tile_type((this.x+this.width), mouse.y) === 0)
 		{
 			var rec1 = new Rectangle(this.x, this.y, this.width, worldMap.tileHeight);
 			var rec2 = null;
@@ -59,7 +60,7 @@ var BuildIndicator = function(mouse, positions, pos_x, pos_y, width, height ){
 			this.image = invalidImage;
 			return false;
 		}
-	}
+	};
     this.update = function()
     {
 		this.x = mouse.x - (mouse.x % worldMap.tileWidth);

@@ -74,6 +74,11 @@ function startGame( level )
         clearInterval(base.earn_interval);
     }
 
+    if( build_indicator !== null && build_indicator.buildTimer !== null )
+    {
+        clearTimeout( build_indicator.buildTimer );
+    }
+
     gameObjects = [];
 
     var endPoint = find_node( worldMap.mapGrid, 20 );
@@ -142,8 +147,9 @@ function buildTower()
 		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
 		
 		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
-		
-		setTimeout(function(){gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;}, TowerInfo["normal"].build_interval);
+
+        build_indicator.buildTimer = setTimeout(function(){ gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;},
+            TowerInfo["normal"].build_interval);
 		
 		build_indicator.to_be_removed = true;
 		build_mode = false;

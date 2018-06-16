@@ -143,7 +143,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
         }
 
-        if (this.unitInfo.hp <= 0) {
+        if (this.unitInfo.hp <= 0 && this.state !== 'dying') {
             this.changeState('dying');
         }
 
@@ -191,7 +191,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
         }
 
-        if (this.unitInfo.hp <= 0) {
+        if (this.unitInfo.hp <= 0 && this.state !== 'dying') {
             this.changeState('dying');
         }
     };
