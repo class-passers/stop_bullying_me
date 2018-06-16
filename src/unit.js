@@ -82,6 +82,8 @@ var TowerInfo =
     normal : {
         name : "normal",
         hp : 100,
+        width : 85,
+        height : 133,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1000,     // once per second
         attackPower : 15,
@@ -95,6 +97,8 @@ var BaseInfo =
     {
         name : "level0",
         hp : 500,
+        width : 85,
+        height : 133,
         attackRange : 200,      // 200 pixels
         attackSpeed : 500,     // once per second
         attackPower : 25,
@@ -104,6 +108,8 @@ var BaseInfo =
     {
         name : "level1",
         hp : 500,
+        width : 85,
+        height : 133,
         attackRange : 200,      // 200 pixels
         attackSpeed : 500,     // once per second
         attackPower : 25,
@@ -113,6 +119,8 @@ var BaseInfo =
     {
         name : "level2",
         hp : 500,
+        width : 85,
+        height : 133,
         attackRange : 200,      // 200 pixels
         attackSpeed : 500,     // once per second
         attackPower : 25,

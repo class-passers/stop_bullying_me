@@ -9,11 +9,12 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         this.unitInfo = new Unit(zombieType);
     }
 
+    this.x = pos_x;
+    this.y = pos_y - this.unitInfo.height;
+    this.z = 0;
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
-    this.x = pos_x;
-    this.y = pos_y - this.height;
-    this.z = 0;
+
     // for move vector
     this.vx = 0;
     this.vy = 0;
@@ -67,38 +68,23 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.update = function (deltaTime) {
-        if (this.isBoss) {
-            this.updateBoss(deltaTime);
-        }
-        else {
-            this.updateNormal(deltaTime);
-        }
-
-        // change to next sprite image every 4 frames not to make zombie moving so fast.
-        this.spriteIndex += 0.25;
-        if (this.spriteIndex >= this.curImage.max_num_sprites) {
-            if (this.curImage.repeat === true) {
-                this.spriteIndex = 0;
-            }
-            else {
-                this.spriteIndex = this.curImage.max_num_sprites - 1;
-            }
-        }
-    };
-
-    this.updateBoss = function (deltaTime) {
         if (this.state === 'idle') {
             if (this.isOnCooldown === false) {
                 this.changeState('walk');
             }
         }
         else if (this.state === 'walk') {
-            if (this.curTarget === null || this.curTarget.hp <= 0) {
-                this.curTarget = this.findClosestTarget();
-            }
+            if( this.isBoss ) {
+                if (this.curTarget === null || this.curTarget.hp <= 0) {
+                    this.curTarget = this.findClosestTarget();
+                }
 
-            if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
-                this.changeState('attack');
+                if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
+                    this.changeState('attack');
+                }
+                else {
+                    this.moveAhead(deltaTime);
+                }
             }
             else {
                 this.moveAhead(deltaTime);
@@ -110,18 +96,25 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'dying') {
-            this.die();
+            if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                if (this.corpse_interval === null) {
+                    var self = this;
+                    this.corpse_interval = setTimeout(function () {
+                        self.to_be_removed = true;
+                    }, 2000);
+                    base.decreaseEnemies(this.unitInfo.cost);
+                }
+            }
         }
         else if (this.state === 'attack') {
-
-            if (this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false ) {
+            if (this.isBoss  && this.spriteIndex >= this.curImage.max_num_sprites - 1 &&
+                ( this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false )) {
                 this.changeState('walk');
                 this.curTarget = null;
             }
             else {
                 if (this.isOnCooldown === false ) {
                     if (this.spriteIndex === Math.floor(this.curImage.max_num_sprites / 2)) {
-                        console.log("boss attacks " + this.curTarget.unitInfo.name + ", hp = " + this.curTarget.unitInfo.hp);
                         this.curTarget.takeDamage(this.unitInfo.attackPower);
                     }
                     else if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
@@ -131,7 +124,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                         // to have attack interval
                         setTimeout(
                             function () {
-                                console.log("set cooldown false");
                                 self.isOnCooldown = false;
                                 self.changeState('attack');
                             },
@@ -147,55 +139,18 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             this.changeState('dying');
         }
 
+        // change to next sprite image every 4 frames not to make zombie moving so fast.
+        this.spriteIndex += 0.25;
+        if (this.spriteIndex >= this.curImage.max_num_sprites) {
+            if (this.curImage.repeat === true) {
+                this.spriteIndex = 0;
+            }
+            else {
+                this.spriteIndex = this.curImage.max_num_sprites - 1;
+            }
+        }
+
     };
-
-    this.updateNormal = function (deltaTime) {
-        if (this.state === 'idle') {
-            // isOncooldown "true" means the zombie is in attacking something.
-            // don't change any state if in that case.
-            if (this.isOnCooldown === false) {
-                this.changeState('walk');
-            }
-        }
-        else if (this.state === 'walk') {
-            this.moveAhead(deltaTime);
-
-            if (is_reached_at_destination(this.moveIndex)) {
-                this.curTarget = base;
-                this.changeState('attack');
-            }
-        }
-        else if (this.state === 'dying') {
-            this.die();
-        }
-        else if (this.state === 'attack') {
-            if (this.isOnCooldown === false) {
-                if (this.spriteIndex === Math.floor(this.curImage.max_num_sprites / 2)) {
-                    this.curTarget.takeDamage(this.unitInfo.attackPower);
-                }
-                else if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
-                    // change idle state while cooling down
-                    this.isOnCooldown = true;
-                    this.changeState('idle');
-                    var self = this;
-                    // to have attack interval
-                    setTimeout(
-                        function () {
-                            self.isOnCooldown = false;
-                            self.changeState('attack');
-                        },
-                        this.unitInfo.attackSpeed
-                    );
-                }
-            }
-
-        }
-
-        if (this.unitInfo.hp <= 0 && this.state !== 'dying') {
-            this.changeState('dying');
-        }
-    };
-
 
     this.render = function (context) {
         var image = this.curImage.image_left;
@@ -265,18 +220,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             console.log("current = " + this.x + "+" + this.width + ", " + this.y + "+" + this.height);
             console.log("next = " + nextPos.x + ", " + nextPos.y);
             console.log("out of distance");
-        }
-    };
-
-    this.die = function () {
-        if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
-            if (this.corpse_interval === null) {
-                var self = this;
-                this.corpse_interval = setTimeout(function () {
-                    self.to_be_removed = true;
-                }, 2000);
-                base.decreaseEnemies(this.unitInfo.cost);
-            }
         }
     };
 

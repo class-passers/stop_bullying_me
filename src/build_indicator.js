@@ -61,7 +61,7 @@ var BuildIndicator = function(mouse, positions, pos_x, pos_y, width, height ){
 			return false;
 		}
 	};
-    this.update = function()
+    this.update = function(deltaTime)
     {
 		this.x = mouse.x - (mouse.x % worldMap.tileWidth);
 		this.y = mouse.y - (mouse.y % worldMap.tileHeight);

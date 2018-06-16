@@ -62,27 +62,28 @@ function nextLevel()
 
 function startGame( level )
 {
-    cur_level = levels[level];
-
-    loadMapData();
-    populateZombie();
-
-    //console.log("start game, level = " + level + " : " + JSON.stringify(cur_level));
-
+    // delete existing level
     if( base != null && base.earn_interval != null)
     {
         clearInterval(base.earn_interval);
     }
-
+    base = null;
     if( build_indicator !== null && build_indicator.buildTimer !== null )
     {
         clearTimeout( build_indicator.buildTimer );
     }
-
+    build_indicator = null;
     gameObjects = [];
+    tower_positions = [];
+    tower_index = 0;
+
+    // create new level
+    cur_level = levels[level];
+    loadMapData();
+    populateZombie();
 
     var endPoint = find_node( worldMap.mapGrid, 20 );
-    base = new baseObject(cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight), 85, 133);
+    base = new baseObject( cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
     base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
     gameObjects.push(base);
 }
@@ -113,7 +114,7 @@ function registerPopulateZombie( pop_info, is_boss )
     if( pop_info.timer != null )
     {
         clearInterval( pop_info.timer );
-        console.log("clear timer = " + pop_info.timer );
+        //console.log("clear timer = " + pop_info.timer );
     }
 
     pop_info.timer = setInterval( function()
@@ -143,12 +144,19 @@ function buildTower()
 	if(build_indicator.isValid == true && base.resource >= TowerInfo["normal"].cost)
 	{
 		base.spendMoney(TowerInfo["normal"].cost);
-		
-		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval, build_indicator.x,(build_indicator.y+worldMap.tileHeight), 85, 133));
+
+		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval,
+            build_indicator.x, build_indicator.y+worldMap.tileHeight,
+            TowerInfo["normal"].width, TowerInfo["normal"].height ) );
 		
 		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
 
-        build_indicator.buildTimer = setTimeout(function(){ gameObjects.push(new TowerObject("normal", tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight), 85, 133)); tower_index++;},
+        build_indicator.buildTimer = setTimeout(
+            function(){
+                gameObjects.push( new TowerObject("normal",
+                    tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight) ) );
+                tower_index++;
+                },
             TowerInfo["normal"].build_interval);
 		
 		build_indicator.to_be_removed = true;
@@ -177,6 +185,7 @@ function update()
     //    return;
     for( var i = 0; i < gameObjects.length; i++ )
     {
+        //console.log("["+i+"]: "+JSON.stringify(gameObjects[i]));
         gameObjects[i].update( Time.delta );
     }
 

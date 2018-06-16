@@ -5,9 +5,11 @@ var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
 
 // base object for storing player's hp and enemies which are still alive on map
-var baseObject = function(startMoney, pos_x, pos_y, width, height )
+var baseObject = function(startMoney, pos_x, pos_y )
 {
     this.objectType = "basecamp";
+    this.unitInfo = BaseInfo[ cur_level_index ];
+
 	this.max_hp = 100;
 	this.hp = this.max_hp;
 	this.alive_enemies = cur_level.remaining_zombies;
@@ -18,14 +20,14 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
 	this.loop = true;
 	
     this.x = pos_x;
-    this.y = pos_y - height;
+    this.y = pos_y - this.unitInfo.height;
     this.z = 0;
-    this.width = width;
-    this.height = height;
+    this.width = this.unitInfo.width;
+    this.height = this.unitInfo.height;
 	this.image = baseImage;
 	this.max_num_sprites = 1;
 
-	this.unitInfo = BaseInfo[ cur_level_index ];
+
 	
 	//about hp bar
 	this.hp_image = hpImage;
@@ -106,13 +108,15 @@ var baseObject = function(startMoney, pos_x, pos_y, width, height )
 	this.earnMoney = function(amt)
 	{
 		this.resource += amt;
-	}
+	};
+
 	this.spendMoney = function(amt)
 	{
 		this.resource -= amt;
-	}
+	};
+
 	//functions run evey frame
-	this.update = function(){};
+	this.update = function(deltaTime){};
 	this.render = function(context)
 	{
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
