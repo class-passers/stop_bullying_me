@@ -5,26 +5,27 @@ var HPBar = function( parent )
 {
     //about hp bar
     this.hp_image = hpImage;
-    this.hp_width = parent.width;
-    this.hp_onePercent = parent.hp_width/100;
-    this.hp_height = Math.floor(parent.hp_width / 8);
+    this.hp_width = Math.floor(parent.width * 0.75);
+    this.hp_height = Math.floor( parent.width / 8);
     this.hp_x = parent.x;
     this.hp_y = parent.y - this.hp_height;
+    this.parent = parent;
 
-    this.setRatio = function( ratio )
+    this.update = function( deltaTime )
     {
-        this.hp_ratio = ratio;
+        this.hp_x = parent.x;
+        this.hp_y = parent.y - this.hp_height;
+        this.hp_width = Math.floor( parent.width * ( Math.max( 0, this.parent.hp ) / this.parent.max_hp ) );
+        //console.log("hp width " + this.hp_width + " ratio = " + ( this.parent.hp / this.parent.max_hp ) + " hp = " + this.parent.hp + " max = " + this.parent.max_hp );
+
     };
 
-    this.update = function()
+    this.render = function( context )
     {
-        var percent = Math.floor((this.hp / this.max_hp)*100);
-        this.hp_width = Math.floor(this.hp_onePercent*percent);
-    };
-
-    this.render = function()
-    {
-        context.drawImage(this.hp_image, this.hp_x, this.hp_y, this.hp_width, this.hp_height);
+        if( this.parent.hp > 0 && this.parent.hp < this.parent.max_hp ) {
+            // draw hp bar only if the bound object already took damages.
+            context.drawImage(this.hp_image, this.hp_x, this.hp_y, this.hp_width, this.hp_height);
+        }
     };
 
 };

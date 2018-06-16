@@ -35,8 +35,7 @@ var Bullet = function( x, y, target, damage ) {
 
         if( isCollided( this, this.target.get_bounding_rect() ) )
         {
-            this.target.unitInfo.hp -= this.damage;
-            //console.log("hit : " + JSON.stringify(this.target.unitInfo));
+            this.target.takeDamage( this.damage );
             this.to_be_removed = true;
         }
     };

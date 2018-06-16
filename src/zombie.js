@@ -15,6 +15,10 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
 
+    this.hp = this.unitInfo.hp;
+    this.max_hp = this.unitInfo.hp;
+    this.hpBar = new HPBar( this );
+
     // for move vector
     this.vx = 0;
     this.vy = 0;
@@ -135,7 +139,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
         }
 
-        if (this.unitInfo.hp <= 0 && this.state !== 'dying') {
+        if (this.hp <= 0 && this.state !== 'dying') {
             this.changeState('dying');
         }
 
@@ -150,6 +154,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
 
+        this.hpBar.update(deltaTime);
+
     };
 
     this.render = function (context) {
@@ -160,6 +166,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         context.drawImage(image, this.get_source_x(), this.get_source_y(),
             this.get_sprite_width(), this.get_sprite_height(),
             this.get_x(), this.get_y(), this.width, this.height);
+        this.hpBar.render(context);
     };
 
     this.changeState = function (newState) {
@@ -169,6 +176,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         this.curImage = allZombieImages[this.unitInfo.name][newState];
         this.spriteIndex = 0;
         // this.state.enter();
+    };
+
+    this.takeDamage = function( damage )
+    {
+        this.hp -= damage;
     };
 
     this.findClosestTarget = function () {
@@ -224,7 +236,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.isInAttackRange = function (target) {
-        if (target !== null && target.unitInfo.hp > 0) {
+        if (target !== null && target.hp > 0) {
             return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
         }
         return false;
