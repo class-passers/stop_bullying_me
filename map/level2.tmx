@@ -104,7 +104,7 @@
   <tile id="364" type="0"/>
   <tile id="365" type="0"/>
   <tile id="366" type="0"/>
-  <tile id="367" type="1"/>
+  <tile id="367" type="0"/>
   <tile id="368" type="1"/>
   <tile id="369" type="1"/>
   <tile id="374" type="1"/>
@@ -218,8 +218,8 @@
   <tile id="774" type="1"/>
   <tile id="775" type="1"/>
   <tile id="776" type="1"/>
-  <tile id="785" type="1"/>
-  <tile id="786" type="20"/>
+  <tile id="785" type="20"/>
+  <tile id="786" type="1"/>
   <tile id="807" type="1"/>
   <tile id="808" type="1"/>
   <tile id="809" type="1"/>
