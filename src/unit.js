@@ -20,7 +20,9 @@ var UnitInfo = {
         height : 128,
         hp : 120,
 		moveSpeed : 50,      // pixel per seconds
-		attackPower : 10,
+        attackRange : 200,
+        attackSpeed : 2000,
+        attackPower : 20,
 		cost : 5
     },
     fast : {
@@ -29,7 +31,9 @@ var UnitInfo = {
         height : 128,
         hp : 80,
         moveSpeed : 70,
-		attackPower : 5,
+        attackRange : 200,
+        attackSpeed : 2000,
+		attackPower : 10,
 		cost : 7 
     },
     heavy : {
@@ -38,7 +42,9 @@ var UnitInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 10,
-		attackPower : 15,
+        attackRange : 150,
+        attackSpeed : 2000,
+		attackPower : 40,
 		cost : 10
     },
     ranged : {
@@ -47,6 +53,8 @@ var UnitInfo = {
         height : 128,
         hp : 100,
         moveSpeed : 50,
+        attackRange : 150,
+        attackSpeed : 2000,
 		attackPower : 10,
 		cost : 7
     }
@@ -96,7 +104,7 @@ var BaseInfo =
 [
     {
         name : "level0",
-        hp : 500,
+        hp : 300,
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
@@ -107,7 +115,7 @@ var BaseInfo =
     },
     {
         name : "level1",
-        hp : 500,
+        hp : 400,
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels

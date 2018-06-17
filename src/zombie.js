@@ -78,6 +78,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'walk') {
+            var isReached = is_reached_at_destination(this.moveIndex);
             if( this.isBoss ) {
                 if (this.curTarget === null || this.curTarget.hp <= 0) {
                     this.curTarget = this.findClosestTarget();
@@ -86,17 +87,23 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
                     this.changeState('attack');
                 }
-                else {
+                else if( isReached === false ) {
                     this.moveAhead(deltaTime);
                 }
             }
-            else {
+            else if( isReached === false ){
                 this.moveAhead(deltaTime);
             }
 
-            if (is_reached_at_destination(this.moveIndex)) {
+            if (isReached) {
                 this.curTarget = base;
-                this.changeState('attack');
+                if( this.isInAttackRange(this.curTarget) === false )
+                {
+                    this.moveTo( this.curTarget, deltaTime );
+                }
+                else {
+                    this.changeState('attack');
+                }
             }
         }
         else if (this.state === 'dying') {
@@ -111,6 +118,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'attack') {
+            if( this.isInAttackRange(this.curTarget) === false )
+            {
+                console.log("target is out of range");
+            }
+
             if (this.isBoss  && this.spriteIndex >= this.curImage.max_num_sprites - 1 &&
                 ( this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false )) {
                 this.changeState('walk');
@@ -233,6 +245,26 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             console.log("next = " + nextPos.x + ", " + nextPos.y);
             console.log("out of distance");
         }
+    };
+
+    this.moveTo = function( target, deltaTime )
+    {
+        var nextPos = new Pos( target.x + target.width, target.y + target.height );
+        // add a quarter size of the zombie to the position to look better on the road.
+        var distX = nextPos.x - (this.x + this.width / 2);
+        var distY = nextPos.y - (this.y + this.height);
+
+        var distSquared = distX * distX + distY * distY;
+        if (distSquared > this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
+
+            var unitVector = Math.sqrt(distSquared);
+            this.vx = distX / unitVector;
+            this.vy = distY / unitVector;
+
+            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
+            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
+        }
+
     };
 
     this.isInAttackRange = function (target) {
