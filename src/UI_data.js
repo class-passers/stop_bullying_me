@@ -11,6 +11,8 @@ var Indicator = function(indicatorType)
 var ButtonInfo = {
 	pause : {
 		name : "pause",
+		x : 0,
+		y : 0,
 		width : 70,
 		height : 70,
 		visible : false,
@@ -18,6 +20,8 @@ var ButtonInfo = {
 	},
 	next : {
 		name : "next",
+		x : 640,
+		y : 400,
 		width : 70,
 		height : 70,
 		visible : false,
@@ -25,6 +29,8 @@ var ButtonInfo = {
 	},
 	replay : {
 		name : "replay",
+		x : 500,
+		y : 400,
 		width : 70,
 		height : 70,
 		visible : false,
@@ -32,6 +38,8 @@ var ButtonInfo = {
 	},
 	exit : {
 		name : "exit",
+		x : 0,
+		y : 0,
 		width : 70,
 		height : 70,
 		visible : false,
@@ -39,6 +47,8 @@ var ButtonInfo = {
 	},
 	build : {
 		name : "build",
+		x : 1200,
+		y : 100,
 		width : 70,
 		height : 70,
 		param : null,
@@ -47,6 +57,8 @@ var ButtonInfo = {
 	},
 	resume : {
 		name : "resume",
+		x : 0,
+		y : 0,
 		width : 70,
 		height : 70,
 		visible : false,
@@ -61,7 +73,7 @@ var IndicatorInfo = {
 		height : 70,
 		txt_sign : "",
 		txt_x : 20,
-		txt_y : 0,
+		txt_y : 10,
 		txt_color : 'yellow',
 		txt_font : '48px Arial',
 		interval : 0
@@ -72,10 +84,10 @@ var IndicatorInfo = {
 		height : 40,
 		txt_sign : "-",
 		txt_x : 10,
-		txt_y : 0,
+		txt_y : -5,
 		txt_color : 'yellow',
 		txt_font : '48px Arial',
-		interval : 1500
+		interval : 1000
 	},
 	earn : {
 		name : "earn",
@@ -83,9 +95,9 @@ var IndicatorInfo = {
 		height : 40,
 		txt_sign : "+",
 		txt_x : 10,
-		txt_y : 0,
+		txt_y : -5,
 		txt_color : 'yellow',
 		txt_font : '48px Arial',
-		interval : 1500
+		interval : 1000
 	}
 }

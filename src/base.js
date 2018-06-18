@@ -5,16 +5,16 @@ var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
 
 // base object for storing player's hp and enemies which are still alive on map
-var baseObject = function(startMoney, pos_x, pos_y )
+var baseObject = function(pos_x, pos_y )
 {
     this.objectType = "basecamp";
     this.unitInfo = BaseInfo[ cur_level_index ];
-	console.log(BaseInfo[0]);
-	this.max_hp = 100;
+	this.max_hp = this.unitInfo.hp;
 	this.hp = this.max_hp;
 	this.alive_enemies = cur_level.remaining_zombies;
-	this.resource = startMoney;
+	this.resource = cur_level.start_money;
 	this.earn_interval = null;
+	this.resource_indicator = new IndicatorOjbect("money", 1070, 10, 0);
 	
 	//animation request for main game loop
 	this.loop = true;
@@ -39,7 +39,6 @@ var baseObject = function(startMoney, pos_x, pos_y )
 	
 	// set this flag as true when a tower destroyed.
     this.to_be_removed = false;
-	
 //functions
 	//called when an enemy is attacking the player's base
 	this.takeDamage = function(damage)
@@ -116,14 +115,16 @@ var baseObject = function(startMoney, pos_x, pos_y )
 	};
 
 	//functions run evey frame
-	this.update = function(deltaTime){};
+	this.update = function(deltaTime){
+		this.resource_indicator.txt = this.resource.toString();
+	};
 	this.render = function(context)
 	{
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
 		
 		context.drawImage(this.hp_image, this.hp_x, this.hp_y, this.hp_width, this.hp_height);
 		
-		//*  Drawing text will be changed or removed when UI design is confirmed
+		/*  Drawing text will be changed or removed when UI design is confirmed
 		context.fillStyle = 'black';
 		context.font = '48px Arial';
 		context.textAlign = 'right';

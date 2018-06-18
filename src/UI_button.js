@@ -1,8 +1,8 @@
-var ButtonObject = function( buttonType, visibility, pos_x, pos_y)
+var ButtonObject = function( buttonType, visibility)
 {
 	this.buttonInfo = Button(buttonType);
-	this.x = pos_x;
-	this.y = pos_y;
+	this.x = this.buttonInfo.x;
+	this.y = this.buttonInfo.y;
 	this.width = this.buttonInfo.width;
 	this.height = this.buttonInfo.height;
 	

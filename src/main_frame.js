@@ -8,7 +8,6 @@ var context = canvas.getContext("2d");
 var gameObjects = [];
 var uiObjects = [];
 addUIButtons();
-
 var tower_positions = [];
 
 var cur_level = null;
@@ -16,6 +15,7 @@ var cur_level_index = 0;
 
 var base = null;
 var mouse = new mouseObject(canvas, uiObjects);
+var money_indicator = null;
 var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
@@ -23,7 +23,10 @@ var tower_index = 0;
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
-
+function createEarnIndicator(earn, x, y)
+{
+	uiObjects.push(new IndicatorOjbect("earn", x, y, earn));
+}
 //turn on build mode
 function turnOnBuildMode()
 {
@@ -35,13 +38,20 @@ function turnOnBuildMode()
 		build_mode = true;
 	}
 }
-// turn off build mode
-document.addEventListener('keydown', function(event){
-	if(event.keyCode == 78 && build_mode == true) // Keyboard 'N'
+function turnOffBuildMode()
+{
+	if(build_mode == true)
 	{
 		mouse.assignFunction(mouse.defaultFunction);
 		build_indicator.to_be_removed = true;
 		build_mode = false;
+	}
+}
+// turn off build mode
+document.addEventListener('keydown', function(event){
+	if(event.keyCode == 78) // Keyboard 'N'
+	{
+		turnOffBuildMode();
 	}
 });
 function addUIButtons()
@@ -55,10 +65,9 @@ function addUIButtons()
 	ButtonInfo["exit"].execute = null;
 	ButtonInfo["resume"].execute = null;
 	
-	var temp_pos = 300;
 	for(var type in ButtonInfo)
 	{
-		uiObjects.push(new ButtonObject(ButtonInfo[type].name, ButtonInfo[type].visible, temp_pos += 100, 10));
+		uiObjects.push(new ButtonObject(ButtonInfo[type].name, ButtonInfo[type].visible));
 	}
 }
 
@@ -90,13 +99,15 @@ function startGame( level )
     if( base != null && base.earn_interval != null)
     {
         clearInterval(base.earn_interval);
+		base.resource_indicator.to_be_removed = true;
     }
     base = null;
     if( build_indicator !== null && build_indicator.buildTimer !== null )
     {
         clearTimeout( build_indicator.buildTimer );
     }
-    build_indicator = null;
+	mouse.assignFunction(function(){console.log("Does nothing");})
+	turnOffBuildMode();
     gameObjects = [];
     tower_positions = [];
     tower_index = 0;
@@ -107,9 +118,10 @@ function startGame( level )
     populateZombie();
 
     var endPoint = find_node( worldMap.mapGrid, 20 );
-    base = new baseObject( cur_level.start_money, (endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
+    base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
     base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
     gameObjects.push(base);
+	uiObjects.push(base.resource_indicator);
 }
 
 function populateZombie()
@@ -167,7 +179,7 @@ function buildTower()
 	// check it is on road or not
 	if(build_indicator.isValid == true)
 	{
-		uiObjects.push(new IndicatorOjbect("spend", build_indicator.x, build_indicator.y-150, TowerInfo["normal"].cost));
+		uiObjects.push(new IndicatorOjbect("spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
 		base.spendMoney(TowerInfo["normal"].cost);
 
 		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval,

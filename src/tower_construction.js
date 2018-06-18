@@ -75,7 +75,7 @@ var buildObject = function (interval, pos_x, pos_y, width, height )
 		{
 			this.progress = 100;
 			//create a tower at this timing
-			console.log("C");
+			console.log(" tower built");
 			this.to_be_removed = true;
 		}
 		this.progress_width = Math.floor(this.progress_onePercent * this.progress);
