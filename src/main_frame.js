@@ -50,13 +50,6 @@ function turnOffBuildMode()
 		build_mode = false;
 	}
 }
-// turn off build mode
-document.addEventListener('keydown', function(event){
-	if(event.keyCode == 78) // Keyboard 'N'
-	{
-		turnOffBuildMode();
-	}
-});
 function addUIButtons()
 {
 	ButtonInfo["next"].execute = nextLevel;
@@ -64,8 +57,7 @@ function addUIButtons()
 	ButtonInfo["build"].execute = turnOnBuildMode;
 	ButtonInfo["pause"].execute = pauseGame;
 	ButtonInfo["resume"].execute = resumeGame;
-	//exit function needed
-	ButtonInfo["exit"].execute = null;
+	ButtonInfo["exit"].execute = turnOffBuildMode;
 	
 	for(var type in ButtonInfo)
 	{
@@ -77,7 +69,7 @@ function hideUIButtons()
 	//hide all ui buttons except build button
 	for(var i = 0; i < uiObjects.length; i++)
 	{
-		if(uiObjects[i].uiInfo.type == "button" && uiObjects[i].uiInfo.name != "build")
+		if(uiObjects[i].uiInfo.type == "button" && uiObjects[i].uiInfo.name != "build" && uiObjects[i].uiInfo.name != "exit")
 			uiObjects[i].isVisible = false;
 	}
 }
@@ -110,7 +102,6 @@ function pauseGame()
 {
 	clearInterval(base.earn_interval);
 	base.loop = false;
-	gameLoop = null;
 }
 function resumeGame()
 {
@@ -124,7 +115,6 @@ function startGame( level )
     // delete existing level
     if( base != null)
     {
-		console.log("A");
         clearInterval(base.earn_interval);
 		base.resource_indicator.to_be_removed = true;
     }
@@ -207,7 +197,8 @@ function registerPopulateZombie( pop_info, is_boss )
 function buildTower()
 {
 	// check it is on road or not
-	if(build_indicator.isValid == true)
+	if(build_indicator.isValid == true &&
+		mouse.interacting_button == null)
 	{
 		uiObjects.push(new IndicatorOjbect("spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
 		base.spendMoney(TowerInfo["normal"].cost);

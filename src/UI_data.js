@@ -9,6 +9,7 @@ var Indicator = function(indicatorType)
 }
 
 var ButtonInfo = {
+	//pause game
 	pause : {
 		type : "button",
 		name : "pause",
@@ -19,6 +20,7 @@ var ButtonInfo = {
 		visible : false,
 		execute : null
 	},
+	// next stage
 	next : {
 		type : "button",
 		name : "next",
@@ -29,6 +31,7 @@ var ButtonInfo = {
 		visible : false,
 		execute : null
 	},
+	// restart game
 	replay : {
 		type : "button",
 		name : "replay",
@@ -39,16 +42,18 @@ var ButtonInfo = {
 		visible : false,
 		execute : null
 	},
+	// exit build mode
 	exit : {
 		type : "button",
 		name : "exit",
-		x : 0,
-		y : 0,
+		x : 1200,
+		y : 185,
 		width : 70,
 		height : 70,
-		visible : false,
+		visible : true,
 		execute : null
 	},
+	// turn on build mode
 	build : {
 		type : "button",
 		name : "build",
@@ -59,6 +64,7 @@ var ButtonInfo = {
 		visible : true,
 		execute : null
 	},
+	// resume game
 	resume : {
 		type : "button",
 		name : "resume",
