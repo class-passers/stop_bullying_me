@@ -18,7 +18,10 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.max_num_sprites = 1;
     this.image = towerImage;
 
-    //this.hpBar = new HPBar( this );
+    this.hp = this.unitInfo.hp;
+    this.max_hp = this.unitInfo.hp;
+
+    this.hpBar = new HPBar( this );
 
     // set this flag as true when a tower destroyed.
     this.to_be_removed = false;
@@ -47,6 +50,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     {
         this.findTarget();
         this.fire();
+        this.hpBar.update( deltaTime );
     };
 
     this.render = function( context )
@@ -62,13 +66,15 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
             towerImage.width, towerImage.height,
             this.get_x(), this.get_y(), this.width, this.height );
+
+        this.hpBar.render( context );
     };
 
     this.findTarget = function() {
 
 
         // if  a zombie is already in target, fire him.
-        if( this.curTarget && this.curTarget.unitInfo.hp > 0 ){
+        if( this.curTarget && this.curTarget.hp > 0 ){
             if(getDistanceSquare( this, this.curTarget ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                 return;
             }
@@ -83,7 +89,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         this.curTarget = null;
         // find any zombie in its attack range
         for( var i = 0; i < gameObjects.length; i++ ) {
-            if (gameObjects[i].objectType === "zombie" && gameObjects[i].unitInfo.hp > 0 ) {
+            if (gameObjects[i].objectType === "zombie" && gameObjects[i].hp > 0 ) {
                 // check if the zombie is in tower's attack range
                 if( getDistanceSquare( this, gameObjects[i] ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                     this.curTarget = gameObjects[i];
@@ -110,8 +116,8 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.takeDamage = function( damage )
     {
-        this.unitInfo.hp -= damage;
-        if( this.unitInfo.hp <= 0 )
+        this.hp -= damage;
+        if( this.hp <= 0 )
         {
             this.to_be_removed = true;
         }

@@ -15,6 +15,10 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
 
+    this.hp = this.unitInfo.hp;
+    this.max_hp = this.unitInfo.hp;
+    this.hpBar = new HPBar( this );
+
     // for move vector
     this.vx = 0;
     this.vy = 0;
@@ -74,6 +78,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'walk') {
+            var isReached = is_reached_at_destination(this.moveIndex);
             if( this.isBoss ) {
                 if (this.curTarget === null || this.curTarget.hp <= 0) {
                     this.curTarget = this.findClosestTarget();
@@ -82,17 +87,23 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
                     this.changeState('attack');
                 }
-                else {
+                else if( isReached === false ) {
                     this.moveAhead(deltaTime);
                 }
             }
-            else {
+            else if( isReached === false ){
                 this.moveAhead(deltaTime);
             }
 
-            if (is_reached_at_destination(this.moveIndex)) {
+            if (isReached) {
                 this.curTarget = base;
-                this.changeState('attack');
+                if( this.isInAttackRange(this.curTarget) === false )
+                {
+                    this.moveTo( this.curTarget, deltaTime );
+                }
+                else {
+                    this.changeState('attack');
+                }
             }
         }
         else if (this.state === 'dying') {
@@ -108,6 +119,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'attack') {
+            if( this.isInAttackRange(this.curTarget) === false )
+            {
+                console.log("target is out of range");
+            }
+
             if (this.isBoss  && this.spriteIndex >= this.curImage.max_num_sprites - 1 &&
                 ( this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false )) {
                 this.changeState('walk');
@@ -136,7 +152,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
         }
 
-        if (this.unitInfo.hp <= 0 && this.state !== 'dying') {
+        if (this.hp <= 0 && this.state !== 'dying') {
             this.changeState('dying');
         }
 
@@ -151,6 +167,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
 
+        this.hpBar.update(deltaTime);
+
     };
 
     this.render = function (context) {
@@ -161,6 +179,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         context.drawImage(image, this.get_source_x(), this.get_source_y(),
             this.get_sprite_width(), this.get_sprite_height(),
             this.get_x(), this.get_y(), this.width, this.height);
+        this.hpBar.render(context);
     };
 
     this.changeState = function (newState) {
@@ -170,6 +189,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         this.curImage = allZombieImages[this.unitInfo.name][newState];
         this.spriteIndex = 0;
         // this.state.enter();
+    };
+
+    this.takeDamage = function( damage )
+    {
+        this.hp -= damage;
     };
 
     this.findClosestTarget = function () {
@@ -224,8 +248,28 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         }
     };
 
+    this.moveTo = function( target, deltaTime )
+    {
+        var nextPos = new Pos( target.x + target.width, target.y + target.height );
+        // add a quarter size of the zombie to the position to look better on the road.
+        var distX = nextPos.x - (this.x + this.width / 2);
+        var distY = nextPos.y - (this.y + this.height);
+
+        var distSquared = distX * distX + distY * distY;
+        if (distSquared > this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
+
+            var unitVector = Math.sqrt(distSquared);
+            this.vx = distX / unitVector;
+            this.vy = distY / unitVector;
+
+            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
+            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
+        }
+
+    };
+
     this.isInAttackRange = function (target) {
-        if (target !== null && target.unitInfo.hp > 0) {
+        if (target !== null && target.hp > 0) {
             return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
         }
         return false;

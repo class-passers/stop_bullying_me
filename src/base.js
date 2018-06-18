@@ -9,8 +9,10 @@ var baseObject = function(pos_x, pos_y )
 {
     this.objectType = "basecamp";
     this.unitInfo = BaseInfo[ cur_level_index ];
+
+    this.hp = this.unitInfo.hp;
 	this.max_hp = this.unitInfo.hp;
-	this.hp = this.max_hp;
+
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
 	this.earn_interval = null;
@@ -27,16 +29,8 @@ var baseObject = function(pos_x, pos_y )
 	this.image = baseImage;
 	this.max_num_sprites = 1;
 
+	this.hpBar = new HPBar( this );
 
-	
-	//about hp bar
-	this.hp_image = hpImage;
-	this.hp_width = this.width;
-	this.hp_onePercent = this.hp_width/100;
-	this.hp_height = Math.floor(this.hp_width / 8);
-	this.hp_x = this.x;
-	this.hp_y = this.y - this.hp_height;
-	
 	// set this flag as true when a tower destroyed.
     this.to_be_removed = false;
 //functions
@@ -44,12 +38,8 @@ var baseObject = function(pos_x, pos_y )
 	this.takeDamage = function(damage)
 	{
 		this.hp -= damage;
-		var percent = Math.floor((this.hp / this.max_hp)*100);
-		this.hp_width = Math.floor(this.hp_onePercent*percent);
-		
 		if(this.hp <= 0)
 		{
-			this.hp_width = 0;
 			this.lose();
 		}
 	};
@@ -57,10 +47,10 @@ var baseObject = function(pos_x, pos_y )
 	this.lose = function()
 	{
 		console.log("Lose");
-		restartGame();
+		//restartGame();
 
-		//this.loop = false;
-		//this.earn_interval = null;
+		this.loop = false;
+		this.earn_interval = null;
 	};
 	
 	//called when an enemy is dead
@@ -77,10 +67,10 @@ var baseObject = function(pos_x, pos_y )
 	{
 
 		console.log("Win");
-		nextLevel();
+		//nextLevel();
 
-		//this.loop = false;
-		//this.earn_interval = null;
+		this.loop = false;
+		this.earn_interval = null;
 	};
 	
 	
@@ -115,14 +105,17 @@ var baseObject = function(pos_x, pos_y )
 	};
 
 	//functions run evey frame
-	this.update = function(deltaTime){
+	this.update = function(deltaTime)
+    {
 		this.resource_indicator.txt = this.resource.toString();
-	};
+        this.hpBar.update( deltaTime );
+    };
+
 	this.render = function(context)
 	{
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
-		
-		context.drawImage(this.hp_image, this.hp_x, this.hp_y, this.hp_width, this.hp_height);
+
+		this.hpBar.render(context );
 		
 		/*  Drawing text will be changed or removed when UI design is confirmed
 		context.fillStyle = 'black';
