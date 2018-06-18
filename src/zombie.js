@@ -73,6 +73,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     this.update = function (deltaTime) {
         if (this.state === 'idle') {
+            // do not change the state while the zombie is in cool down since it was in attack state previously.
             if (this.isOnCooldown === false) {
                 this.changeState('walk');
             }
@@ -124,19 +125,25 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 console.log("target is out of range");
             }
 
-            if (this.isBoss  && this.spriteIndex >= this.curImage.max_num_sprites - 1 &&
+            if (this.isBoss  &&
                 ( this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false )) {
                 this.changeState('walk');
                 this.curTarget = null;
             }
             else {
                 if (this.isOnCooldown === false ) {
-                    if (this.spriteIndex === Math.floor(this.curImage.max_num_sprites / 2)) {
+                    if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
                         this.curTarget.takeDamage(this.unitInfo.attackPower);
-                    }
-                    else if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
+                        if( this.curTarget.hp <= 0 )
+                        {
+                            this.changeState('walk');
+                        }
+                        else
+                        {
+                            this.changeState('idle');
+                        }
                         this.isOnCooldown = true;
-                        this.changeState('idle');
+
                         var self = this;
                         // to have attack interval
                         setTimeout(
@@ -152,12 +159,12 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
         }
 
-        if (this.hp <= 0 && this.state !== 'dying') {
+        if (this.hp <= 0) {
             this.changeState('dying');
         }
 
         // change to next sprite image every 4 frames not to make zombie moving so fast.
-        this.spriteIndex += 15 * deltaTime;
+        this.spriteIndex += 12 * deltaTime;
         if (this.spriteIndex >= this.curImage.max_num_sprites) {
             if (this.curImage.repeat === true) {
                 this.spriteIndex = 0;
@@ -184,10 +191,13 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     this.changeState = function (newState) {
         // this.state.leave();
-        //console.log( JSON.stringify(this.unitInfo) + " state changed : " + newState );
-        this.state = newState;
-        this.curImage = allZombieImages[this.unitInfo.name][newState];
-        this.spriteIndex = 0;
+
+        if( this.state !== newState ) {
+            console.log( JSON.stringify(this.unitInfo) + " : " + this.state + " changed to " + newState );
+            this.state = newState;
+            this.curImage = allZombieImages[this.unitInfo.name][newState];
+            this.spriteIndex = 0;
+        }
         // this.state.enter();
     };
 

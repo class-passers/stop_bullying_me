@@ -160,7 +160,7 @@ function populateZombie()
     for( var i = 0; i < cur_level.populate_zombie_info.length; i++ )
     {
         var pop_info = cur_level.populate_zombie_info[i];
-        console.log("populate zombie: " + JSON.stringify(pop_info));
+        //console.log("populate zombie: " + JSON.stringify(pop_info));
         pop_info.remaining = pop_info.amount;
         setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, false );
     }
@@ -168,7 +168,7 @@ function populateZombie()
     for( var i = 0; i < cur_level.populate_boss_info.length; i++ )
     {
         var pop_info = cur_level.populate_boss_info[i];
-        console.log("populate boss: " + JSON.stringify(pop_info));
+        //console.log("populate boss: " + JSON.stringify(pop_info));
         pop_info.remaining = pop_info.amount;
         setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, true );
     }
@@ -189,7 +189,8 @@ function registerPopulateZombie( pop_info, is_boss )
                 pop_info.remaining--;
                 cur_level.remaining_zombies--;
 
-                console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
+                if( is_boss )
+                    console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
 
                 var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
                 gameObjects.push(zombie);
@@ -241,34 +242,37 @@ function update()
     Time.last = Time.now;
     //console.log( "delta = " + Time.delta );
 
-    //if( document.hasFocus() === false )
-    //    return;
-    for( var i = 0; i < gameObjects.length; i++ )
-    {
-        //console.log("["+i+"]: "+JSON.stringify(gameObjects[i]));
-        gameObjects[i].update( Time.delta );
+    if( base.loop === true ) {
+        //if( document.hasFocus() === false )
+        //    return;
+        for (var i = 0; i < gameObjects.length; i++) {
+            //console.log("["+i+"]: "+JSON.stringify(gameObjects[i]));
+            gameObjects[i].update(Time.delta);
+        }
+        gameObjects = gameObjects.filter(function (obj) {
+            return obj.to_be_removed === false;
+        });
+        // sort by y position to render properly
+        gameObjects.sort(function (a, b) {
+            return (a.y + a.height + a.z) - (b.y + b.height + b.z)
+        });
+        //console.log( JSON.stringify(gameObjects));
     }
+
 	for(var i = 0; i < uiObjects.length; i++)
 	{
 		uiObjects[i].update( Time.delta);
 	}
 
-    gameObjects = gameObjects.filter(function (obj) {
-        return obj.to_be_removed === false;
-    });
 	uiObjects = uiObjects.filter(function (obj) {
         return obj.to_be_removed === false;
     });
 
-    // sort by y position to render properly
-    gameObjects.sort( function(a, b){ return (a.y + a.height + a.z) - (b.y + b.height + b.z) } );
-    //console.log( JSON.stringify(gameObjects));
+    render();
 
-
-	if(base.loop == true)
-		requestAnimationFrame(update);
+	requestAnimationFrame(update);
 }
-render();
+
 function render()
 {
     // no need to clear context
@@ -284,6 +288,6 @@ function render()
 	{
 		uiObjects[i].render(context);
 	}
-	requestAnimationFrame(render);
+	//requestAnimationFrame(render);
 }
 
