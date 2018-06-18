@@ -10,17 +10,19 @@ var Indicator = function(indicatorType)
 
 var ButtonInfo = {
 	pause : {
+		type : "button",
 		name : "pause",
-		x : 0,
-		y : 0,
+		x : 1200,
+		y : 200,
 		width : 70,
 		height : 70,
 		visible : false,
 		execute : null
 	},
 	next : {
+		type : "button",
 		name : "next",
-		x : 640,
+		x : 670,
 		y : 400,
 		width : 70,
 		height : 70,
@@ -28,8 +30,9 @@ var ButtonInfo = {
 		execute : null
 	},
 	replay : {
+		type : "button",
 		name : "replay",
-		x : 500,
+		x : 540,
 		y : 400,
 		width : 70,
 		height : 70,
@@ -37,6 +40,7 @@ var ButtonInfo = {
 		execute : null
 	},
 	exit : {
+		type : "button",
 		name : "exit",
 		x : 0,
 		y : 0,
@@ -46,19 +50,20 @@ var ButtonInfo = {
 		execute : null
 	},
 	build : {
+		type : "button",
 		name : "build",
 		x : 1200,
 		y : 100,
 		width : 70,
 		height : 70,
-		param : null,
 		visible : true,
 		execute : null
 	},
 	resume : {
+		type : "button",
 		name : "resume",
-		x : 0,
-		y : 0,
+		x : 1200,
+		y : 200,
 		width : 70,
 		height : 70,
 		visible : false,
@@ -68,6 +73,7 @@ var ButtonInfo = {
 
 var IndicatorInfo = {
 	money : {
+		type : "indicator",
 		name : "money",
 		width : 70,
 		height : 70,
@@ -79,6 +85,7 @@ var IndicatorInfo = {
 		interval : 0
 	},
 	spend : {
+		type : "indicator",
 		name : "spend",
 		width : 44,
 		height : 40,
@@ -90,6 +97,7 @@ var IndicatorInfo = {
 		interval : 1000
 	},
 	earn : {
+		type : "indicator",
 		name : "earn",
 		width : 44,
 		height : 40,

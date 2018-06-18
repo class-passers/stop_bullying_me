@@ -20,13 +20,16 @@ var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
 
+var Time = {
+    last : new Date().getTime(),
+    now : null,
+    delta : 0
+};
+
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
-function createEarnIndicator(earn, x, y)
-{
-	uiObjects.push(new IndicatorOjbect("earn", x, y, earn));
-}
+
 //turn on build mode
 function turnOnBuildMode()
 {
@@ -59,18 +62,29 @@ function addUIButtons()
 	ButtonInfo["next"].execute = nextLevel;
 	ButtonInfo["replay"].execute = restartGame;
 	ButtonInfo["build"].execute = turnOnBuildMode;
-	
-	//functions for these 3 have to be made
-	ButtonInfo["pause"].execute = null;
+	ButtonInfo["pause"].execute = pauseGame;
+	ButtonInfo["resume"].execute = resumeGame;
+	//exit function needed
 	ButtonInfo["exit"].execute = null;
-	ButtonInfo["resume"].execute = null;
 	
 	for(var type in ButtonInfo)
 	{
 		uiObjects.push(new ButtonObject(ButtonInfo[type].name, ButtonInfo[type].visible));
 	}
 }
-
+function hideUIButtons()
+{
+	//hide all ui buttons except build button
+	for(var i = 0; i < uiObjects.length; i++)
+	{
+		if(uiObjects[i].uiInfo.type == "button" && uiObjects[i].uiInfo.name != "build")
+			uiObjects[i].isVisible = false;
+	}
+}
+function createEarnIndicator(earn, x, y)
+{
+	uiObjects.push(new IndicatorOjbect("earn", x, y, earn));
+}
 //var window_focused = true;
 //window.onfocus = function() {
 //    window_focused = true;
@@ -92,12 +106,25 @@ function nextLevel()
     cur_level_index++;
     startGame(cur_level_index);
 }
-
+function pauseGame()
+{
+	clearInterval(base.earn_interval);
+	base.loop = false;
+	gameLoop = null;
+}
+function resumeGame()
+{
+	base.loop = true;
+	base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
+	
+	requestAnimationFrame(update);
+}
 function startGame( level )
 {
     // delete existing level
-    if( base != null && base.earn_interval != null)
+    if( base != null)
     {
+		console.log("A");
         clearInterval(base.earn_interval);
 		base.resource_indicator.to_be_removed = true;
     }
@@ -111,6 +138,7 @@ function startGame( level )
     gameObjects = [];
     tower_positions = [];
     tower_index = 0;
+	hideUIButtons();
 
     // create new level
     cur_level = levels[level];
@@ -119,9 +147,10 @@ function startGame( level )
 
     var endPoint = find_node( worldMap.mapGrid, 20 );
     base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
-    base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
     gameObjects.push(base);
 	uiObjects.push(base.resource_indicator);
+	
+	resumeGame();
 }
 
 function populateZombie()
@@ -204,13 +233,7 @@ function buildTower()
 		return false;
 }
 
-var Time = {
-    last : new Date().getTime(),
-    now : null,
-    delta : 0
-};
 
-update();
 function update()
 {
     Time.now = new Date().getTime();
@@ -241,12 +264,11 @@ function update()
     gameObjects.sort( function(a, b){ return (a.y + a.height + a.z) - (b.y + b.height + b.z) } );
     //console.log( JSON.stringify(gameObjects));
 
-    render();
 
 	if(base.loop == true)
 		requestAnimationFrame(update);
 }
-
+render();
 function render()
 {
     // no need to clear context
@@ -254,6 +276,7 @@ function render()
     // draw gameObjects
     for( var i = 0; i < gameObjects.length; i++ )
     {
+		if(base.loop == true);
         gameObjects[i].render( context );
     }
 	
@@ -261,6 +284,6 @@ function render()
 	{
 		uiObjects[i].render(context);
 	}
-
+	requestAnimationFrame(render);
 }
 

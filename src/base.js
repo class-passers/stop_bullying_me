@@ -17,6 +17,7 @@ var baseObject = function(pos_x, pos_y )
 	this.resource = cur_level.start_money;
 	this.earn_interval = null;
 	this.resource_indicator = new IndicatorOjbect("money", 1070, 10, 0);
+	this.button_popup = null
 	
 	//animation request for main game loop
 	this.loop = true;
@@ -48,9 +49,11 @@ var baseObject = function(pos_x, pos_y )
 	{
 		console.log("Lose");
 		//restartGame();
+		
+		this.findButton("replay");
+		this.button_popup.isVisible = true;
 
-		this.loop = false;
-		this.earn_interval = null;
+		pauseGame();
 	};
 	
 	//called when an enemy is dead
@@ -68,9 +71,14 @@ var baseObject = function(pos_x, pos_y )
 
 		console.log("Win");
 		//nextLevel();
+		
+		this.findButton("next");
+		this.button_popup.isVisible = true;
+		
+		this.findButton("replay");
+		this.button_popup.isVisible = true;
 
-		this.loop = false;
-		this.earn_interval = null;
+		pauseGame();
 	};
 	
 	
@@ -125,4 +133,14 @@ var baseObject = function(pos_x, pos_y )
 		context.fillText(this.resource.toString(), 1270, 0);
 		//*/
 	};
+	this.findButton = function(buttonType)
+	{
+		for(var i = 0; i < uiObjects.length; i++)
+		{
+			if(uiObjects[i].uiInfo.name == buttonType)
+			{
+				this.button_popup = uiObjects[i];
+			}
+		}
+	}
 };

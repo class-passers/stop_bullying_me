@@ -1,27 +1,27 @@
 var IndicatorOjbect = function( indicatorType, pos_x, pos_y, txt_value)
 {
-	this.indicatorInfo = Indicator(indicatorType);
+	this.uiInfo = Indicator(indicatorType);
 	this.x = pos_x;
 	this.y = pos_y;
-	this.width = this.indicatorInfo.width;
-	this.height = this.indicatorInfo.height;
+	this.width = this.uiInfo.width;
+	this.height = this.uiInfo.height;
 	
 	this.txt = txt_value.toString();
-	this.txt_x = this.x + this.width + this.indicatorInfo.txt_x;
-	this.txt_y = this.y + this.indicatorInfo.txt_y;
-	this.txt_color = this.indicatorInfo.txt_color;
-	this.txt_font = this.indicatorInfo.txt_font;
+	this.txt_x = this.x + this.width + this.uiInfo.txt_x;
+	this.txt_y = this.y + this.uiInfo.txt_y;
+	this.txt_color = this.uiInfo.txt_color;
+	this.txt_font = this.uiInfo.txt_font;
 	
 	
 	this.isClickable = false;
 	this.spriteIndex = 0;
-	this.curImage = indicatorImages[this.indicatorInfo.name];
+	this.curImage = indicatorImages[this.uiInfo.name];
 	
 	this.to_be_removed = false;
 	var self = this;
 	
-	if(this.indicatorInfo.interval > 0)
-		setInterval(function(){self.to_be_removed = true;}, self.indicatorInfo.interval);
+	if(this.uiInfo.interval > 0)
+		setInterval(function(){self.to_be_removed = true;}, self.uiInfo.interval);
 	
 	this.get_x = function()
 	{
@@ -64,6 +64,6 @@ var IndicatorOjbect = function( indicatorType, pos_x, pos_y, txt_value)
 		context.font = this.txt_font;
 		context.textAlign = 'left';
 		context.textBaseline = 'top';
-		context.fillText(self.indicatorInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
+		context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
 	}
 }

@@ -157,7 +157,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         }
 
         // change to next sprite image every 4 frames not to make zombie moving so fast.
-        this.spriteIndex += 0.25;
+        this.spriteIndex += 15 * deltaTime;
         if (this.spriteIndex >= this.curImage.max_num_sprites) {
             if (this.curImage.repeat === true) {
                 this.spriteIndex = 0;
