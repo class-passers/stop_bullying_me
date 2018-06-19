@@ -179,9 +179,9 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.render = function (context) {
-        var image = this.curImage.image_left;
+        var image = this.curImage.image_right;
         if (this.vx < 0) {
-            image = this.curImage.image_right;
+            image = this.curImage.image_left;
         }
         context.drawImage(image, this.get_source_x(), this.get_source_y(),
             this.get_sprite_width(), this.get_sprite_height(),
