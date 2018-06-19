@@ -2,16 +2,18 @@
 var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.objectType = "zombie";
     this.isBoss = is_boss;
+
     if (is_boss) {
         this.unitInfo = new Boss(zombieType);
+        this.z = -1;
     }
     else {
         this.unitInfo = new Unit(zombieType);
+        this.z = 0;
     }
-
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
-    this.z = 0;
+
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
 
@@ -193,7 +195,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         // this.state.leave();
 
         if( this.state !== newState ) {
-            //console.log( JSON.stringify(this.unitInfo) + " : " + this.state + " changed to " + newState );
+            //console.log( this.unitInfo.name + " : " + this.state + " changed to " + newState );
             this.state = newState;
             this.curImage = allZombieImages[this.unitInfo.name][newState];
             this.spriteIndex = 0;
