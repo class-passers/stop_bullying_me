@@ -108,7 +108,7 @@ var BaseInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 500,     // once per second
+        attackSpeed : 1500,     // once per second
         attackPower : 25,
         cost : 1000,
         build_interval : 5000

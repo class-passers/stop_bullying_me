@@ -55,14 +55,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.render = function( context )
     {
-/*
-        context.beginPath();
-        var center_x = this.x + Math.floor(this.width / 2);
-        var center_y = this.y + Math.floor(this.height/ 2);
-        context.arc( center_x, center_y, this.unitInfo.attackRange, 0, 2 * Math.PI );
-        context.fillStyle = 'blue';
-        context.fill();
-*/
+
         context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
             towerImage.width, towerImage.height,
             this.get_x(), this.get_y(), this.width, this.height );
@@ -78,12 +71,6 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             if(getDistanceSquare( this, this.curTarget ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                 return;
             }
-            /*
-            else
-            {
-                console.log("a zombie goes out of range");
-            }
-            */
         }
 
         this.curTarget = null;
