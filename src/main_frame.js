@@ -108,13 +108,15 @@ function nextLevel()
 }
 function pauseGame()
 {
+    base.isPaused = true;
 	clearInterval(base.earn_interval);
-	base.loop = false;
 	gameLoop = null;
 }
 function resumeGame()
 {
-	base.loop = true;
+    base.isPaused = false;
+    base.gameStatus = gameStatus.playing;
+
 	base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
 	
 	requestAnimationFrame(update);
@@ -234,7 +236,6 @@ function buildTower()
 		return false;
 }
 
-
 function update()
 {
     Time.now = new Date().getTime();
@@ -242,7 +243,7 @@ function update()
     Time.last = Time.now;
     //console.log( "delta = " + Time.delta );
 
-    if( base.loop === true ) {
+    if( base.gameStatus === gameStatus.playing ) {
         //if( document.hasFocus() === false )
         //    return;
         for (var i = 0; i < gameObjects.length; i++) {
@@ -280,7 +281,6 @@ function render()
     // draw gameObjects
     for( var i = 0; i < gameObjects.length; i++ )
     {
-		if(base.loop == true);
         gameObjects[i].render( context );
     }
 	
@@ -289,5 +289,24 @@ function render()
 		uiObjects[i].render(context);
 	}
 	//requestAnimationFrame(render);
+
+    if( base.isPaused === true )
+    {
+        if( base.gameStatus === gameStatus.won )
+        {
+            this.drawText("You won !");
+        }
+        else if( base.gameStatus === gameStatus.lost )
+        {
+            this.drawText("You lost.");
+        }
+    }
 }
 
+function drawText( message )
+{
+    context.font = "30px Comic Sans MS";
+    context.fillStyle = "red";
+    context.textAlign = "center";
+    context.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
+}

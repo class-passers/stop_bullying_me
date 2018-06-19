@@ -193,7 +193,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         // this.state.leave();
 
         if( this.state !== newState ) {
-            console.log( JSON.stringify(this.unitInfo) + " : " + this.state + " changed to " + newState );
+            //console.log( JSON.stringify(this.unitInfo) + " : " + this.state + " changed to " + newState );
             this.state = newState;
             this.curImage = allZombieImages[this.unitInfo.name][newState];
             this.spriteIndex = 0;

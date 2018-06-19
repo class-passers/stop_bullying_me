@@ -4,6 +4,12 @@ baseImage.src = "img/tower.png";
 var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
 
+var gameStatus = {
+    playing : 0,
+    won : 2,
+    lost : 3
+};
+
 // base object for storing player's hp and enemies which are still alive on map
 var baseObject = function(pos_x, pos_y )
 {
@@ -17,11 +23,12 @@ var baseObject = function(pos_x, pos_y )
 	this.resource = cur_level.start_money;
 	this.earn_interval = null;
 	this.resource_indicator = new IndicatorOjbect("money", 1070, 10, 0);
-	this.button_popup = null
+	this.button_popup = null;
 	
 	//animation request for main game loop
-	this.loop = true;
-	
+	this.gameStatus  = gameStatus.playing;
+    this.isPaused = false;
+
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
     this.z = 0;
@@ -47,6 +54,7 @@ var baseObject = function(pos_x, pos_y )
 
 	this.lose = function()
 	{
+        this.gameStatus = gameStatus.lost;
 		console.log("Lose");
 		//restartGame();
 		
@@ -68,7 +76,7 @@ var baseObject = function(pos_x, pos_y )
 	};
 	this.win = function()
 	{
-
+        this.gameStatus = gameStatus.won;
 		console.log("Win");
 		//nextLevel();
 		
