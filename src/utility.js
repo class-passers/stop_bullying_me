@@ -32,6 +32,13 @@ function getDistanceSquare( object1, object2 )
     return ( center_x2 - center_x1 ) * ( center_x2 - center_x1 ) + ( center_y2 - center_y1 ) * ( center_y2 - center_y1 );
 }
 
+function getNormalizedVector( vec )
+{
+	var length = Math.sqrt( Math.pow(vec.x, 2) + Math.pow(vec.y, 2) );
+	var normal = { x : vec.x/length, y : vec.y/length };
+	return normal;
+}
+
 function isCollided( rect1, rect2 )
 {
     return !(rect1.x + rect1.width < rect2.x || rect1.x > rect2.x + rect2.width ||

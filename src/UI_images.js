@@ -82,6 +82,34 @@ var buttonImages = {
 			sprite_height : 70,
 			image : null
 		}
+	},
+	tabOut : {
+		default : {
+			image_src : "img/button_tab_out.png",
+			sprite_width : 66,
+			sprite_height : 192,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_tab_out_pressed.png",
+			sprite_width : 66,
+			sprite_height : 192,
+			image : null
+		}
+	},
+	tabIn : {
+		default : {
+			image_src : "img/button_tab_in.png",
+			sprite_width : 66,
+			sprite_height : 192,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_tab_in_pressed.png",
+			sprite_width : 66,
+			sprite_height : 192,
+			image : null
+		}
 	}
 }
 
@@ -111,6 +139,42 @@ var indicatorImages = {
         num_sprites_vert: 1,
         sprite_width: 0,
         sprite_height: 0,
+        image: null
+	},
+	tab : {
+		image_src : "img/background_create_tab.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 320,
+        sprite_height: 660,
+        image: null
+	},
+	paused : {
+		image_src : "img/state_paused.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 300,
+        sprite_height: 150,
+        image: null
+	},
+	win : {
+		image_src : "img/state_win.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 300,
+        sprite_height: 150,
+        image: null
+	},
+	lose : {
+		image_src : "img/state_lose.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 300,
+        sprite_height: 150,
         image: null
 	}
 }
