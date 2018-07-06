@@ -8,6 +8,11 @@ var Boss = function( unitType )
     return Object.create( BossInfo[unitType] );
 };
 
+var Human = function( unitType )
+{
+    return Object.create( HumanTroopInfo[unitType] );
+};
+
 var Tower = function( towerType )
 {
     return Object.create( TowerInfo[towerType] );
@@ -82,6 +87,53 @@ var BossInfo = {
         attackSpeed : 500,
         attackPower : 10,
 		cost : 20
+    }
+};
+
+var HumanTroopInfo = {
+    normal : {
+        name : "normal",
+        width : 128,
+        height : 128,
+        hp : 120,
+        moveSpeed : 100,      // pixel per seconds
+        attackRange : 200,
+        attackSpeed : 1000,
+        attackPower : 20,
+        cost : 50
+    },
+    fast : {
+        name : "fast",
+        width : 128,
+        height : 128,
+        hp : 80,
+        moveSpeed : 120,
+        attackRange : 200,
+        attackSpeed : 500,
+        attackPower : 10,
+        cost : 70
+    },
+    heavy : {
+        name : "heavy",
+        width : 200,
+        height : 200,
+        hp : 300,
+        moveSpeed : 60,
+        attackRange : 200,
+        attackSpeed : 2000,
+        attackPower : 40,
+        cost : 120
+    },
+    ranged : {
+        name : "ranged",
+        width : 128,
+        height : 128,
+        hp : 100,
+        moveSpeed : 100,
+        attackRange : 300,
+        attackSpeed : 1000,
+        attackPower : 15,
+        cost : 100
     }
 };
 

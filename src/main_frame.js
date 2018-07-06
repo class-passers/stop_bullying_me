@@ -75,7 +75,7 @@ function hideUIButtons()
 }
 function createEarnIndicator(earn, x, y)
 {
-	uiObjects.push(new IndicatorOjbect("earn", x, y, earn));
+	uiObjects.push(new IndicatorObject("earn", x, y, earn));
 }
 //var window_focused = true;
 //window.onfocus = function() {
@@ -203,22 +203,24 @@ function buildTower()
 	if(build_indicator.isValid == true &&
 		mouse.interacting_button == null)
 	{
-		uiObjects.push(new IndicatorOjbect("spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
-		base.spendMoney(TowerInfo["normal"].cost);
+	    var tower_type = "normal";
+		uiObjects.push(new IndicatorObject("spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
+		base.spendMoney(TowerInfo[tower_type].cost);
 
-		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval,
-            build_indicator.x, build_indicator.y+worldMap.tileHeight,
-            TowerInfo["normal"].width, TowerInfo["normal"].height ) );
+		gameObjects.push( new BuildObject( TowerInfo[tower_type].build_interval,
+            build_indicator.x, build_indicator.y + worldMap.tileHeight,
+            TowerInfo[tower_type].width, TowerInfo[tower_type].height ) );
 		
-		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
+		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
 
         build_indicator.buildTimer = setTimeout(
             function(){
-                gameObjects.push( new TowerObject("normal",
-                    tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight) ) );
+                var tower = new TowerObject(tower_type, tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight) );
+                gameObjects.push( tower );
                 tower_index++;
+                gameObjects.push( new HumanObject( tower_type, tower, base.x, base.y ) );
                 },
-            TowerInfo["normal"].build_interval);
+            TowerInfo[tower_type].build_interval);
 		
 		build_indicator.to_be_removed = true;
 		build_mode = false;
