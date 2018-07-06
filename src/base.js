@@ -22,7 +22,7 @@ var baseObject = function(pos_x, pos_y )
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
 	this.earn_interval = null;
-	this.resource_indicator = new IndicatorOjbect("money", 1070, 10, 0);
+	this.resource_indicator = new IndicatorObject("money", 1070, 10, 0);
 	this.button_popup = null;
 	
 	//animation request for main game loop
@@ -143,12 +143,12 @@ var baseObject = function(pos_x, pos_y )
 	{
 		for(var i = 0; i < uiObjects.length; i++)
 		{
-			if(uiObjects[i].uiInfo.name == buttonType)
+			if(uiObjects[i].uiInfo.name === buttonType)
 			{
 				this.button_popup = uiObjects[i];
 			}
 		}
-	}
+	};
 
     this.findTarget = function() {
 

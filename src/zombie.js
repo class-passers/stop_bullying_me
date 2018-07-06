@@ -37,7 +37,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.state = "walk";
     this.curImage = allZombieImages[this.unitInfo.name][this.state];
 
-
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
     this.corpse_interval = null;
@@ -158,7 +157,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                     }
                 }
             }
-
         }
 
         if (this.hp <= 0) {
@@ -219,7 +217,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         var closestTarget = null;
         // find any zombie in its attack range
         for (var i = 0; i < gameObjects.length; i++) {
-            if ((gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "troop" || gameObjects[i].objectType == "basecamp") && this.isInAttackRange(gameObjects[i])) {
+            if ((gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "troop" || gameObjects[i].objectType === "basecamp") && this.isInAttackRange(gameObjects[i])) {
                 if (closestTarget === null)
                     closestTarget = gameObjects[i];
                 else {
@@ -286,4 +284,4 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         }
         return false;
     };
-}
+};

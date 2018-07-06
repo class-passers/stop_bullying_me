@@ -1,12 +1,12 @@
 var Button = function(buttonType)
 {
 	return Object.create(ButtonInfo[buttonType]);
-}
+};
 
 var Indicator = function(indicatorType)
 {
 	return Object.create(IndicatorInfo[indicatorType]);
-}
+};
 
 var ButtonInfo = {
 	//pause game
@@ -75,7 +75,7 @@ var ButtonInfo = {
 		visible : false,
 		execute : null
 	}
-}
+};
 
 var IndicatorInfo = {
 	money : {
@@ -114,4 +114,4 @@ var IndicatorInfo = {
 		txt_font : '48px Arial',
 		interval : 1000
 	}
-}
+};

@@ -18,7 +18,7 @@ buildImage.image.onload = function(){
 var progressImage = new Image();
 progressImage.src = "img/progress_bar.png";
 
-var buildObject = function (interval, pos_x, pos_y, width, height )
+var BuildObject = function (interval, pos_x, pos_y, width, height )
 {
 	this.progress = 0;
 	
