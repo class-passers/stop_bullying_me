@@ -52,7 +52,9 @@ var mouseObject = function(can, uiObjects)
 				}
 			}
 		}
-	}
+
+        document.getElementById("game_info").innerHTML = "mouse" + ":" + self.x + "," + self.y;
+	};
 	this.down = function(event)
 	{
 		//left moust button click
@@ -73,7 +75,7 @@ var mouseObject = function(can, uiObjects)
 				self.assignFunction(self.defaultFunction);
 			}
 		}
-	}
+	};
 	this.up = function(event)
 	{
 		if(event.which == 1)
@@ -90,19 +92,19 @@ var mouseObject = function(can, uiObjects)
 				}
 			}
 		}
-	}
+	};
 	
 	//assign function to left click
 	this.assignFunction = function(func)
 	{
 		self.run = func;
-	}
+	};
 	this.defaultFunction = function()
 	{
 		//console.log("Does nothing");
 		return true;
-	}
-}
+	};
+};
 
 
 

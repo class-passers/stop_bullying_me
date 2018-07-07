@@ -3,7 +3,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.unitInfo = new Human(humanType);
     this.x = pos_x;
-    this.y = pos_y;
+    this.y = pos_y - this.unitInfo.height;
     this.z = 0;
 
     this.width = this.unitInfo.width;
@@ -19,7 +19,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.curTarget = tower;
     this.isOnCooldown = false;
-    this.movePath = find_grass_path( this, tower );
+    this.movePath = find_grass_path( new Pos( this.x, this.y + this.height ), new Pos( tower.x, tower.y + tower.height ) );
 
     // target tile index that this troop is pursuing
     this.moveIndex = 1;
@@ -34,7 +34,17 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.to_be_removed = false;
     this.corpse_interval = null;
 
-    //console.log("creates " + humanType + " human troop = " + JSON.stringify(this.unitInfo.name) );
+    console.log("creates human troop at " + this.x + ", " + this.y + "+" + this.height + " from " + pos_x + ", " + pos_y + " to " + tower.x + ", " + tower.y );
+    console.log("human path = " + JSON.stringify(this.movePath));
+    if( this.movePath !== null )
+    {
+        for( var i = 0; i < this.movePath.length; i++ )
+        {
+            var nextLocation = this.movePath[i];
+            var nextPos = new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
+            console.log( JSON.stringify(nextPos) );
+        }
+    }
 
     this.get_x = function () {
         return Math.floor(this.x);
@@ -202,7 +212,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     {
         if( this.curTarget )
         {
-            return getDistanceSquare( this, this.curTarget ) < this.moveSpeed * 0.1;
+            return this.moveIndex >= worldMap.movePath.length;
         }
         return false;
     };
@@ -211,16 +221,19 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     {
         if( this.movePath !== null )
         {
-
             if( this.moveIndex < this.movePath.length ) {
                 var nextLocation = this.movePath[this.moveIndex];
-                console.log("next location = " + JSON.stringify(nextLocation) );
+                var nextPos = new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
+                //console.log("target pos = " + JSON.stringify(nextPos) );
                 // return bottom left position of the grid
-                return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
+                return nextPos;
             }
             else
             {
                 console.log("went out of index");
+                var nextLocation = this.movePath[this.movePath.length - 1];
+                var nextPos = new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
+                return nextPos;
             }
         }
         return new Pos( this.x, this.y + this.height );
@@ -232,7 +245,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         var nextPos = this.get_next_position();
         // add a quarter size of the zombie to the position to look better on the road.
         var distX = nextPos.x - this.x;
-        var distY = nextPos.y - (this.y + this.height);
+        var distY = nextPos.y - ( this.y + this.height );
 
         var distSquared = distX * distX + distY * distY;
         if (distSquared > 0) {
@@ -241,18 +254,19 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             this.vx = distX / unitVector;
             this.vy = distY / unitVector;
 
-            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
-            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
+            var speed = this.unitInfo.moveSpeed * deltaTime;
+
+            this.x += this.vx * speed;
+            this.y += this.vy * speed;
 
             // check if the zombie is already closed to the target position
-            if (distSquared <= this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
+            if (distSquared <= speed * speed * 4 ) {
                 this.moveIndex += 1;
             }
         }
         else {
-            console.log("current = " + this.x + "+" + this.width + ", " + this.y + "+" + this.height);
-            console.log("next = " + nextPos.x + ", " + nextPos.y);
-            console.log("out of distance");
+            //console.log("current = " + this.x + "+" + this.width + ", " + this.y + "+" + this.height);
+            //console.log("next = " + nextPos.x + ", " + nextPos.y + " index = " + this.moveIndex );
         }
     };
 
@@ -273,7 +287,6 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
             this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
         }
-
     };
 
     this.isInAttackRange = function (target) {
