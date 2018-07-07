@@ -19,6 +19,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.curTarget = tower;
     this.isOnCooldown = false;
+    this.movePath = find_grass_path( this, tower );
 
     // target tile index that this troop is pursuing
     this.moveIndex = 1;
@@ -32,6 +33,8 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
     this.corpse_interval = null;
+
+    //console.log("creates " + humanType + " human troop = " + JSON.stringify(this.unitInfo.name) );
 
     this.get_x = function () {
         return Math.floor(this.x);
@@ -66,6 +69,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     };
 
     this.update = function (deltaTime) {
+
         if (this.state === 'idle') {
             // do not change the state while the zombie is in cool down since it was in attack state previously.
             if (this.isOnCooldown === false) {
@@ -73,21 +77,46 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'walk') {
-            var isReached = is_reached_at_destination(this.moveIndex);
-            if( isReached === false ){
-                this.moveAhead(deltaTime);
-            }
 
-            if (isReached) {
-                this.curTarget = base;
-                if( this.isInAttackRange(this.curTarget) === false )
-                {
-                    this.moveTo( this.curTarget, deltaTime );
-                }
-                else {
-                    this.changeState('attack');
-                }
+            if( this.isInTower() ) {
+                this.changeState('attack');
             }
+            else {
+                this.moveToTower(deltaTime);
+            }
+        }
+        else if (this.state === 'attack') {
+            /*
+                        if( this.isInAttackRange(this.curTarget) === false )
+                        {
+                            console.log("target is out of range");
+                        }
+
+                        if (this.isOnCooldown === false && this. ) {
+                            if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
+                                this.curTarget.takeDamage(this.unitInfo.attackPower);
+                                if( this.curTarget.hp <= 0 )
+                                {
+                                    this.changeState('walk');
+                                }
+                                else
+                                {
+                                    this.changeState('idle');
+                                }
+                                this.isOnCooldown = true;
+
+                                var self = this;
+                                // to have attack interval
+                                setTimeout(
+                                    function () {
+                                        self.isOnCooldown = false;
+                                        self.changeState('attack');
+                                    },
+                                    this.unitInfo.attackSpeed
+                                );
+                            }
+                        }
+                        */
         }
         else if (this.state === 'dying') {
             if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
@@ -96,46 +125,6 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.corpse_interval = setTimeout(function () {
                         self.to_be_removed = true;
                     }, 2000);
-                    base.decreaseEnemies(this.unitInfo.cost);
-                    createEarnIndicator(this.unitInfo.cost, this.x, this.y);
-                }
-            }
-        }
-        else if (this.state === 'attack') {
-            if( this.isInAttackRange(this.curTarget) === false )
-            {
-                console.log("target is out of range");
-            }
-
-            if (this.isBoss  &&
-                ( this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false )) {
-                this.changeState('walk');
-                this.curTarget = null;
-            }
-            else {
-                if (this.isOnCooldown === false ) {
-                    if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
-                        this.curTarget.takeDamage(this.unitInfo.attackPower);
-                        if( this.curTarget.hp <= 0 )
-                        {
-                            this.changeState('walk');
-                        }
-                        else
-                        {
-                            this.changeState('idle');
-                        }
-                        this.isOnCooldown = true;
-
-                        var self = this;
-                        // to have attack interval
-                        setTimeout(
-                            function () {
-                                self.isOnCooldown = false;
-                                self.changeState('attack');
-                            },
-                            this.unitInfo.attackSpeed
-                        );
-                    }
                 }
             }
         }
@@ -144,7 +133,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             this.changeState('dying');
         }
 
-        // change to next sprite image every 4 frames not to make zombie moving so fast.
+        // change to next sprite image every 4 frames not to make this moves so fast.
         this.spriteIndex += 12 * deltaTime;
         if (this.spriteIndex >= this.curImage.max_num_sprites) {
             if (this.curImage.repeat === true) {
@@ -156,7 +145,6 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         }
 
         this.hpBar.update(deltaTime);
-
     };
 
     this.render = function (context) {
@@ -189,7 +177,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.findClosestTarget = function () {
 
-        // find a tower or troop nearby
+        // find a nearby zombie
         if (this.curTarget !== null && this.curTarget.objectType === "zombie" && this.isInAttackRange(this.curTarget) ) {
             return this.curTarget;
         }
@@ -210,17 +198,40 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         return closestTarget;
     };
 
-    this.IsInTower = function()
+    this.isInTower = function()
     {
+        if( this.curTarget )
+        {
+            return getDistanceSquare( this, this.curTarget ) < this.moveSpeed * 0.1;
+        }
         return false;
+    };
 
+    this.get_next_position = function()
+    {
+        if( this.movePath !== null )
+        {
+
+            if( this.moveIndex < this.movePath.length ) {
+                var nextLocation = this.movePath[this.moveIndex];
+                console.log("next location = " + JSON.stringify(nextLocation) );
+                // return bottom left position of the grid
+                return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
+            }
+            else
+            {
+                console.log("went out of index");
+            }
+        }
+        return new Pos( this.x, this.y + this.height );
     };
 
 
-    this.moveAhead = function (deltaTime) {
-        var nextPos = get_next_position(this.moveIndex);
+    this.moveToTower = function (deltaTime) {
+
+        var nextPos = this.get_next_position();
         // add a quarter size of the zombie to the position to look better on the road.
-        var distX = nextPos.x - (this.x + this.width / 2);
+        var distX = nextPos.x - this.x;
         var distY = nextPos.y - (this.y + this.height);
 
         var distSquared = distX * distX + distY * distY;

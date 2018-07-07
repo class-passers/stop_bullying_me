@@ -41,6 +41,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.to_be_removed = false;
     this.corpse_interval = null;
 
+    //console.log("creates " + zombieType + " zombie troop = " + (this.unitInfo.name) );
+
     this.get_x = function () {
         return Math.floor(this.x);
     };
@@ -231,7 +233,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.moveAhead = function (deltaTime) {
-        var nextPos = get_next_position(this.moveIndex);
+        var nextPos = get_world_next_position(this.moveIndex);
         // add a quarter size of the zombie to the position to look better on the road.
         var distX = nextPos.x - (this.x + this.width / 2);
         var distY = nextPos.y - (this.y + this.height);
