@@ -19,7 +19,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.curTarget = tower;
     this.isOnCooldown = false;
-    this.movePath = find_grass_path( new Pos( this.x, this.y + this.height ), new Pos( tower.x, tower.y + tower.height ) );
+    this.movePath = find_grass_path( new Pos( this.x, this.y + this.height - 1 ), new Pos( tower.x, tower.y + tower.height - 1 ) );
 
     // target tile index that this troop is pursuing
     this.moveIndex = 1;
@@ -221,20 +221,15 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     {
         if( this.movePath !== null )
         {
+            var nextLocation = null;
             if( this.moveIndex < this.movePath.length ) {
-                var nextLocation = this.movePath[this.moveIndex];
-                var nextPos = new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
-                //console.log("target pos = " + JSON.stringify(nextPos) );
-                // return bottom left position of the grid
-                return nextPos;
+                nextLocation = this.movePath[this.moveIndex];
             }
-            else
-            {
+            else {
                 console.log("went out of index");
-                var nextLocation = this.movePath[this.movePath.length - 1];
-                var nextPos = new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
-                return nextPos;
+                nextLocation = this.movePath[this.movePath.length - 1];
             }
+            return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
         }
         return new Pos( this.x, this.y + this.height );
     };
