@@ -245,11 +245,12 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             this.vx = distX / unitVector;
             this.vy = distY / unitVector;
 
-            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
-            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
+            var speed = this.unitInfo.moveSpeed * deltaTime;
+            this.x += this.vx * speed;
+            this.y += this.vy * speed;
 
             // check if the zombie is already closed to the target position
-            if (distSquared <= this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
+            if (distSquared <= speed * speed ) {
                 this.moveIndex += 1;
             }
         }

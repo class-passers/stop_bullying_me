@@ -24,17 +24,18 @@ function get_neighbors( mapGrid, width, height, node, end_node, isAttacker )
 
         if( next_x >= 0 && next_x < width && next_y >= 0 && next_y < height )
         {
-            var nodeCost = 1;
             if( isAttacker === true ) {
                 if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END )
                     neighbors.push(new SearchNode(next_x, next_y, node.costFrom + 1, get_heuristic(new Pos(next_x, next_y), end_node), node));
             }
             else {
+                var extraCost = 1;
                 // increases move cost to the road to avoid it for defender troops
-                if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END )
-                    neighbors.push(new SearchNode(next_x, next_y, node.costFrom + 50, get_heuristic(new Pos(next_x, next_y), end_node), node));
-                else
-                    neighbors.push(new SearchNode(next_x, next_y, node.costFrom + 1, get_heuristic(new Pos(next_x, next_y), end_node), node));
+                if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END ){
+                    extraCost = 50;
+                }
+
+                neighbors.push(new SearchNode(next_x, next_y, node.costFrom + extraCost, get_heuristic(new Pos(next_x, next_y), end_node), node));
             }
         }
     }
@@ -112,6 +113,7 @@ function search_path( mapGrid, startPos, endPos, isAttacker )
         }
 
         var neighbors = get_neighbors( mapGrid, width, height, current, endPos, isAttacker );
+        //console.log("neighbor of " + JSON.stringify(current) + " is " + JSON.stringify(neighbors));
         for( var i = 0; i < neighbors.length; i++ )
         {
             var neighbor = neighbors[i];
@@ -121,15 +123,16 @@ function search_path( mapGrid, startPos, endPos, isAttacker )
 
             if (contains(frontier, neighbor)) {
                 var exist_node = get_element(frontier, neighbor);
+                //console.log("think wich is better " + JSON.stringify(exist_node) + " to " + JSON.stringify(neighbors[i]) );
                 // if new way is better than the one in the frontier
-                if (neighbors[i].costFrom < exist_node.costFrom) {
+                if (neighbor.costFrom < exist_node.costFrom) {
                     exist_node.costFrom = neighbor.costFrom;
                     exist_node.costTo = neighbor.costTo;
                     exist_node.parent = current;
                 }
             }
             else {
-                frontier.push(neighbors[i]);
+                frontier.push(neighbor);
             }
         }
 

@@ -210,9 +210,9 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.isInTower = function()
     {
-        if( this.curTarget )
+        if( this.curTarget && this.curTarget.objectType === "tower" )
         {
-            return this.moveIndex >= worldMap.movePath.length;
+            return this.moveIndex >= this.movePath.length;
         }
         return false;
     };
@@ -224,12 +224,11 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             var nextLocation = null;
             if( this.moveIndex < this.movePath.length ) {
                 nextLocation = this.movePath[this.moveIndex];
+                return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
             }
             else {
                 console.log("went out of index");
-                nextLocation = this.movePath[this.movePath.length - 1];
             }
-            return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
         }
         return new Pos( this.x, this.y + this.height );
     };
@@ -255,7 +254,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             this.y += this.vy * speed;
 
             // check if the zombie is already closed to the target position
-            if (distSquared <= speed * speed * 4 ) {
+            if (distSquared <= speed * speed ) {
                 this.moveIndex += 1;
             }
         }
