@@ -14,6 +14,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.isOnCooldown = false;
 
     this.curTarget = null;
+    //this.boundTroop = null;
 
     this.max_num_sprites = 1;
     this.image = towerImage;

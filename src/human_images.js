@@ -24,6 +24,18 @@ var allHumanImages = {
             image_left: null,
             image_right: null
         },
+        moveInTower: {
+            image_src_left: "img/zombie_walk_flip.png",
+            image_src_right: "img/zombie_walk.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
         dying: {
             image_src_left: "img/zombie_dying_flip.png",
             image_src_right: "img/zombie_dying.png",
