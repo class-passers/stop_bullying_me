@@ -84,21 +84,39 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.update = function (deltaTime) {
 
         if (this.state === 'idle') {
-            // do not change the state while the zombie is in cool down since it was in attack state previously.
-            if (this.isOnCooldown === false) {
-                this.changeState('walk');
+            // do not change the state while the zombie is in cool down since he was in attack state previously.
+            //if (this.isOnCooldown === false) {
+            //    this.changeState('walk');
+            //}
+
+            // if the troop was in attack state, it should be idle until they find a near enemy
+            if( this.subState === 'attack' )
+            {
+                if( this.isOnCooldown === false ) {
+                    this.curTarget = this.findClosestTarget();
+                    if (this.curTarget !== null) {
+                        if (this.boundTower !== null && this.isInAttackRange(this.curTarget)) {
+                            this.changeState('attack');
+                        }
+                        else if (this.boundTower === null && this.isInAttackRange2(this.curTarget)) {
+                            this.changeState('attack');
+                        }
+                    }
+                }
             }
         }
         else if (this.state === 'walk') {
-
-            if( this.isReachedTower() ) {
-                this.subState = "phase1";
-                this.changeState('moveInTower');
+            if( this.boundTower !== null ) {
+                // troop doesn't walk except constructing phase if there is a bound tower.
+                if (this.isReachedTower()) {
+                    this.subState = "phase1";
+                    this.changeState('moveInTower');
+                }
+                else {
+                    this.moveToTower(deltaTime);
+                }
             }
-            else if( this.boundTower !== null ) {
-                this.moveToTower(deltaTime);
-            }
-            else if( this.curTarget !== null )
+            else if( this.curTarget !== null && this.isInAttackRange2( this.curTarget ) )
             {
                 this.moveToTarget( this.curTarget );
             }
@@ -136,41 +154,36 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             // the troop is now ready to fight
             else if( this.subState === "phase4" )
             {
+                this.boundTower.boundTroop = this;
+                // this tells the troop is in attack state even if it is in idle state due to the attack cool-down or
+                // not finding a nearby enemy.
+                this.subState = 'attack';
                 this.changeState("attack");
             }
         }
         else if (this.state === 'attack') {
-            if( this.boundTower !== null ) {
-                if (this.isOnCooldown === false) {
-                    if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
-                        this.curTarget.takeDamage(this.unitInfo.attackPower);
-                        if (this.curTarget.hp <= 0) {
-                            this.changeState('walk');
-                        }
-                        else {
-                            this.changeState('idle');
-                        }
-                        this.isOnCooldown = true;
-
-                        var self = this;
-                        // to have attack interval
-                        setTimeout(
-                            function () {
-                                self.isOnCooldown = false;
-                                self.changeState('attack');
-                            },
-                            this.unitInfo.attackSpeed
-                        );
+            this.curTarget = this.findClosestTarget();
+            if( this.curTarget !== null ) {
+                if (this.boundTower !== null) {
+                    if (this.isInAttackRange(this.curTarget))
+                        this.attackTarget(this.curTarget);
+                    else {
+                        this.changeState('idle');
+                    }
+                }
+                else {
+                    if (this.isInAttackRange(this.curTarget))
+                        this.attackTarget(this.curTarget);
+                    else if(this.isInAttackRange2(this.curTarget))
+                        this.moveToTarget(this.curTarget);
+                    else {
+                        this.changeState('idle');
                     }
                 }
             }
             else
             {
-                // tower is destroyed, find the closest enemy and attack them.
-                if( this.curTarget === null || this.curTarget.hp <= 0 )
-                {
-                    this.curTarget = findClosestTarget();
-                }
+                this.changeState('idle');
             }
         }
         else if (this.state === 'dying') {
@@ -233,15 +246,19 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.findClosestTarget = function () {
 
         // find a nearby zombie
-        if (this.curTarget !== null && this.curTarget.objectType === "zombie" && this.isInAttackRange2( this.curTarget ) ) {
-            return this.curTarget;
+        if (this.curTarget !== null && this.curTarget.objectType === "zombie" && this.curTarget.hp > 0  ) {
+            if( this.boundTower !== null && this.isInAttackRange( this.curTarget ))
+                return this.curTarget;
+            // search a larger area if the tower is destroyed because the troop can chase a zombie
+            else if( this.boundTower === null && this.isInAttackRange2( this.curTarget ))
+                return this.curTarget;
         }
 
         var closestTarget = null;
         // if the zombie is out of its range, but the closest one, the troop will follow them.
         // but the zombie moves faster than the troop moves, this would require finding a new target
         for (var i = 0; i < gameObjects.length; i++) {
-            if( gameObjects[i].objectType === "zombie" && this.isInAttackRange2( gameObjects[i] ) ){
+            if( gameObjects[i].objectType === "zombie" && gameObjects[i].hp > 0 ){
                 if (closestTarget === null)
                     closestTarget = gameObjects[i];
                 else {
@@ -310,7 +327,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         }
     };
 
-    this.moveTo = function( target, deltaTime )
+    this.moveToTarget = function( target, deltaTime )
     {
         var nextPos = new Pos( target.x + target.width, target.y + target.height );
         // add a quarter size of the zombie to the position to look better on the road.
@@ -318,19 +335,20 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         var distY = nextPos.y - (this.y + this.height);
 
         var distSquared = distX * distX + distY * distY;
-        if (distSquared > this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
+        var speed = this.unitInfo.moveSpeed * deltaTime;
+        if (distSquared > speed * speed) {
 
             var unitVector = Math.sqrt(distSquared);
             this.vx = distX / unitVector;
             this.vy = distY / unitVector;
 
-            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
-            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
+            this.x += this.vx * speed;
+            this.y += this.vy * speed;
         }
     };
 
     this.isInAttackRange = function (target) {
-        if (target !== null && target.hp > 0) {
+        if (target !== null ) {
             return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
         }
         return false;
@@ -338,10 +356,36 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     // returns true if the target is within the two times of its the attack range.
     this.isInAttackRange2 = function (target) {
-        if (target !== null && target.hp > 0) {
+        if (target !== null ) {
             return ( getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange * 4 );
         }
         return false;
     };
 
+    this.attackTarget = function( target )
+    {
+        if (this.isOnCooldown === false) {
+            // calculates damage in the very last frame of the attack animation.
+            if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                var damage = this.unitInfo.attackPower;
+                if( this.boundTower )
+                {
+                    damage += this.boundTower.unitInfo.attackPower;
+                }
+                this.curTarget.takeDamage(damage);
+
+                this.isOnCooldown = true;
+                var self = this;
+                // to have attack interval
+                setTimeout(
+                    function () {
+                        self.isOnCooldown = false;
+                    },
+                    this.unitInfo.attackSpeed
+                );
+
+                this.changeState('idle');
+            }
+        }
+    }
 };

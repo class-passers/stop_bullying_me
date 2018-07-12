@@ -14,7 +14,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.isOnCooldown = false;
 
     this.curTarget = null;
-    //this.boundTroop = null;
+    this.boundTroop = null;
 
     this.max_num_sprites = 1;
     this.image = towerImage;
@@ -49,8 +49,11 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.update = function( deltaTime )
     {
-        this.findTarget();
-        this.fire();
+        // attack nearby zombies only if a bound troop has not reached the tower yet.
+        if( this.boundTroop === null || this.boundTroop.isReachedTower() === false ) {
+            this.findTarget();
+            this.fire();
+        }
         this.hpBar.update( deltaTime );
     };
 
@@ -65,7 +68,6 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     };
 
     this.findTarget = function() {
-
 
         // if  a zombie is already in target, fire him.
         if( this.curTarget && this.curTarget.hp > 0 ){
@@ -108,6 +110,8 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         if( this.hp <= 0 )
         {
             this.to_be_removed = true;
+            // disconnect the troop and the tower
+            this.boundTroop.boundTower = null;
         }
     }
 };
