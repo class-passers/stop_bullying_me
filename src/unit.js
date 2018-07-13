@@ -97,7 +97,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 120,
         moveSpeed : 100,      // pixel per seconds
-        attackRange : 200,
+        attackRange : 150,
         attackSpeed : 1000,
         attackPower : 20,
         cost : 50
@@ -108,7 +108,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 80,
         moveSpeed : 120,
-        attackRange : 200,
+        attackRange : 150,
         attackSpeed : 500,
         attackPower : 10,
         cost : 70
@@ -119,7 +119,7 @@ var HumanTroopInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 60,
-        attackRange : 200,
+        attackRange : 150,
         attackSpeed : 2000,
         attackPower : 40,
         cost : 120
