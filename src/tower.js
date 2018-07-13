@@ -110,11 +110,10 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         this.hp -= damage;
         if( this.hp <= 0 )
         {
+            this.boundTroop.boundTower = null;
             this.to_be_removed = true;
             // disconnect the troop and the tower
             console.log("tower destroyed");
-            this.boundTroop.boundTower = null;
-
         }
     }
 };

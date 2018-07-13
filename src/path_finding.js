@@ -24,18 +24,21 @@ function get_neighbors( mapGrid, width, height, node, end_node, isAttacker )
 
         if( next_x >= 0 && next_x < width && next_y >= 0 && next_y < height )
         {
+            var moveCost = 1;
+            if( Math.abs( next_x - node.x ) + Math.abs( next_y - node.y ) === 2 )
+                moveCost = 1.5;
+
             if( isAttacker === true ) {
                 if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END )
-                    neighbors.push(new SearchNode(next_x, next_y, node.costFrom + 1, get_heuristic(new Pos(next_x, next_y), end_node), node));
+                    neighbors.push(new SearchNode(next_x, next_y, node.costFrom + moveCost, get_heuristic(new Pos(next_x, next_y), end_node), node));
             }
             else {
-                var extraCost = 1;
                 // increases move cost to the road to avoid it for defender troops
                 if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END ){
-                    extraCost = 50;
+                    moveCost = 50;
                 }
 
-                neighbors.push(new SearchNode(next_x, next_y, node.costFrom + extraCost, get_heuristic(new Pos(next_x, next_y), end_node), node));
+                neighbors.push(new SearchNode(next_x, next_y, node.costFrom + moveCost, get_heuristic(new Pos(next_x, next_y), end_node), node));
             }
         }
     }

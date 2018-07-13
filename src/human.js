@@ -18,6 +18,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.vy = 0;
 
     this.boundTower = tower;
+    this.boundTower.boundTroop = this;
     this.curTarget = null;
     this.isOnCooldown = false;
     this.movePath = find_grass_path( new Pos( this.x, this.y + this.height - 1 ), new Pos( tower.x, tower.y + tower.height - 1 ) );
@@ -106,8 +107,20 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                             this.changeState('attack');
                         }
                         else if (this.boundTower === null && this.isInAttackRange2(this.curTarget)) {
-                            this.changeState('attack');
+                            this.changeState('walk');
                         }
+                    }
+                }
+            }
+            else if( this.subState === 'walk' )
+            {
+                this.curTarget = this.findClosestTarget();
+                if( this.curTarget !== null && this.curTarget.hp > 0 ) {
+                    if (this.isInAttackRange(this.curTarget)) {
+                        this.changeState('attack');
+                    }
+                    else if (this.isInAttackRange2(this.curTarget)) {
+                        this.changeState('walk');
                     }
                 }
             }
@@ -127,6 +140,11 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             else if( this.curTarget !== null && this.isInAttackRange2( this.curTarget ) )
             {
                 this.moveToTarget( this.curTarget, deltaTime );
+            }
+            else
+            {
+                this.subState = 'walk';
+                this.changeState('idle');
             }
         }
         else if( this.state === 'moveInTower' )
@@ -161,7 +179,6 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             // the troop is now ready to fight
             else if( this.subState === "phase4" )
             {
-                this.boundTower.boundTroop = this;
                 // this tells the troop is in attack state even if it is in idle state due to the attack cool-down or
                 // not finding a nearby enemy.
                 this.subState = 'attack';
@@ -181,8 +198,9 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                 else {
                     if (this.isInAttackRange(this.curTarget))
                         this.attackTarget(this.curTarget);
-                    else if(this.isInAttackRange2(this.curTarget))
-                        this.moveToTarget(this.curTarget, deltaTime);
+                    else if(this.isInAttackRange2(this.curTarget)) {
+                        this.changeState('walk');
+                    }
                     else {
                         this.changeState('idle');
                     }
@@ -402,5 +420,5 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                 }
             }
         }
-    }
+    };
 };

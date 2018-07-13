@@ -173,9 +173,17 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.render = function (context) {
+
         var image = this.curImage.image_right;
-        if (this.vx < 0) {
-            image = this.curImage.image_left;
+        if( this.curTarget !== null && (this.state === 'attack' || (this.state === 'idle' && this.subState === 'attack' ) ) )
+        {
+            if( this.curTarget.x < this.x )
+                image = this.curImage.image_left;
+        }
+        else {
+            if (this.vx < 0) {
+                image = this.curImage.image_left;
+            }
         }
         context.drawImage(image, this.get_source_x(), this.get_source_y(),
             this.get_sprite_width(), this.get_sprite_height(),
