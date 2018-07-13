@@ -83,7 +83,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.update = function (deltaTime) {
 
         if (this.state === 'idle') {
-            // do not change the state while the zombie is in cool down since he was in attack state previously.
+
             //if (this.isOnCooldown === false) {
             //    this.changeState('walk');
             //}
@@ -224,8 +224,15 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.render = function (context) {
         var image = this.curImage.image_right;
-        if (this.vx < 0) {
-            image = this.curImage.image_left;
+        if( this.curTarget !== null && (this.state === 'attack' || (this.state === 'idle' && this.subState === 'attack' ) ) )
+        {
+            if( this.curTarget.x < this.x )
+                image = this.curImage.image_left;
+        }
+        else {
+            if (this.vx < 0) {
+                image = this.curImage.image_left;
+            }
         }
         context.drawImage(image, this.get_source_x(), this.get_source_y(),
             this.get_sprite_width(), this.get_sprite_height(),
@@ -253,7 +260,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.findClosestTarget = function () {
 
         // find a nearby zombie
-        if (this.curTarget !== null && this.curTarget.objectType === "zombie" && this.curTarget.hp > 0  ) {
+        if (this.curTarget !== null && this.curTarget.hp > 0  ) {
             if( this.boundTower !== null && this.isInAttackRange( this.curTarget ))
                 return this.curTarget;
             // search a larger area if the tower is destroyed because the troop can chase a zombie
@@ -371,27 +378,28 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.attackTarget = function( target )
     {
-        if (this.isOnCooldown === false) {
-            // calculates damage in the very last frame of the attack animation.
-            if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
-                var damage = this.unitInfo.attackPower;
-                if( this.boundTower )
-                {
-                    damage += this.boundTower.unitInfo.attackPower;
+        if( target !== null ) {
+            if (this.isOnCooldown === false) {
+                // calculates damage in the very last frame of the attack animation.
+                if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                    var damage = this.unitInfo.attackPower;
+                    if (this.boundTower) {
+                        damage += this.boundTower.unitInfo.attackPower;
+                    }
+                    target.takeDamage(damage);
+
+                    this.isOnCooldown = true;
+                    var self = this;
+                    // to have attack interval
+                    setTimeout(
+                        function () {
+                            self.isOnCooldown = false;
+                        },
+                        this.unitInfo.attackSpeed
+                    );
+
+                    this.changeState('idle');
                 }
-                this.curTarget.takeDamage(damage);
-
-                this.isOnCooldown = true;
-                var self = this;
-                // to have attack interval
-                setTimeout(
-                    function () {
-                        self.isOnCooldown = false;
-                    },
-                    this.unitInfo.attackSpeed
-                );
-
-                this.changeState('idle');
             }
         }
     }

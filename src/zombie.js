@@ -35,6 +35,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     // represents current zombie's status and its image object
     this.state = "walk";
+    // usually this variable holds the previous state.
+    this.subState = "";
     this.curImage = allZombieImages[this.unitInfo.name][this.state];
 
     // set this flag as true when a zombie died or go out of bound.
@@ -76,38 +78,66 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     this.update = function (deltaTime) {
         if (this.state === 'idle') {
-            // do not change the state while the zombie is in cool down since it was in attack state previously.
-            if (this.isOnCooldown === false) {
-                this.changeState('walk');
+            if( this.subState === 'attack' )
+            {
+                if( this.curTarget === null || this.curTarget.hp <= 0 )
+                    this.changeState('walk');
+                else {
+                    if (this.isOnCooldown === false) {
+                        this.curTarget = this.findClosestTarget();
+                        if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
+                            this.changeState('attack');
+                        }
+                        else {
+                            this.changeState('walk');
+                        }
+                    }
+                }
             }
         }
         else if (this.state === 'walk') {
-            var isReached = is_reached_at_destination(this.moveIndex);
-            if( this.isBoss ) {
-                if (this.curTarget === null || this.curTarget.hp <= 0) {
-                    this.curTarget = this.findClosestTarget();
-                }
 
-                if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
+            if (is_reached_at_destination(this.moveIndex)) {
+                this.curTarget = this.findClosestTarget();
+
+                if( this.isInAttackRange(this.curTarget) ){
                     this.changeState('attack');
                 }
-                else if( isReached === false ) {
+                else {
+                    this.moveTo( this.curTarget, deltaTime );
+                }
+            }
+            else if( this.isBoss ){
+                // boss can attack any tower or troop on his way
+                this.curTarget = this.findClosestTarget();
+                if (this.curTarget !== null && this.curTarget.hp > 0 && this.isInAttackRange(this.curTarget)) {
+                    this.changeState('attack');
+                }
+                else {
                     this.moveAhead(deltaTime);
                 }
             }
-            else if( isReached === false ){
+            else {
                 this.moveAhead(deltaTime);
             }
+        }
+        else if (this.state === 'attack') {
 
-            if (isReached) {
-                this.curTarget = base;
-                if( this.isInAttackRange(this.curTarget) === false )
-                {
-                    this.moveTo( this.curTarget, deltaTime );
+            this.curTarget = this.findClosestTarget();
+            if( this.curTarget !== null ) {
+                if (this.curTarget.hp > 0 && this.isInAttackRange(this.curTarget)) {
+                    this.attackTarget(this.curTarget);
+                    if( this.curTarget.hp <= 0) {
+                        this.curTarget = null;
+                    }
                 }
                 else {
-                    this.changeState('attack');
+                    this.changeState('walk');
                 }
+            }
+            else
+            {
+                this.changeState('walk');
             }
         }
         else if (this.state === 'dying') {
@@ -122,44 +152,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 }
             }
         }
-        else if (this.state === 'attack') {
-            if( this.isInAttackRange(this.curTarget) === false )
-            {
-                console.log("target is out of range");
-            }
-
-            if (this.isBoss  &&
-                ( this.curTarget === null || this.curTarget.hp <= 0 || this.isInAttackRange(this.curTarget) === false )) {
-                this.changeState('walk');
-                this.curTarget = null;
-            }
-            else {
-                if (this.isOnCooldown === false ) {
-                    if (this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
-                        this.curTarget.takeDamage(this.unitInfo.attackPower);
-                        if( this.curTarget.hp <= 0 )
-                        {
-                            this.changeState('walk');
-                        }
-                        else
-                        {
-                            this.changeState('idle');
-                        }
-                        this.isOnCooldown = true;
-
-                        var self = this;
-                        // to have attack interval
-                        setTimeout(
-                            function () {
-                                self.isOnCooldown = false;
-                                self.changeState('attack');
-                            },
-                            this.unitInfo.attackSpeed
-                        );
-                    }
-                }
-            }
-        }
 
         if (this.hp <= 0) {
             this.changeState('dying');
@@ -168,7 +160,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         // change to next sprite image every 4 frames not to make zombie moving so fast.
         this.spriteIndex += 12 * deltaTime;
         if (this.spriteIndex >= this.curImage.max_num_sprites) {
-            if (this.curImage.repeat === true) {
+            if( this.curImage.repeat ) {
                 this.spriteIndex = 0;
             }
             else {
@@ -210,27 +202,36 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
 
     this.findClosestTarget = function () {
 
-        // find a tower or troop nearby
-        if( this.curTarget !== null && this.isInAttackRange(this.curTarget) &&
-            ( this.curTarget.objectType === "tower" || this.curTarget.objectType === "basecamp" ||
-                ( this.curTarget.objectType === "human" && this.curTarget.boundTower === null ) ) ) {
-            return this.curTarget;
-        }
+        if( this.isBoss ) {
 
-        var closestTarget = null;
-        // find any zombie in its attack range
-        for (var i = 0; i < gameObjects.length; i++) {
-            if( this.isInAttackRange(gameObjects[i]) &&
-                ( gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "basecamp" ||
-                    ( gameObjects[i].objectType === "human" && gameObjects[i].boundTower === null ) ) ) {
-                if (closestTarget === null)
-                    closestTarget = gameObjects[i];
-                else if ( getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget) ) {
-                    closestTarget = gameObjects[i];
+            // find a tower or troop nearby
+            if (this.curTarget !== null && this.curTarget.hp > 0 && this.isInAttackRange(this.curTarget)) {
+                return this.curTarget;
+            }
+
+            var closestTarget = null;
+            // find any zombie in its attack range
+            for (var i = 0; i < gameObjects.length; i++) {
+                if (gameObjects[i].hp <= 0)
+                    continue;
+
+                if (gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "basecamp" ||
+                    // can attack human only if his tower is already destroyed
+                    (gameObjects[i].objectType === "human" && gameObjects[i].boundTower === null)) {
+                    if (closestTarget === null)
+                        closestTarget = gameObjects[i];
+                    else if (getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget)) {
+                        closestTarget = gameObjects[i];
+                    }
                 }
             }
+            return closestTarget;
         }
-        return closestTarget;
+        else
+        {
+            // normal zombie's target is always the basecamp
+            return base;
+        }
     };
 
     this.moveAhead = function (deltaTime) {
@@ -283,9 +284,30 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.isInAttackRange = function (target) {
-        if (target !== null && target.hp > 0) {
+        if (target !== null ) {
             return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
         }
         return false;
     };
+
+    this.attackTarget = function( target )
+    {
+        if( target !== null && this.isOnCooldown === false ) {
+            if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                target.takeDamage(this.unitInfo.attackPower);
+                this.isOnCooldown = true;
+                var self = this;
+                // to have attack interval
+                setTimeout(
+                    function () {
+                        self.isOnCooldown = false;
+                    },
+                    this.unitInfo.attackSpeed
+                );
+                this.subState = 'attack';
+                this.changeState('idle');
+            }
+        }
+    }
+
 };
