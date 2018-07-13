@@ -37,15 +37,14 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.to_be_removed = false;
     this.corpse_interval = null;
 
-    console.log("creates human troop at " + this.x + ", " + this.y + "+" + this.height + " from " + pos_x + ", " + pos_y + " to " + tower.x + ", " + tower.y );
-    console.log("human path = " + JSON.stringify(this.movePath));
+    //console.log("creates human troop at " + this.x + ", " + this.y + "+" + this.height + " from " + pos_x + ", " + pos_y + " to " + tower.x + ", " + tower.y );
+    //console.log("human path = " + JSON.stringify(this.movePath));
     if( this.movePath !== null )
     {
         for( var i = 0; i < this.movePath.length; i++ )
         {
             var nextLocation = this.movePath[i];
             var nextPos = new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
-            console.log( JSON.stringify(nextPos) );
         }
     }
 
@@ -90,7 +89,15 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             //}
 
             // if the troop was in attack state, it should be idle until they find a near enemy
-            if( this.subState === 'attack' )
+            if( this.subState === 'moveInTower' )
+            {
+                if( this.boundTower !== null && this.boundTower.isBuilt === true )
+                {
+                    this.subState = "phase1";
+                    this.changeState("moveInTower");
+                }
+            }
+            else if( this.subState === 'attack' )
             {
                 if( this.isOnCooldown === false ) {
                     this.curTarget = this.findClosestTarget();
@@ -108,9 +115,10 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         else if (this.state === 'walk') {
             if( this.boundTower !== null ) {
                 // troop doesn't walk except constructing phase if there is a bound tower.
-                if (this.isReachedTower()) {
-                    this.subState = "phase1";
-                    this.changeState('moveInTower');
+                if (this.isReachedTower() ) {
+                    // just wait
+                    this.subState = 'moveInTower';
+                    this.changeState('idle');
                 }
                 else {
                     this.moveToTower(deltaTime);
@@ -118,12 +126,11 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             }
             else if( this.curTarget !== null && this.isInAttackRange2( this.curTarget ) )
             {
-                this.moveToTarget( this.curTarget );
+                this.moveToTarget( this.curTarget, deltaTime );
             }
         }
         else if( this.state === 'moveInTower' )
         {
-            console.log(this.subState);
             // phase1 : getting scale down and moving to the tower as if the troop is entering the tower
             if( this.subState === "phase1" )
             {
@@ -175,7 +182,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     if (this.isInAttackRange(this.curTarget))
                         this.attackTarget(this.curTarget);
                     else if(this.isInAttackRange2(this.curTarget))
-                        this.moveToTarget(this.curTarget);
+                        this.moveToTarget(this.curTarget, deltaTime);
                     else {
                         this.changeState('idle');
                     }

@@ -211,21 +211,22 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.findClosestTarget = function () {
 
         // find a tower or troop nearby
-        if (this.curTarget !== null && (this.curTarget.objectType === "tower" || this.curTarget.objectType === "troop" || this.curTarget.objectType === "basecamp" )
-            && this.isInAttackRange(this.curTarget)) {
+        if( this.curTarget !== null && this.isInAttackRange(this.curTarget) &&
+            ( this.curTarget.objectType === "tower" || this.curTarget.objectType === "basecamp" ||
+                ( this.curTarget.objectType === "human" && this.curTarget.boundTower === null ) ) ) {
             return this.curTarget;
         }
 
         var closestTarget = null;
         // find any zombie in its attack range
         for (var i = 0; i < gameObjects.length; i++) {
-            if ((gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "troop" || gameObjects[i].objectType === "basecamp") && this.isInAttackRange(gameObjects[i])) {
+            if( this.isInAttackRange(gameObjects[i]) &&
+                ( gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "basecamp" ||
+                    ( gameObjects[i].objectType === "human" && gameObjects[i].boundTower === null ) ) ) {
                 if (closestTarget === null)
                     closestTarget = gameObjects[i];
-                else {
-                    if (getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget)) {
-                        closestTarget = gameObjects[i];
-                    }
+                else if ( getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget) ) {
+                    closestTarget = gameObjects[i];
                 }
             }
         }

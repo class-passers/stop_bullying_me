@@ -96,10 +96,10 @@ var HumanTroopInfo = {
         width : 128,
         height : 128,
         hp : 120,
-        moveSpeed : 100,      // pixel per seconds
+        moveSpeed : 90,      // pixel per seconds
         attackRange : 150,
         attackSpeed : 1000,
-        attackPower : 20,
+        attackPower : 15,
         cost : 50
     },
     fast : {
@@ -146,7 +146,7 @@ var TowerInfo =
         height : 133,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1000,     // once per second
-        attackPower : 15,
+        attackPower : 10,
 		cost : 50,
 		build_interval : 5000
     }

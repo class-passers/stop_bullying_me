@@ -12,6 +12,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.height = this.unitInfo.height;
 
     this.isOnCooldown = false;
+    this.isBuilt = false;
 
     this.curTarget = null;
     this.boundTroop = null;
@@ -111,7 +112,9 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         {
             this.to_be_removed = true;
             // disconnect the troop and the tower
+            console.log("tower destroyed");
             this.boundTroop.boundTower = null;
+
         }
     }
 };

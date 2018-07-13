@@ -18,7 +18,7 @@ buildImage.image.onload = function(){
 var progressImage = new Image();
 progressImage.src = "img/progress_bar.png";
 
-var BuildObject = function (interval, pos_x, pos_y, width, height )
+var BuildObject = function ( tower_type, interval, pos_x, pos_y, width, height )
 {
 	this.progress = 0;
 	
@@ -29,10 +29,13 @@ var BuildObject = function (interval, pos_x, pos_y, width, height )
     this.height = height;
 	this.image = buildImage;
 	this.spriteIndex = 0;
-	
+	this.buildInterval = interval / 1000;
+	this.buildTimer = 0;
+	this.preBuiltTower = new TowerObject( tower_type, pos_x, pos_y );
+    gameObjects.push( new HumanObject( tower_type, this.preBuiltTower, base.x, base.y+base.height ) );
+
 	this.progress_image = progressImage;
 	this.progress_width = this.width;
-	this.progress_onePercent = this.progress_width/100;
 	this.progress_height = Math.floor(this.progress_width / 8);
 	this.progress_x = this.x;
 	this.progress_y = this.y - this.progress_height;
@@ -69,16 +72,17 @@ var BuildObject = function (interval, pos_x, pos_y, width, height )
 	
 	this.update = function(deltaTime)
 	{
-		this.progress += deltaTime*(100000/interval);
-		this.spriteIndex = this.progress/20;
-		if(this.progress >= 100)
+		this.buildTimer += deltaTime;
+		this.progress = this.buildTimer/this.buildInterval;
+		this.spriteIndex = Math.floor( this.progress * 5 );
+		if(this.progress >= 1)
 		{
-			this.progress = 100;
-			//create a tower at this timing
-			console.log(" tower built");
+			this.progress = 1;
+			this.preBuiltTower.isBuilt = true;
+            gameObjects.push( this.preBuiltTower );
 			this.to_be_removed = true;
 		}
-		this.progress_width = Math.floor(this.progress_onePercent * this.progress);
+		this.progress_width = Math.floor(this.width * this.progress);
 	};
 
 	this.render = function(context)
