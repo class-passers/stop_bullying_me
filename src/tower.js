@@ -1,6 +1,11 @@
 var towerImage = new Image();
 towerImage.src = "img/tower.png";
 
+var towerImage_upper = new Image();
+towerImage_upper.src = "img/tower_upper.png";
+var towerImage_lower = new Image();
+towerImage_lower.src = "img/tower_lower.png";
+
 var TowerObject = function( towerType, pos_x, pos_y ){
     this.objectType = "tower";
     this.unitInfo = new Tower( towerType );
@@ -18,7 +23,6 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.boundTroop = null;
 
     this.max_num_sprites = 1;
-    this.image = towerImage;
 
     this.hp = this.unitInfo.hp;
     this.max_hp = this.unitInfo.hp;
@@ -60,10 +64,21 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.render = function( context )
     {
-
-        context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
-            towerImage.width, towerImage.height,
-            this.get_x(), this.get_y(), this.width, this.height );
+        var image = towerImage;
+        if( this.boundTroop && this.boundTroop.isReachedTower() )
+        {
+            context.drawImage(towerImage_upper, this.get_source_x(), this.get_source_y(),
+                towerImage.width, towerImage.height,
+                this.get_x(), this.get_y(), this.width, this.height);
+            context.drawImage(towerImage_lower, this.get_source_x(), this.get_source_y(),
+                towerImage.width, towerImage.height,
+                this.get_x(), this.get_y(), this.width, this.height);
+        }
+        else {
+            context.drawImage(towerImage, this.get_source_x(), this.get_source_y(),
+                towerImage.width, towerImage.height,
+                this.get_x(), this.get_y(), this.width, this.height);
+        }
 
         this.hpBar.render( context );
     };
