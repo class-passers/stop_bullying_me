@@ -69,6 +69,20 @@ var buttonImages = {
 			image : null
 		}
 	},
+    build2 : {
+        default : {
+            image_src : "img/button_tower.png",
+            sprite_width : 70,
+            sprite_height : 70,
+            image : null
+        },
+        pressed : {
+            image_src : "img/button_tower_pressed.png",
+            sprite_width : 70,
+            sprite_height : 70,
+            image : null
+        }
+    },
 	resume : {
 		default : {
 			image_src : "img/button_resume.png",
@@ -113,7 +127,7 @@ var indicatorImages = {
         sprite_height: 0,
         image: null
 	}
-}
+};
 //*
 for(var type in indicatorImages)
 {

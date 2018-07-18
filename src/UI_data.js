@@ -47,7 +47,7 @@ var ButtonInfo = {
 		type : "button",
 		name : "exit",
 		x : 1200,
-		y : 185,
+		y : 300,
 		width : 70,
 		height : 70,
 		visible : true,
@@ -57,6 +57,7 @@ var ButtonInfo = {
 	build : {
 		type : "button",
 		name : "build",
+        id : 0,
 		x : 1200,
 		y : 100,
 		width : 70,
@@ -64,6 +65,17 @@ var ButtonInfo = {
 		visible : true,
 		execute : null
 	},
+    build2 : {
+        type : "button",
+        name : "build2",
+        id : 1,
+        x : 1200,
+        y : 200,
+        width : 70,
+        height : 70,
+        visible : true,
+        execute : null
+    },
 	// resume game
 	resume : {
 		type : "button",

@@ -31,12 +31,22 @@ window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
 
 //turn on build mode
-function turnOnBuildMode()
+function turnOnBuildNormalTroop()
+{
+    turnOnBuildMode("normal");
+}
+
+function turnOnBuildRangedTroop()
+{
+    turnOnBuildMode("ranged");
+}
+
+function turnOnBuildMode(tower_type)
 {
 	if(build_mode == false)
 	{
 		mouse.assignFunction(buildTower);
-		build_indicator = new BuildIndicator(mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
+		build_indicator = new BuildIndicator(tower_type, mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
@@ -54,7 +64,8 @@ function addUIButtons()
 {
 	ButtonInfo["next"].execute = nextLevel;
 	ButtonInfo["replay"].execute = restartGame;
-	ButtonInfo["build"].execute = turnOnBuildMode;
+	ButtonInfo["build"].execute = turnOnBuildNormalTroop;
+    ButtonInfo["build2"].execute = turnOnBuildRangedTroop;
 	ButtonInfo["pause"].execute = pauseGame;
 	ButtonInfo["resume"].execute = resumeGame;
 	ButtonInfo["exit"].execute = turnOffBuildMode;
@@ -69,7 +80,10 @@ function hideUIButtons()
 	//hide all ui buttons except build button
 	for(var i = 0; i < uiObjects.length; i++)
 	{
-		if(uiObjects[i].uiInfo.type == "button" && uiObjects[i].uiInfo.name != "build" && uiObjects[i].uiInfo.name != "exit")
+		if(uiObjects[i].uiInfo.type == "button" &&
+            uiObjects[i].uiInfo.name != "build" &&
+            uiObjects[i].uiInfo.name != "build2" &&
+            uiObjects[i].uiInfo.name != "exit")
 			uiObjects[i].isVisible = false;
 	}
 }
@@ -203,13 +217,12 @@ function buildTower()
 	if(build_indicator.isValid == true &&
 		mouse.interacting_button == null)
 	{
-	    var tower_type = "normal";
 		uiObjects.push(new IndicatorObject("spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
-		base.spendMoney(TowerInfo[tower_type].cost);
+		base.spendMoney(TowerInfo[build_indicator.towerType].cost);
 
-		gameObjects.push( new BuildObject( tower_type, TowerInfo[tower_type].build_interval,
+		gameObjects.push( new BuildObject( build_indicator.towerType, TowerInfo[tower_type].build_interval,
             build_indicator.x, build_indicator.y + worldMap.tileHeight,
-            TowerInfo[tower_type].width, TowerInfo[tower_type].height ) );
+            TowerInfo[build_indicator.towerType].width, TowerInfo[build_indicator.towerType].height ) );
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
 		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
         tower_index++;
