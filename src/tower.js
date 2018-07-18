@@ -55,7 +55,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.update = function( deltaTime )
     {
         // attack nearby zombies only if a bound troop has not reached the tower yet.
-        if( this.boundTroop === null || this.boundTroop.isReachedTower() === false ) {
+        if( this.boundTroop === null || this.boundTroop.isOnTower === false ) {
             this.findTarget();
             this.fire();
         }
@@ -65,11 +65,14 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.render = function( context )
     {
         var image = towerImage;
-        if( this.boundTroop && this.boundTroop.isReachedTower() )
+        if( this.boundTroop && this.boundTroop.isOnTower )
         {
             context.drawImage(towerImage_upper, this.get_source_x(), this.get_source_y(),
                 towerImage.width, towerImage.height,
                 this.get_x(), this.get_y(), this.width, this.height);
+
+            this.boundTroop.renderTroop(context);
+
             context.drawImage(towerImage_lower, this.get_source_x(), this.get_source_y(),
                 towerImage.width, towerImage.height,
                 this.get_x(), this.get_y(), this.width, this.height);

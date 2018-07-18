@@ -21,6 +21,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.boundTower.boundTroop = this;
     this.curTarget = null;
     this.isOnCooldown = false;
+    this.isOnTower = false;
     this.movePath = find_grass_path( new Pos( this.x, this.y + this.height - 1 ), new Pos( tower.x, tower.y + tower.height - 1 ) );
 
     // target tile index that this troop is pursuing
@@ -183,6 +184,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                 // not finding a nearby enemy.
                 this.subState = 'attack';
                 this.changeState("attack");
+                this.isOnTower = true;
             }
         }
         else if (this.state === 'attack') {
@@ -240,7 +242,8 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         this.hpBar.update(deltaTime);
     };
 
-    this.render = function (context) {
+    this.renderTroop = function( context )
+    {
         var image = this.curImage.image_right;
         if( this.curTarget !== null && (this.state === 'attack' || (this.state === 'idle' && this.subState === 'attack' ) ) )
         {
@@ -256,6 +259,17 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             this.get_sprite_width(), this.get_sprite_height(),
             this.get_x(), this.get_y(), this.width * this.scale, this.height * this.scale);
         this.hpBar.render(context);
+    };
+
+
+    this.render = function (context) {
+        // when the troop is in the tower,
+        // troop will call render function directly rather than this;
+        if( this.boundTower && this.boundTower.hp > 0 && this.isOnTower )
+        {
+            return;
+        }
+        this.renderTroop( context );
     };
 
     this.changeState = function (newState) {
