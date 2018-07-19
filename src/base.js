@@ -23,11 +23,11 @@ var baseObject = function(pos_x, pos_y )
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
 	this.earn_interval = null;
-	this.resource_indicator = new IndicatorOjbect(null, "money", 1070, 10, 0);
+	this.resource_indicator = new IndicatorOjbect(null, "money", 0);
 	this.button_popup = null;
 	
 	//animation request for main game loop
-	this.gameStatus  = gameStatus.playing;
+	//this.gameStatus  = gameStatus.playing;
     this.isPaused = false;
 
     this.x = pos_x;
@@ -59,14 +59,10 @@ var baseObject = function(pos_x, pos_y )
 	this.lose = function()
 	{
 		pauseGame();
-        this.gameStatus = gameStatus.lost;
+        cur_game_state = gameStatus.lost;
 		console.log("Lose");
 		
-		FindContainer("paused").isVisible = false;
-		FindContainer("win").isVisible = false;
-		FindContainer("lose").isVisible = true;
-		
-		mouse.uiLayer = FindContainer("lose").uiLayer;
+		hideStateContainer("lose");
 	};
 	
 	//called when an enemy is dead
@@ -82,14 +78,11 @@ var baseObject = function(pos_x, pos_y )
 	this.win = function()
 	{
 		pauseGame();
-        this.gameStatus = gameStatus.won;
+        cur_game_state = gameStatus.won;
+        cleared_level = cur_level_index+1;
 		console.log("Win");
 		
-		FindContainer("paused").isVisible = false;
-		FindContainer("lose").isVisible = false;
-		FindContainer("win").isVisible = true;
-		
-		mouse.uiLayer = FindContainer("win").uiLayer;
+		hideStateContainer("win");
 	};
 	
 	

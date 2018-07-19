@@ -11,7 +11,8 @@ var tower_positions = [];
 
 var cur_level = null;
 var cur_level_index = 0;
-
+var cleared_level = 0;
+var cur_game_state = gameStatus.playing;
 var base = null;
 var mouse = new mouseObject(canvas);
 var money_indicator = null;
@@ -35,49 +36,11 @@ window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
 
-restartGame();
-
-
-////////// Main menu control
-
 
 ////////// Game state control
-function exitGame()
+function deleteLevel()
 {
-	console.log("Exit");
-}
-function restartGame()
-{
-    //cur_level_index = 0;
-    startGame(cur_level_index);
-}
-
-function nextLevel()
-{
-    cur_level_index++;
-    startGame(cur_level_index);
-}
-function pauseGame()
-{
-	FindContainer("paused").isVisible = true;
-	mouse.uiLayer = FindContainer("paused").uiLayer;
-    base.isPaused = true;
-	base.gameStatus = gameStatus.paused;
-	clearInterval(base.earn_interval);
-}
-function resumeGame()
-{
-	hideStateContainer();
-    base.isPaused = false;
-    base.gameStatus = gameStatus.playing;
-
-	base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
-	
-	requestAnimationFrame(update);
-}
-function startGame( level )
-{
-    // delete existing level
+    console.log("Delete current level");		
     if( base != null)
     {
         clearInterval(base.earn_interval);
@@ -94,6 +57,38 @@ function startGame( level )
 	uiObjects = [];
     tower_positions = [];
     tower_index = 0;
+
+    //clear all interval
+}
+function restartGame()
+{
+    //cur_level_index = 0;
+    startGame(cur_level_index);
+}
+
+function nextLevel()
+{
+    cur_level_index++;
+    cleared_level = cur_level_index;
+    startGame(cur_level_index);
+}
+function pauseGame()
+{
+    base.isPaused = true;
+	cur_game_state = gameStatus.paused;
+	clearInterval(base.earn_interval);
+}
+function resumeGame()
+{
+    base.isPaused = false;
+    cur_game_state = gameStatus.playing;
+
+	base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
+}
+function startGame( level )
+{
+    // delete existing level
+    deleteLevel();
 
     // create new level
     cur_level = levels[level];
@@ -186,7 +181,8 @@ function buildTower()
 	if(build_indicator.isValid == true &&
 		mouse.interacting_button == null)
 	{
-		uiObjects.push(new IndicatorOjbect(null,"spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
+		createMoneyIndicator("spend", TowerInfo["normal"].cost, build_indicator.x, (build_indicator.y-150));
+
 		base.spendMoney(TowerInfo["normal"].cost);
 
 		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval,
@@ -220,7 +216,7 @@ function update()
     Time.last = Time.now;
     //console.log( "delta = " + Time.delta );
 
-    if( base.gameStatus === gameStatus.playing ) {
+    if( cur_game_state === gameStatus.playing ) {
         //if( document.hasFocus() === false )
         //    return;
         for (var i = 0; i < gameObjects.length; i++) {
@@ -265,20 +261,6 @@ function render()
 	{
 		uiObjects[i].render(context)
 	}
-
-	/*    add / in front of this line to activate this code
-    if( base.isPaused === true )
-    {
-        if( base.gameStatus === gameStatus.won )
-        {
-            this.drawText("You won !");
-        }
-        else if( base.gameStatus === gameStatus.lost )
-        {
-            this.drawText("You lost.");
-        }
-    }
-	//*/
 }
 
 function drawText( message )

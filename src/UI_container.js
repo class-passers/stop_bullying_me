@@ -1,5 +1,6 @@
 var ContainerObject = function( containerType)
 {
+	var self = this;
 	this.uiInfo = Container(containerType);
 	this.position = new Pos(this.uiInfo.x, this.uiInfo.y);
 	this.isVisible = this.uiInfo.visibility
@@ -14,8 +15,17 @@ var ContainerObject = function( containerType)
 	
 	this.to_be_removed = false;
 	
-	var self = this;
-	
+	this.createChildElement = function()
+	{
+		for(var i = 0; i < self.uiInfo.buttons.length; i++)
+		{
+			self.childElements.push(new ButtonObject(self, self.uiInfo.buttons[i]));
+		}
+		for(var i = 0; i < self.uiInfo.indicators.length; i++)
+		{
+			self.childElements.push(new IndicatorOjbect(self, self.uiInfo.indicators[i], null));
+		}
+	}
 	this.movingOn = function(layer)
 	{
 		self.posIndex++;
@@ -57,6 +67,9 @@ var ContainerObject = function( containerType)
 		{
 			self.childElements[i].update(deltaTime);
 		}
+		self.childElements = self.childElements.filter(function (obj) {
+			return obj.to_be_removed === false;
+		});
 	}
 	
 	this.render = function(context)
@@ -69,4 +82,5 @@ var ContainerObject = function( containerType)
 			}
 		}
 	}
+	this.createChildElement();
 }

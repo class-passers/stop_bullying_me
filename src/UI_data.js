@@ -1,3 +1,8 @@
+var stateContainer = ["paused","win","lose"];
+var ingameContainer = ["paused","win","lose","build","timer"];
+var startContainer = ["start","level","credit"];
+var credit_text = "Script Engineers : Younggi Kim, Maksim Tumazev, Beomjin Kim \nAudio Engineer : Younggi Kim, Maksim Tumazev, Beomjin Kim \nArtist : Younggi Kim, Maksim Tumazev, Beomjin Kim";
+
 var Button = function(buttonType)
 {
 	return Object.create(ButtonInfo[buttonType]);
@@ -39,55 +44,150 @@ var FindButton = function(type)
 		}
 	}
 }
+
 var ContainerInfo = {
+	start : {
+		type : "container",
+		name : "start",
+		x : 640,
+		y : 330,
+		buttons : ["startGame", "credit"],
+		indicators : ["title"],
+		visibility : true,
+		uiLayer : 0,
+		target_positions : null
+	},
+	level : {
+		type : "container",
+		name : "level",
+		x : 640,
+		y : 330,
+		buttons : ["back"],
+		indicators : ["levelSelectionTitle"],
+		visibility : false,
+		uiLayer : 0,
+		target_positions : null
+	},
+	credit : {
+		type : "container",
+		name : "credit",
+		x : 640,
+		y : 330,
+		buttons : ["back"],
+		indicators : ["creditTitle"],
+		visibility : false,
+		uiLayer : 0,
+		target_positions : null
+	},
 	timer : {//pause or control time scale
 		type : "container",
 		name : "timer",
 		x : 0,
 		y : 0,
+		buttons : ["pause"],
+		indicators : [],
 		visibility : true,
 		uiLayer : 0,
-		target_positions : [new Pos(0,0), new Pos(0,0)]
+		target_positions : null
 	},
-	tab : {
+	build : {
 		type : "container",
-		name : "tab",
-		x : -320,
-		y : 0,
+		name : "build",
+		x : 1200,
+		y : 90,
+		buttons : ["build"],
+		indicators : [],
 		visibility : true,
 		uiLayer : 0,
-		target_positions : [new Pos(-320,0), new Pos(0,0)]
+		target_positions : null
 	},
 	paused : {
 		type : "container",
 		name : "paused",
 		x : 640,
 		y : 330,
+		buttons : ["replay", "resume", "exit"],
+		indicators : ["paused"],
 		visibility : false,
 		uiLayer : 2,
-		target_positions : [new Pos(0,0), new Pos(0,0)]
+		target_positions : null
 	},
 	win : {
 		type : "container",
 		name : "win",
 		x : 640,
 		y : 330,
+		buttons : ["next", "replay", "exit"],
+		indicators : ["win"],
 		visibility : false,
 		uiLayer : 2,
-		target_positions : [new Pos(0,0), new Pos(0,0)]
+		target_positions : null
 	},
 	lose : {
 		type : "container",
 		name : "lose",
 		x : 640,
 		y : 330,
+		buttons : ["replay", "exit"],
+		indicators : ["lose"],
 		visibility : false,
 		uiLayer : 2,
-		target_positions : [new Pos(0,0), new Pos(0,0)]
+		target_positions : null
 	}
 }
 
 var ButtonInfo = {
+	//Select a level
+	levelSelection : {
+		type : "button",
+		name : "levelSelection",
+		x : 0,
+		y : 0,
+		width : 70,
+		height : 70,
+		visible : true,
+		text : true,
+		param : null,
+		execute : null
+	},
+	// going to level selection
+	startGame : {
+		type : "button",
+		name : "startGame",
+		x : -180,
+		y : 70,
+		width : 360,
+		height : 75,
+		visible : true,
+		text : false,
+		param : "level",
+		execute : function(e){hideStartContainer(e);}
+	},
+	credit : {
+		type : "button",
+		name : "credit",
+		x : -180,
+		y : 190,
+		width : 360,
+		height : 75,
+		visible : true,
+		text : false,
+		param : "credit",
+		execute : function(e){hideStartContainer(e);}
+	},
+	//going back to start menu
+	back : {
+		type : "button",
+		name : "back",
+		x : -630,
+		y : -320,
+		width : 70,
+		height : 70,
+		visible : true,
+		text : false,
+		param : "start",
+		execute : function(e){hideStartContainer(e);}
+	},
 	//pause game
 	pause : {
 		type : "button",
@@ -97,8 +197,9 @@ var ButtonInfo = {
 		width : 70,
 		height : 70,
 		visible : true,
+		text : false,
 		param : null,
-		execute : null
+		execute : function(){pauseGame(); hideStateContainer("paused");}
 	},
 	// next stage
 	next : {
@@ -109,8 +210,9 @@ var ButtonInfo = {
 		width : 70,
 		height : 70,
 		visible : true,
+		text : false,
 		param : null,
-		execute : null
+		execute : function(){nextLevel(); hideStateContainer(null);}
 	},
 	// restart game
 	replay : {
@@ -121,8 +223,9 @@ var ButtonInfo = {
 		width : 70,
 		height : 70,
 		visible : true,
+		text : false,
 		param : null,
-		execute : null
+		execute : function(){restartGame(); hideStateContainer(null);}
 	},
 	// exit build mode
 	exit : {
@@ -133,20 +236,22 @@ var ButtonInfo = {
 		width : 70,
 		height : 70,
 		visible : true,
+		text : false,
 		param : null,
-		execute : null
+		execute : function(){deleteLevel(); cur_level = levels[0]; loadMapData();createStartMenu();}
 	},
 	// turn on build mode
 	build : {
 		type : "button",
 		name : "build",
-		x : 40,
-		y : 40,
+		x : 0,
+		y : 0,
 		width : 70,
 		height : 70,
 		visible : true,
+		text : false,
 		param : null,
-		execute : null
+		execute : turnOnBuildMode
 	},
 	// resume game
 	resume : {
@@ -157,39 +262,74 @@ var ButtonInfo = {
 		width : 70,
 		height : 70,
 		visible : true,
+		text : false,
 		param : null,
-		execute : null
+		execute : function(){resumeGame(); hideStateContainer(null);}
 	},
-	tabOut : {
-		type : "button",
-		name : "tabOut",
-		x : 320,
-		y : 234,
-		width : 66,
-		height : 192,
-		visible : true,
-		param : 1,
-		execute : null
-	},
-	tabIn : {
-		type : "button",
-		name : "tabIn",
-		x : 320,
-		y : 234,
-		width : 66,
-		height : 192,
-		visible : false,
-		param : 0,
-		execute : null
-	}
 }
 
 var IndicatorInfo = {
+	title : {
+		type : "indicator",
+		name : "title",
+		x : -325,
+		y : -120,
+		width : 650,
+		height : 190,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	locked : {
+		type : "indicator",
+		name : "locked",
+		x : 0,
+		y : 0,
+		width : 70,
+		height : 70,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	levelSelectionTitle : {
+		type : "indicator",
+		name : "levelSelectionTitle",
+		x : -180,
+		y : -300,
+		width : 360,
+		height : 75,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	creditTitle : {
+		type : "indicator",
+		name : "creditTitle",
+		x : -180,
+		y : -300,
+		width : 360,
+		height : 75,
+		txt_sign : credit_text,
+		txt_x : -800,
+		txt_y : 200,
+		txt_color : 'black',
+		txt_font : '42px Comic Sans MS',
+		interval : 0
+	},
 	money : {
 		type : "indicator",
 		name : "money",
-		x : 0,
-		y : 0,
+		x : 1070,
+		y : 10,
 		width : 70,
 		height : 70,
 		txt_sign : "",
@@ -227,131 +367,142 @@ var IndicatorInfo = {
 		txt_font : '48px Arial',
 		interval : 1000
 	},
-	tab : {
-		type : "indicator",
-		name : "tab",
-		x : 0,
-		y : 0,
-		width : 320,
-		height : 660,
-		txt_sign : "",
-		txt_x : 0,
-		txt_y : 0,
-		txt_color : 'yellow',
-		txt_font : '48px Arial',
-		interval : 0
-	},
 	paused : {
 		type : "indicator",
 		name : "paused",
-		x : 0,
-		y : 0,
+		x : -150,
+		y : -150,
 		width : 300,
 		height : 150,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
-		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_color : '',
+		txt_font : '',
 		interval : 0
 	},
 	win : {
 		type : "indicator",
 		name : "win",
-		x : 0,
-		y : 0,
+		x : -150,
+		y : -150,
 		width : 300,
 		height : 150,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
-		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_color : '',
+		txt_font : '',
 		interval : 0
 	},
 	lose : {
 		type : "indicator",
 		name : "lose",
-		x : 0,
-		y : 0,
+		x : -150,
+		y : -150,
 		width : 300,
 		height : 150,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
-		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_color : '',
+		txt_font : '',
 		interval : 0
 	}
 }
-function createEarnIndicator(earn, x, y)
-{
-	uiObjects.push(new IndicatorOjbect(null, "earn", x, y, earn));
-}
+
 function createIngameUI()
 {
-	var timer = new ContainerObject("timer");
-	ButtonInfo["pause"].execute = pauseGame;
-	timer.childElements.push(new ButtonObject(timer, "pause"));
-	
-	var tab = new ContainerObject("tab");
-	ButtonInfo["tabOut"].execute = function(l){
-		tab.movingOn(l); 
-		FindButton("tabOut").isVisible = false;
-		FindButton("tabIn").isVisible = true;
-	};
-	ButtonInfo["tabIn"].execute = function(l){
-		tab.movingOn(l); 
-		FindButton("tabIn").isVisible = false;
-		FindButton("tabOut").isVisible = true;
-	};
-	ButtonInfo["build"].execute = function(){
-		turnOnBuildMode();
-		FindContainer("tab").movingOn(FindButton("tabIn").uiInfo.param);
-		FindButton("tabIn").isVisible = false;
-		FindButton("tabOut").isVisible = true;
-	};
-	tab.childElements.push(new IndicatorOjbect(tab, "tab", 0, 0, null));
-	tab.childElements.push(new ButtonObject(tab, "tabOut"));
-	tab.childElements.push(new ButtonObject(tab, "tabIn"));
-	tab.childElements.push(new ButtonObject(tab, "build"));
-	
-	
-	var paused = new ContainerObject("paused");
-	ButtonInfo["exit"].execute = exitGame;
-	ButtonInfo["resume"].execute = resumeGame;
-	ButtonInfo["replay"].execute = restartGame;
-	paused.childElements.push(new IndicatorOjbect(paused, "paused", -150, -150, null));
-	paused.childElements.push(new ButtonObject(paused, "resume"));
-	paused.childElements.push(new ButtonObject(paused, "replay"));
-	paused.childElements.push(new ButtonObject(paused, "exit"));
-	
-	var win = new ContainerObject("win");
-	ButtonInfo["exit"].execute = exitGame;
-	ButtonInfo["next"].execute = nextLevel;
-	ButtonInfo["replay"].execute = restartGame;
-	win.childElements.push(new IndicatorOjbect(win, "win", -150, -150, null));
-	win.childElements.push(new ButtonObject(win, "next"));
-	win.childElements.push(new ButtonObject(win, "replay"));
-	win.childElements.push(new ButtonObject(win, "exit"));
-	
-	var lose = new ContainerObject("lose");
-	ButtonInfo["exit"].execute = exitGame;
-	ButtonInfo["replay"].execute = restartGame;
-	lose.childElements.push(new IndicatorOjbect(lose, "lose", -150, -150, null));
-	lose.childElements.push(new ButtonObject(lose, "replay"));
-	lose.childElements.push(new ButtonObject(lose, "exit"));
-	
-	uiObjects.push(timer);
-	uiObjects.push(tab);
-	uiObjects.push(paused);
-	uiObjects.push(win);
-	uiObjects.push(lose);
+	for(var i = 0; i < ingameContainer.length; i++)
+	{
+		var temp = new ContainerObject(ingameContainer[i]);
+		uiObjects.push(temp);
+	}
 }
-function hideStateContainer()
+function createMoneyIndicator(type, value, pos_x, pos_y)
 {
-	FindContainer("paused").isVisible = false;
-	FindContainer("win").isVisible = false;
-	FindContainer("lose").isVisible = false;
+	IndicatorInfo[type].x = pos_x;
+	IndicatorInfo[type].y = pos_y;
+	var temp = new IndicatorOjbect(null, type, value);
+	uiObjects.push(temp);
+}
+function hideStateContainer(except)
+{
+	for(var i = 0; i < stateContainer.length; i++)
+	{
+		if(stateContainer[i] != except)
+		{
+			FindContainer(stateContainer[i]).isVisible = false;
+		}
+		else
+		{
+			FindContainer(stateContainer[i]).isVisible = true;
+			mouse.uiLayer = FindContainer(stateContainer[i]).uiLayer;
+		}
+
+	}
+	if(except == null)
+		mouse.uiLayer = 0;
+}
+
+
+////////// Start menu control
+function createStartMenu()
+{
+	var start = new ContainerObject("start");
+	var level = new ContainerObject("level");
+	for(var i = 0; i < levels.length; i++)
+	{
+		var temp;
+		if(i <= cleared_level)
+		{
+			temp = new ButtonObject(level, "levelSelection");
+			temp.uiInfo.param = i;
+			temp.execute = function(level)
+			{
+				cur_level_index = level;
+				restartGame();
+			}
+		}
+		else
+		{
+			temp = new IndicatorOjbect(level, "locked", null);
+		}
+		var gap = 100;
+		var start_x = (((levels.length/2)*gap)+((levels.length/2)*temp.width));
+		temp.x = start_x + ((i+1)*(temp.width + gap));
+		level.childElements.push(temp);
+	}
+
+	var credit = new ContainerObject("credit");
+
+	uiObjects.push(start);
+	uiObjects.push(level);
+	uiObjects.push(credit);
+	mouse.ui = uiObjects;
+	mouse.uiLayer = 0;
+}
+function startMenu()//create start menu and hide other scenes
+{
+    createStartMenu();
+    FindContainer("start").isVisible = true;
+    FindContainer("level").isVisible = false;
+    FindContainer("credit").isVisible = false;
+    mouse.ui = uiObjects;
+	mouse.uiLayer = 0;
+}
+function hideStartContainer(except)
+{
+	for(var i = 0; i < startContainer.length; i++)
+	{
+		if(startContainer[i] != except)
+		{
+			FindContainer(startContainer[i]).isVisible = false;
+		}
+		else
+		{
+			FindContainer(startContainer[i]).isVisible = true;
+		}
+	}
 	mouse.uiLayer = 0;
 }

@@ -1,18 +1,15 @@
-var IndicatorOjbect = function(container, indicatorType, pos_x, pos_y, txt_value)
+var IndicatorOjbect = function(container, indicatorType, txt_value)
 {
 	var self = this;
 	this.uiInfo = Indicator(indicatorType);
 	this.parent = container;
-	this.x = pos_x;
-	this.y = pos_y;
-	this.uiInfo.x = pos_x;
-	this.uiInfo.y = pos_y;
+	this.x = this.uiInfo.x;
+	this.y = this.uiInfo.y;
 	if(container != null)
 	{
 		self.x += self.parent.position.x;
 		self.y += self.parent.position.y;
 	}
-
 	this.width = this.uiInfo.width;
 	this.height = this.uiInfo.height;
 	
@@ -73,8 +70,9 @@ var IndicatorOjbect = function(container, indicatorType, pos_x, pos_y, txt_value
             context.fillStyle = this.txt_color;
             context.font = this.txt_font;
             context.textAlign = 'left';
-            context.textBaseline = 'top';
-            context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
+			context.textBaseline = 'top';
+			wrapText(context,self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y, 1000, 100)
+            //context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
         }
 	};
 }

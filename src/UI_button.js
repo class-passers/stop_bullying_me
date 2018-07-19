@@ -44,6 +44,14 @@ var ButtonObject = function(container, buttonType)
 		if(self.isVisible == true)
 		{
 			context.drawImage(self.curImage, self.x, self.y, self.width, self.height);
+			if(self.uiInfo.text == true && self.uiInfo.param != null)
+			{
+				context.fillStyle = 'black';
+            	context.font = '48px Comic Sans MS';
+           		context.textAlign = 'left';
+            	context.textBaseline = 'top';
+				context.fillText((self.uiInfo.param+1).toString(), self.x + (self.width/3.3), self.y);
+			}
 		}
 	}
 }

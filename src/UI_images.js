@@ -1,4 +1,60 @@
 var buttonImages = {
+	levelSelection : {
+		default : {
+			image_src : "img/button_level_selection.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_level_selection_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+	startGame : {
+		default : {
+			image_src : "img/button_start.png",
+			sprite_width : 360,
+			sprite_height : 75,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_start_pressed.png",
+			sprite_width : 360,
+			sprite_height : 75,
+			image : null
+		}
+	},
+	back : {
+		default : {
+			image_src : "img/button_back.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_back_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+	credit : {
+		default : {
+			image_src : "img/button_credit.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_credit_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
 	pause : {
 		default : {
 			image_src : "img/button_pause.png",
@@ -114,6 +170,42 @@ var buttonImages = {
 }
 
 var indicatorImages = {
+	title : {
+		image_src : "img/title.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	locked : {
+		image_src : "img/button_level_selection_locked.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	levelSelectionTitle : {
+		image_src : "img/title_level_selection.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	creditTitle : {
+		image_src : "img/title_credit.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
 	money : {
 		image_src : "img/coin.png",
 		max_num_sprites : 10,
