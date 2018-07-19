@@ -24,10 +24,7 @@ var ButtonObject = function( buttonType, visibility) {
     };
 
     this.update = function (deltaTime) {
-        if (self.isVisible === false)
-            self.isClickable = false;
-        else
-            self.isClickable = true;
+        self.isClickable = self.isVisible;
     };
 
 	

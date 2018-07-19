@@ -149,6 +149,17 @@ var TowerInfo =
         attackPower : 10,
 		cost : 50,
 		build_interval : 5000
+    },
+    ranged : {
+        name : "ranged",
+        hp : 100,
+        width : 85,
+        height : 133,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 1000,     // once per second
+        attackPower : 10,
+        cost : 50,
+        build_interval : 5000
     }
 };
 

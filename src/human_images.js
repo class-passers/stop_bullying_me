@@ -61,10 +61,22 @@ var allHumanImages = {
             image_right: null
         }
     },
-    fast : {
+    ranged : {
         idle: {
-            image_src_left: "img/knight_idle_flip.png",
-            image_src_right: "img/knight_idle.png",
+            image_src_left: "img/ninja_idle_flip.png",
+            image_src_right: "img/ninja_idle.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        walk: {
+            image_src_left: "img/ninja_run_flip.png",
+            image_src_right: "img/ninja_run.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
@@ -74,9 +86,9 @@ var allHumanImages = {
             image_left: null,
             image_right: null
         },
-        walk: {
-            image_src_left: "img/knight_walk_flip.png",
-            image_src_right: "img/knight_walk.png",
+        moveInTower: {
+            image_src_left: "img/ninja_run_flip.png",
+            image_src_right: "img/ninja_run.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
@@ -87,11 +99,11 @@ var allHumanImages = {
             image_right: null
         },
         dying: {
-            image_src_left: "img/knight_dying_flip.png",
-            image_src_right: "img/knight_dying.png",
+            image_src_left: "img/ninja_die_flip.png",
+            image_src_right: "img/ninja_die.png",
             max_num_sprites: 10,
-            num_sprites_horz: 2,
-            num_sprites_vert: 5,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
@@ -99,60 +111,8 @@ var allHumanImages = {
             image_right: null
         },
         attack: {
-            image_src_left: "img/knight_attack_flip.png",
-            image_src_right: "img/knight_attack.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 5,
-            num_sprites_vert: 2,
-            sprite_width: 0,
-            sprite_height: 0,
-            repeat: false,
-            image_left: null,
-            image_right: null
-        }
-    },
-    heavy : {
-        idle: {
-            image_src_left: "img/knight_idle_flip.png",
-            image_src_right: "img/knight_idle.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 5,
-            num_sprites_vert: 2,
-            sprite_width: 0,
-            sprite_height: 0,
-            repeat: true,
-            image_left: null,
-            image_right: null
-        },
-        walk: {
-            image_src_left: "img/knight_walk_flip.png",
-            image_src_right: "img/knight_walk.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 5,
-            num_sprites_vert: 2,
-            sprite_width: 0,
-            sprite_height: 0,
-            repeat: true,
-            image_left: null,
-            image_right: null
-
-        },
-        dying: {
-            image_src_left: "img/knight_dying_flip.png",
-            image_src_right: "img/knight_dying.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 2,
-            num_sprites_vert: 5,
-            sprite_width: 0,
-            sprite_height: 0,
-            repeat: false,
-            image_left: null,
-            image_right: null
-
-        },
-        attack: {
-            image_src_left: "img/knight_attack_flip.png",
-            image_src_right: "img/knight_attack.png",
+            image_src_left: "img/ninja_attack_flip.png",
+            image_src_right: "img/ninja_attack.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,

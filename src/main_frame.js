@@ -217,12 +217,14 @@ function buildTower()
 	if(build_indicator.isValid == true &&
 		mouse.interacting_button == null)
 	{
-		uiObjects.push(new IndicatorObject("spend", build_indicator.x, (build_indicator.y-150), TowerInfo["normal"].cost));
-		base.spendMoney(TowerInfo[build_indicator.towerType].cost);
+	    var towerType = build_indicator.towerType;
+	    console.log(towerType +" type built :" + JSON.stringify(TowerInfo[towerType]));
+		uiObjects.push(new IndicatorObject("spend", build_indicator.x, (build_indicator.y-150), TowerInfo[towerType].cost));
+		base.spendMoney(TowerInfo[towerType].cost);
 
-		gameObjects.push( new BuildObject( build_indicator.towerType, TowerInfo[tower_type].build_interval,
+		gameObjects.push( new BuildObject( towerType, TowerInfo[towerType].build_interval,
             build_indicator.x, build_indicator.y + worldMap.tileHeight,
-            TowerInfo[build_indicator.towerType].width, TowerInfo[build_indicator.towerType].height ) );
+            TowerInfo[towerType].width, TowerInfo[towerType].height ) );
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
 		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
         tower_index++;
