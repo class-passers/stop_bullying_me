@@ -37,10 +37,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.state = "walk";
     this.curImage = allZombieImages[this.unitInfo.name][this.state];
 
-
     // set this flag as true when a zombie died or go out of bound.
     this.to_be_removed = false;
     this.corpse_interval = null;
+
+    //console.log("creates " + zombieType + " zombie troop = " + (this.unitInfo.name) );
 
     this.get_x = function () {
         return Math.floor(this.x);
@@ -158,7 +159,6 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                     }
                 }
             }
-
         }
 
         if (this.hp <= 0) {
@@ -211,21 +211,22 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.findClosestTarget = function () {
 
         // find a tower or troop nearby
-        if (this.curTarget !== null && (this.curTarget.objectType === "tower" || this.curTarget.objectType === "troop" || this.curTarget.objectType === "basecamp" )
-            && this.isInAttackRange(this.curTarget)) {
+        if( this.curTarget !== null && this.isInAttackRange(this.curTarget) &&
+            ( this.curTarget.objectType === "tower" || this.curTarget.objectType === "basecamp" ||
+                ( this.curTarget.objectType === "human" && this.curTarget.boundTower === null ) ) ) {
             return this.curTarget;
         }
 
         var closestTarget = null;
         // find any zombie in its attack range
         for (var i = 0; i < gameObjects.length; i++) {
-            if ((gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "troop" || gameObjects[i].objectType == "basecamp") && this.isInAttackRange(gameObjects[i])) {
+            if( this.isInAttackRange(gameObjects[i]) &&
+                ( gameObjects[i].objectType === "tower" || gameObjects[i].objectType === "basecamp" ||
+                    ( gameObjects[i].objectType === "human" && gameObjects[i].boundTower === null ) ) ) {
                 if (closestTarget === null)
                     closestTarget = gameObjects[i];
-                else {
-                    if (getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget)) {
-                        closestTarget = gameObjects[i];
-                    }
+                else if ( getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget) ) {
+                    closestTarget = gameObjects[i];
                 }
             }
         }
@@ -233,7 +234,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     };
 
     this.moveAhead = function (deltaTime) {
-        var nextPos = get_next_position(this.moveIndex);
+        var nextPos = get_world_next_position(this.moveIndex);
         // add a quarter size of the zombie to the position to look better on the road.
         var distX = nextPos.x - (this.x + this.width / 2);
         var distY = nextPos.y - (this.y + this.height);
@@ -245,11 +246,12 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             this.vx = distX / unitVector;
             this.vy = distY / unitVector;
 
-            this.x += this.vx * this.unitInfo.moveSpeed * deltaTime;
-            this.y += this.vy * this.unitInfo.moveSpeed * deltaTime;
+            var speed = this.unitInfo.moveSpeed * deltaTime;
+            this.x += this.vx * speed;
+            this.y += this.vy * speed;
 
             // check if the zombie is already closed to the target position
-            if (distSquared <= this.unitInfo.moveSpeed * this.unitInfo.moveSpeed) {
+            if (distSquared <= speed * speed ) {
                 this.moveIndex += 1;
             }
         }
@@ -286,4 +288,4 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         }
         return false;
     };
-}
+};

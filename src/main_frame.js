@@ -25,6 +25,7 @@ var Time = {
     now : null,
     delta : 0
 };
+
 //var window_focused = true;
 //window.onfocus = function() {
 //    window_focused = true;
@@ -181,24 +182,17 @@ function buildTower()
 	if(build_indicator.isValid == true &&
 		mouse.interacting_button == null)
 	{
+	    var tower_type = "normal";
 		createMoneyIndicator("spend", TowerInfo["normal"].cost, build_indicator.x, (build_indicator.y-150));
+		base.spendMoney(TowerInfo[tower_type].cost);
 
-		base.spendMoney(TowerInfo["normal"].cost);
+		gameObjects.push( new BuildObject( tower_type, TowerInfo[tower_type].build_interval,
+            build_indicator.x, build_indicator.y + worldMap.tileHeight,
+            TowerInfo[tower_type].width, TowerInfo[tower_type].height ) );
+		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
+		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
+        tower_index++;
 
-		gameObjects.push(new buildObject(TowerInfo["normal"].build_interval,
-            build_indicator.x, build_indicator.y+worldMap.tileHeight,
-            TowerInfo["normal"].width, TowerInfo["normal"].height ) );
-		
-		tower_positions.push(new Pos(build_indicator.x, build_indicator.y));
-
-        build_indicator.buildTimer = setTimeout(
-            function(){
-                gameObjects.push( new TowerObject("normal",
-                    tower_positions[tower_index].x, (tower_positions[tower_index].y+worldMap.tileHeight) ) );
-                tower_index++;
-                },
-            TowerInfo["normal"].build_interval);
-		
 		build_indicator.to_be_removed = true;
 		build_mode = false;
 		return true;

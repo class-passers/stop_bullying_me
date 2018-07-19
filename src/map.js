@@ -35,7 +35,7 @@ function loadMapData()
     var mapData = jsonData["layers"][0]["data"];
     var mapTileType = jsonData["tilesets"][0]["tiles"];
     worldMap.image.src = "map/" + jsonData["tilesets"][0]["image"];
-    console.log("image = " + worldMap.image.src );
+    //console.log("image = " + worldMap.image.src );
     worldMap.image.onload = function() {
         canvas.width = worldMap.image.width;
         canvas.height = worldMap.image.height;
@@ -60,13 +60,18 @@ function loadMapData()
     }
     //console.log(JSON.stringify(worldMap.mapGrid));
 
-    worldMap.movePath = search_path( worldMap.mapGrid );
+    const START = 10;
+    const END = 20;
+    var startPos = find_node( worldMap.mapGrid, START );
+    var endPos = find_node( worldMap.mapGrid, END );
+
+    worldMap.movePath = search_path( worldMap.mapGrid, startPos, endPos, true );
     //console.log("path = " + JSON.stringify( worldMap.movePath ));
     worldMap.loaded = true;
 }
 
 
-function get_next_position( index )
+function get_world_next_position( index )
 {
     if( worldMap.movePath !== null )
     {
@@ -102,10 +107,22 @@ function get_start_location()
     }
 }
 
-function get_tile_type( x, y )
+function get_tile_index( x, y )
 {
     var colIdx = clamp( Math.floor(x / worldMap.tileWidth), 0, worldMap.width - 1 );
     var rowIdx = clamp( Math.floor(y / worldMap.tileHeight), 0, worldMap.height - 1 );
-    //console.log( x + ", " + y + " = " + colIdx + ", " + rowIdx + " => " + worldMap.mapGrid[ rowIdx ][ colIdx ]);
-    return worldMap.mapGrid[ rowIdx ][ colIdx ];
+    return new Pos( colIdx, rowIdx );
+}
+
+function get_tile_type( x, y )
+{
+    var pos = get_tile_index( x, y );
+    return worldMap.mapGrid[ pos.y ][ pos.x ];
+}
+
+function find_grass_path( start, end )
+{
+    var startPos = get_tile_index( start.x, start.y );
+    var endPos = get_tile_index( end.x, end.y );
+    return search_path( worldMap.mapGrid, startPos, endPos, false );
 }

@@ -6,17 +6,17 @@ var credit_text = "Script Engineers : Younggi Kim, Maksim Tumazev, Beomjin Kim \
 var Button = function(buttonType)
 {
 	return Object.create(ButtonInfo[buttonType]);
-}
+};
 
 var Indicator = function(indicatorType)
 {
 	return Object.create(IndicatorInfo[indicatorType]);
-}
+};
 
 var Container = function( containerType )
 {
 	return Object.create( ContainerInfo[containerType] );
-}
+};
 var FindContainer = function(type)
 {
 	for(var i = 0; i < uiObjects.length; i++)
@@ -24,7 +24,7 @@ var FindContainer = function(type)
 		if(uiObjects[i].uiInfo.name == type)
 			return uiObjects[i];
 	}
-}
+};
 var FindButton = function(type)
 {
 	for(var i = 0; i < uiObjects.length; i++)
@@ -43,7 +43,7 @@ var FindButton = function(type)
 				return uiObjects[i];
 		}
 	}
-}
+};
 
 var ContainerInfo = {
 	start : {
@@ -134,7 +134,7 @@ var ContainerInfo = {
 		uiLayer : 2,
 		target_positions : null
 	}
-}
+};
 
 var ButtonInfo = {
 	//Select a level
@@ -266,7 +266,7 @@ var ButtonInfo = {
 		param : null,
 		execute : function(){resumeGame(); hideStateContainer(null);}
 	},
-}
+};
 
 var IndicatorInfo = {
 	title : {
@@ -409,7 +409,7 @@ var IndicatorInfo = {
 		txt_font : '',
 		interval : 0
 	}
-}
+};
 
 function createIngameUI()
 {
@@ -418,14 +418,14 @@ function createIngameUI()
 		var temp = new ContainerObject(ingameContainer[i]);
 		uiObjects.push(temp);
 	}
-}
+};
 function createMoneyIndicator(type, value, pos_x, pos_y)
 {
 	IndicatorInfo[type].x = pos_x;
 	IndicatorInfo[type].y = pos_y;
 	var temp = new IndicatorOjbect(null, type, value);
 	uiObjects.push(temp);
-}
+};
 function hideStateContainer(except)
 {
 	for(var i = 0; i < stateContainer.length; i++)
@@ -443,7 +443,7 @@ function hideStateContainer(except)
 	}
 	if(except == null)
 		mouse.uiLayer = 0;
-}
+};
 
 
 ////////// Start menu control
@@ -481,7 +481,7 @@ function createStartMenu()
 	uiObjects.push(credit);
 	mouse.ui = uiObjects;
 	mouse.uiLayer = 0;
-}
+};
 function startMenu()//create start menu and hide other scenes
 {
     createStartMenu();
@@ -490,7 +490,7 @@ function startMenu()//create start menu and hide other scenes
     FindContainer("credit").isVisible = false;
     mouse.ui = uiObjects;
 	mouse.uiLayer = 0;
-}
+};
 function hideStartContainer(except)
 {
 	for(var i = 0; i < startContainer.length; i++)
@@ -505,4 +505,4 @@ function hideStartContainer(except)
 		}
 	}
 	mouse.uiLayer = 0;
-}
+};

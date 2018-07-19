@@ -28,6 +28,7 @@ var baseObject = function(pos_x, pos_y )
 	
 	//animation request for main game loop
 	//this.gameStatus  = gameStatus.playing;
+
     this.isPaused = false;
 
     this.x = pos_x;
@@ -136,12 +137,12 @@ var baseObject = function(pos_x, pos_y )
 	{
 		for(var i = 0; i < uiObjects.length; i++)
 		{
-			if(uiObjects[i].uiInfo.name == buttonType)
+			if(uiObjects[i].uiInfo.name === buttonType)
 			{
 				this.button_popup = uiObjects[i];
 			}
 		}
-	}
+	};
 
     this.findTarget = function() {
 
