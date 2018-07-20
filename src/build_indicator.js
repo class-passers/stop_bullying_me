@@ -5,13 +5,14 @@ validImage.src = "img/tower_valid.png";
 var invalidImage = new Image();
 invalidImage.src = "img/tower_invalid.png";
 
-var BuildIndicator = function(mouse, positions, base, pos_x, pos_y, width, height ){
+var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y, width, height ){
     this.x = pos_x;
     this.y = pos_y;
 	this.z = 0;
     this.width = width;
     this.height = height;
 	this.isValid = false;
+	this.towerType = tower_type;
 
     this.image = validImage;
     this.buildTimer = null;

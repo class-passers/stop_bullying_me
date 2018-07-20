@@ -1,6 +1,11 @@
 var towerImage = new Image();
 towerImage.src = "img/tower.png";
 
+var towerImage_upper = new Image();
+towerImage_upper.src = "img/tower_upper.png";
+var towerImage_lower = new Image();
+towerImage_lower.src = "img/tower_lower.png";
+
 var TowerObject = function( towerType, pos_x, pos_y ){
     this.objectType = "tower";
     this.unitInfo = new Tower( towerType );
@@ -16,7 +21,6 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.curTarget = null;
 
     this.max_num_sprites = 1;
-    this.image = towerImage;
 
     this.hp = this.unitInfo.hp;
     this.max_hp = this.unitInfo.hp;
@@ -48,25 +52,34 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.update = function( deltaTime )
     {
-        this.findTarget();
-        this.fire();
+        // attack nearby zombies only if a bound troop has not reached the tower yet.
+        if( this.boundTroop === null || this.boundTroop.isOnTower === false ) {
+            this.findTarget();
+            this.fire();
+        }
         this.hpBar.update( deltaTime );
     };
 
     this.render = function( context )
     {
-/*
-        context.beginPath();
-        var center_x = this.x + Math.floor(this.width / 2);
-        var center_y = this.y + Math.floor(this.height/ 2);
-        context.arc( center_x, center_y, this.unitInfo.attackRange, 0, 2 * Math.PI );
-        context.fillStyle = 'blue';
-        context.fill();
-*/
-        context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
-            towerImage.width, towerImage.height,
-            this.get_x(), this.get_y(), this.width, this.height );
+        var image = towerImage;
+        if( this.boundTroop && this.boundTroop.isOnTower )
+        {
+            context.drawImage(towerImage_upper, this.get_source_x(), this.get_source_y(),
+                towerImage.width, towerImage.height,
+                this.get_x(), this.get_y(), this.width, this.height);
 
+            this.boundTroop.renderTroop(context);
+
+            context.drawImage(towerImage_lower, this.get_source_x(), this.get_source_y(),
+                towerImage.width, towerImage.height,
+                this.get_x(), this.get_y(), this.width, this.height);
+        }
+        else {
+            context.drawImage(towerImage, this.get_source_x(), this.get_source_y(),
+                towerImage.width, towerImage.height,
+                this.get_x(), this.get_y(), this.width, this.height);
+        }
         this.hpBar.render( context );
     };
 
@@ -120,7 +133,10 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         this.hp -= damage;
         if( this.hp <= 0 )
         {
+            this.boundTroop.boundTower = null;
             this.to_be_removed = true;
+            // disconnect the troop and the tower
+            console.log("tower destroyed");
         }
     }
 };
