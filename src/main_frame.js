@@ -70,7 +70,7 @@ function restartGame()
 function nextLevel()
 {
     cur_level_index++;
-    cleared_level = cur_level_index;
+    //cleared_level = cur_level_index;
     startGame(cur_level_index);
 }
 function pauseGame()
@@ -192,9 +192,9 @@ function buildTower()
 		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
         tower_index++;
 
-		build_indicator.to_be_removed = true;
-        build_mode = false;
         buildSound.play();
+		build_indicator.to_be_removed = true;
+		build_mode = false;
 		return true;
 	}
 	else

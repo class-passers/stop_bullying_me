@@ -17,8 +17,10 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.height = this.unitInfo.height;
 
     this.isOnCooldown = false;
+    this.isBuilt = false;
 
     this.curTarget = null;
+    this.boundTroop = null;
 
     this.max_num_sprites = 1;
 
@@ -80,23 +82,17 @@ var TowerObject = function( towerType, pos_x, pos_y ){
                 towerImage.width, towerImage.height,
                 this.get_x(), this.get_y(), this.width, this.height);
         }
+
         this.hpBar.render( context );
     };
 
     this.findTarget = function() {
-
 
         // if  a zombie is already in target, fire him.
         if( this.curTarget && this.curTarget.hp > 0 ){
             if(getDistanceSquare( this, this.curTarget ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                 return;
             }
-            /*
-            else
-            {
-                console.log("a zombie goes out of range");
-            }
-            */
         }
 
         this.curTarget = null;
