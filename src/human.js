@@ -408,6 +408,11 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         return false;
     };
 
+    this.isRangedUnit = function()
+    {
+        return this.unitInfo.attackRange >= 200;
+    };
+
     this.attackTarget = function( target )
     {
         if( target !== null ) {
@@ -418,7 +423,16 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     if (this.boundTower) {
                         damage += this.boundTower.unitInfo.attackPower;
                     }
-                    target.takeDamage(damage);
+
+                    if( this.isRangedUnit() )
+                    {
+                        var center_x = this.x + Math.floor(this.width / 2);
+                        var center_y = this.y + Math.floor(this.height/ 5);
+                        gameObjects.push( new Bullet( center_x, center_y, target, damage ) );
+                    }
+                    else {
+                        target.takeDamage(damage);
+                    }
 
                     this.isOnCooldown = true;
                     var self = this;
