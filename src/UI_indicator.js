@@ -1,12 +1,19 @@
-var IndicatorObject = function( indicatorType, pos_x, pos_y, txt_value)
+var IndicatorOjbect = function(container, indicatorType, txt_value)
 {
+	var self = this;
 	this.uiInfo = Indicator(indicatorType);
-	this.x = pos_x;
-	this.y = pos_y;
+	this.parent = container;
+	this.x = this.uiInfo.x;
+	this.y = this.uiInfo.y;
+	if(container != null)
+	{
+		self.x += self.parent.position.x;
+		self.y += self.parent.position.y;
+	}
 	this.width = this.uiInfo.width;
 	this.height = this.uiInfo.height;
 	
-	this.txt = txt_value.toString();
+	this.txt = txt_value != null? txt_value.toString() : "";
 	this.txt_x = this.x + this.width + this.uiInfo.txt_x;
 	this.txt_y = this.y + this.uiInfo.txt_y;
 	this.txt_color = this.uiInfo.txt_color;
@@ -17,7 +24,6 @@ var IndicatorObject = function( indicatorType, pos_x, pos_y, txt_value)
 	this.curImage = indicatorImages[this.uiInfo.name];
 	
 	this.to_be_removed = false;
-	var self = this;
 	
 	if(this.uiInfo.interval > 0)
 		setInterval(function(){self.to_be_removed = true;}, self.uiInfo.interval);
@@ -63,8 +69,9 @@ var IndicatorObject = function( indicatorType, pos_x, pos_y, txt_value)
             context.fillStyle = this.txt_color;
             context.font = this.txt_font;
             context.textAlign = 'left';
-            context.textBaseline = 'top';
-            context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
+			context.textBaseline = 'top';
+			wrapText(context,self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y, 1000, 100)
+            //context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
         }
 	};
 };

@@ -148,7 +148,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                         self.to_be_removed = true;
                     }, 2000);
                     base.decreaseEnemies(this.unitInfo.cost);
-					createEarnIndicator(this.unitInfo.cost, this.x, this.y);
+					createMoneyIndicator("earn", this.unitInfo.cost, this.x, this.y);
                 }
             }
         }

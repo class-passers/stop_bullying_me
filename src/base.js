@@ -6,6 +6,7 @@ hpImage.src = "img/base_hp_bar.png";
 
 var gameStatus = {
     playing : 0,
+	paused : 1,
     won : 2,
     lost : 3
 };
@@ -22,11 +23,12 @@ var baseObject = function(pos_x, pos_y )
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
 	this.earn_interval = null;
-	this.resource_indicator = new IndicatorObject("money", 1070, 10, 0);
+	this.resource_indicator = new IndicatorOjbect(null, "money", 0);
 	this.button_popup = null;
 	
 	//animation request for main game loop
-	this.gameStatus  = gameStatus.playing;
+	//this.gameStatus  = gameStatus.playing;
+
     this.isPaused = false;
 
     this.x = pos_x;
@@ -57,14 +59,11 @@ var baseObject = function(pos_x, pos_y )
 
 	this.lose = function()
 	{
-        this.gameStatus = gameStatus.lost;
-		console.log("Lose");
-		//restartGame();
-		
-		this.findButton("replay");
-		this.button_popup.isVisible = true;
-
 		pauseGame();
+        cur_game_state = gameStatus.lost;
+		console.log("Lose");
+		
+		hideStateContainer("lose");
 	};
 	
 	//called when an enemy is dead
@@ -79,17 +78,12 @@ var baseObject = function(pos_x, pos_y )
 	};
 	this.win = function()
 	{
-        this.gameStatus = gameStatus.won;
-		console.log("Win");
-		//nextLevel();
-		
-		this.findButton("next");
-		this.button_popup.isVisible = true;
-		
-		this.findButton("replay");
-		this.button_popup.isVisible = true;
-
 		pauseGame();
+        cur_game_state = gameStatus.won;
+        cleared_level = cur_level_index+1;
+		console.log("Win");
+		
+		hideStateContainer("win");
 	};
 	
 	

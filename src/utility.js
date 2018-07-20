@@ -38,6 +38,13 @@ function getDistanceSquare( object1, object2 )
     return ( center_x2 - center_x1 ) * ( center_x2 - center_x1 ) + ( center_y2 - center_y1 ) * ( center_y2 - center_y1 );
 }
 
+function getNormalizedVector( vec )
+{
+	var length = Math.sqrt( Math.pow(vec.x, 2) + Math.pow(vec.y, 2) );
+	var normal = { x : vec.x/length, y : vec.y/length };
+	return normal;
+}
+
 function isCollided( rect1, rect2 )
 {
     return !(rect1.x + rect1.width < rect2.x || rect1.x > rect2.x + rect2.width ||
@@ -47,4 +54,28 @@ function isCollided( rect1, rect2 )
 function isInside( x, y, rect)
 {
 	return (x > rect.x && x < (rect.x + rect.width) && y > rect.y && y < (rect.y + rect.height));
+}
+
+function wrapText(context, text, x, y, maxWidth, lineHeight) 
+{
+		var words = text.split('\n');
+        var line = '';
+
+        for(var n = 0; n < words.length; n++) 
+		{
+			var testLine = line + words[n] + ' ';
+			var metrics = context.measureText(testLine);
+			var testWidth = metrics.width;
+			if (testWidth > maxWidth && n > 0) 
+			{
+				context.fillText(line, x, y);
+				line = words[n] + ' ';
+				y += lineHeight;
+			}
+			else 
+			{
+				line = testLine;
+			}
+        }
+        context.fillText(line, x, y);
 }

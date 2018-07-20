@@ -1,10 +1,11 @@
-var mouseObject = function(can, uiObjects)
+var mouseObject = function(can)
 {
 	this.canvas = can;
 	this.x;
 	this.y;
 	this.run = function(){return true};
-	this.ui = uiObjects;
+	this.ui = null;
+	this.uiLayer = 0;
 	this.mouseDown = false;
 	this.isPressing = false;
 	this.interacting_button = null;
@@ -13,23 +14,30 @@ var mouseObject = function(can, uiObjects)
 	this.position = function(event)
 	{
 		var rect = self.canvas.getBoundingClientRect();
-		self.x = event.clientX - rect.left;
-		self.y = event.clientY - rect.top;
+		self.x = clamp(event.clientX - rect.left, 0, 1280);
+		self.y = clamp(event.clientY - rect.top, 0, 660);
 		if(self.mouseDown == false)
 		{
 			for(var i = 0; i < self.ui.length; i++)
 			{
-				// mouse cursor is on a clickable button
-				if(self.ui[i].isClickable == true &&
-				isInside(self.x, self.y, new Rectangle(self.ui[i].x, self.ui[i].y, self.ui[i].width, self.ui[i].height)) == true)
+				// mouse cursor is on a clickable button on the same layer
+				if(self.ui[i].uiInfo.type == "container" && 
+				self.ui[i].uiLayer == self.uiLayer &&
+				self.ui[i].isVisible == true)
 				{
-					canvas.style.cursor = "pointer";
-					self.interacting_button = self.ui[i];
-					return 0;
-				}
-				else
-				{
-					continue;	
+					for(var j = 0; j < self.ui[i].childElements.length; j++)
+					{
+						if(self.ui[i].childElements[j].isClickable == true && isInside(self.x, self.y, new Rectangle(self.ui[i].childElements[j].x, self.ui[i].childElements[j].y, self.ui[i].childElements[j].width, self.ui[i].childElements[j].height)) == true)
+						{
+							canvas.style.cursor = "pointer";
+							self.interacting_button = self.ui[i].childElements[j];
+							return 0;
+						}
+						else
+						{
+							continue;	
+						}
+					}
 				}
 			}
 			// mouse cursor is not on any button
@@ -75,6 +83,10 @@ var mouseObject = function(can, uiObjects)
 				self.assignFunction(self.defaultFunction);
 			}
 		}
+		else if(event.which == 2) // wheel click
+		{
+			turnOffBuildMode();
+		}
 	};
 	this.up = function(event)
 	{
@@ -87,8 +99,10 @@ var mouseObject = function(can, uiObjects)
 				self.interacting_button.release();
 				if(isInside(self.x, self.y, new Rectangle(self.interacting_button.x, self.interacting_button.y, self.interacting_button.width, self.interacting_button.height)))
 				{
-					//console.log(self.interacting_button);
-					self.interacting_button.execute();
+					if(self.interacting_button.uiInfo.param == null)
+						self.interacting_button.execute();
+					else
+						self.interacting_button.execute(self.interacting_button.uiInfo.param);
 				}
 			}
 		}
