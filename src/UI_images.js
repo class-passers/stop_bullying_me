@@ -113,13 +113,13 @@ var buttonImages = {
 	},
 	build : {
 		default : {
-			image_src : "img/button_tower.png",
+			image_src : "img/button_melee.png",
 			sprite_width : 70,
 			sprite_height : 70,
 			image : null
 		},
 		pressed : {
-			image_src : "img/button_tower_pressed.png",
+			image_src : "img/button_melee_pressed.png",
 			sprite_width : 70,
 			sprite_height : 70,
 			image : null
@@ -127,13 +127,13 @@ var buttonImages = {
 	},
     build2 : {
         default : {
-            image_src : "img/button_tower.png",
+            image_src : "img/button_ranged.png",
             sprite_width : 70,
             sprite_height : 70,
             image : null
         },
         pressed : {
-            image_src : "img/button_tower_pressed.png",
+            image_src : "img/button_ranged_pressed.png",
             sprite_width : 70,
             sprite_height : 70,
             image : null
