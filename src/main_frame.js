@@ -156,16 +156,6 @@ function registerPopulateZombie( pop_info, is_boss )
 }
 
 //////// build mode control
-function turnOnBuildNormalTroop()
-{
-    turnOnBuildMode("normal");
-}
-
-function turnOnBuildRangedTroop()
-{
-    turnOnBuildMode("ranged");
-}
-
 function turnOnBuildMode(tower_type)
 {
 	if(build_mode == false)

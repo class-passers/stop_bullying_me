@@ -1,5 +1,5 @@
 var stateContainer = ["paused","win","lose"];
-var ingameContainer = ["paused","win","lose","build","build2","timer"];
+var ingameContainer = ["paused","win","lose","build","timer"];
 var startContainer = ["start","level","credit"];
 var credit_text = "Script Engineers : Younggi Kim, Maksim Tumazev, Beomjin Kim \nAudio Engineer : Younggi Kim, Maksim Tumazev, Beomjin Kim \nArtist : Younggi Kim, Maksim Tumazev, Beomjin Kim";
 
@@ -95,23 +95,12 @@ var ContainerInfo = {
 		name : "build",
 		x : 1200,
 		y : 90,
-		buttons : ["build"],
+		buttons : ["build","build2"],
 		indicators : [],
 		visibility : true,
 		uiLayer : 0,
 		target_positions : null
 	},
-    build2 : {
-        type : "container",
-        name : "build2",
-        x : 1200,
-        y : 190,
-        buttons : ["build2"],
-        indicators : [],
-        visibility : true,
-        uiLayer : 0,
-        target_positions : null
-    },
 	paused : {
 		type : "container",
 		name : "paused",
@@ -261,20 +250,20 @@ var ButtonInfo = {
 		height : 70,
 		visible : true,
 		text : false,
-		param : null,
-		execute : turnOnBuildNormalTroop
+		param : "normal",
+		execute : function(t){turnOnBuildMode(t);}
 	},
     build2 : {
         type : "button",
         name : "build2",
         x : 0,
-        y : 0,
+        y : 100,
         width : 70,
         height : 70,
         visible : true,
         text : false,
-        param : null,
-        execute : turnOnBuildRangedTroop
+        param : "ranged",
+        execute : function(t){turnOnBuildMode(t);}
     },
 	// resume game
 	resume : {
