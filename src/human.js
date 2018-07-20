@@ -428,7 +428,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     {
                         var center_x = this.x + Math.floor(this.width / 2);
                         var center_y = this.y + Math.floor(this.height/ 5);
-                        gameObjects.push( new Bullet( center_x, center_y, target, damage ) );
+                        gameObjects.push( new Kunai( center_x, center_y, target, damage ) );
                     }
                     else {
                         target.takeDamage(damage);
