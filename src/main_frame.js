@@ -27,9 +27,13 @@ var Time = {
 };
 
 //var window_focused = true;
-//window.onfocus = function() {
-//    window_focused = true;
-//};
+window.addEventListener("mousedown", function() {
+    //window_focused = true;
+    if( music.bgm_played === false ) {
+        music.bgm.play();
+        music.bgm_played = true;
+    }
+} );
 //window.onblur = function() {
 //    window_focused = false;
 //};
@@ -192,7 +196,7 @@ function buildTower()
 		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
         tower_index++;
 
-        buildSound.play();
+        music.buildSound.play();
 		build_indicator.to_be_removed = true;
 		build_mode = false;
 		return true;

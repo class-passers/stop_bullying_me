@@ -120,7 +120,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             {
                 self.isOnCooldown = false;
             }, this.unitInfo.attackSpeed )
-            fireSound.play();
+            music.fireSound.play();
         }
     };
 
