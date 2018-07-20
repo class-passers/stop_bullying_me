@@ -152,6 +152,50 @@ var allZombieImages = {
 
         }
     }
+    /*
+    heavy : {
+        idle: {
+            image_src: "img/zombie-punk_hurt.png",
+            max_num_sprites: 4,
+            num_sprites_horz: 4,
+            num_sprites_vert: 1,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        walk: {
+            image_src: "img/zombie-punk_walking.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        dying: {
+            image_src: "img/zombie-punk_dying.png",
+            max_num_sprites: 8,
+            num_sprites_horz: 2,
+            num_sprites_vert: 7,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image: null
+        },
+        attack: {
+            image_src: "img/zombie-punk_attack.png",
+            max_num_sprites: 6,
+            num_sprites_horz: 6,
+            num_sprites_vert: 1,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        }
+    },
+    */
 };
 
 

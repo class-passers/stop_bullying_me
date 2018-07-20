@@ -1,4 +1,4 @@
-var IndicatorObject = function( indicatorType, pos_x, pos_y, txt_value)
+var IndicatorOjbect = function( indicatorType, pos_x, pos_y, txt_value)
 {
 	this.uiInfo = Indicator(indicatorType);
 	this.x = pos_x;
@@ -11,7 +11,8 @@ var IndicatorObject = function( indicatorType, pos_x, pos_y, txt_value)
 	this.txt_y = this.y + this.uiInfo.txt_y;
 	this.txt_color = this.uiInfo.txt_color;
 	this.txt_font = this.uiInfo.txt_font;
-
+	
+	
 	this.isClickable = false;
 	this.spriteIndex = 0;
 	this.curImage = indicatorImages[this.uiInfo.name];
@@ -67,4 +68,4 @@ var IndicatorObject = function( indicatorType, pos_x, pos_y, txt_value)
             context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
         }
 	};
-};
+}

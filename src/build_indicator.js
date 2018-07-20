@@ -38,9 +38,9 @@ var BuildIndicator = function(mouse, positions, base, pos_x, pos_y, width, heigh
     };
 	this.canBuild = function()
 	{
-		if(get_tile_type(mouse.x, mouse.y) === 0 &&
-			get_tile_type( this.x+this.width, mouse.y ) === 0 &&
-			base.resource >= TowerInfo["normal"].cost)
+		if(get_tile_type(mouse.x, mouse.y) == 0 &&
+		get_tile_type((this.x+this.width), mouse.y) == 0 && 
+		base.resource >= TowerInfo["normal"].cost)
 		{
 			var rec1 = new Rectangle(this.x, this.y, this.width, worldMap.tileHeight);
 			var rec2 = null;

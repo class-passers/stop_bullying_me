@@ -1,17 +1,11 @@
 
-var Pos = function( x, y )
-{
-    this.x = x;
-    this.y = y;
-};
-
-var Rectangle = function( x, y, width, height )
+function Rectangle( x, y, width, height )
 {
     this.x = x;
     this.y = y;
     this.width = width;
     this.height = height;
-};
+}
 
 // return an random integer number less than max value
 function getRandom( maxValue )

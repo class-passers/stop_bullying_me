@@ -12,10 +12,8 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.height = this.unitInfo.height;
 
     this.isOnCooldown = false;
-    this.isBuilt = false;
 
     this.curTarget = null;
-    this.boundTroop = null;
 
     this.max_num_sprites = 1;
     this.image = towerImage;
@@ -50,17 +48,21 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.update = function( deltaTime )
     {
-        // attack nearby zombies only if a bound troop has not reached the tower yet.
-        if( this.boundTroop === null || this.boundTroop.isReachedTower() === false ) {
-            this.findTarget();
-            this.fire();
-        }
+        this.findTarget();
+        this.fire();
         this.hpBar.update( deltaTime );
     };
 
     this.render = function( context )
     {
-
+/*
+        context.beginPath();
+        var center_x = this.x + Math.floor(this.width / 2);
+        var center_y = this.y + Math.floor(this.height/ 2);
+        context.arc( center_x, center_y, this.unitInfo.attackRange, 0, 2 * Math.PI );
+        context.fillStyle = 'blue';
+        context.fill();
+*/
         context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
             towerImage.width, towerImage.height,
             this.get_x(), this.get_y(), this.width, this.height );
@@ -70,11 +72,18 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.findTarget = function() {
 
+
         // if  a zombie is already in target, fire him.
         if( this.curTarget && this.curTarget.hp > 0 ){
             if(getDistanceSquare( this, this.curTarget ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                 return;
             }
+            /*
+            else
+            {
+                console.log("a zombie goes out of range");
+            }
+            */
         }
 
         this.curTarget = null;
@@ -102,6 +111,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             {
                 self.isOnCooldown = false;
             }, this.unitInfo.attackSpeed )
+            fireSound.play();
         }
     };
 
@@ -111,10 +121,6 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         if( this.hp <= 0 )
         {
             this.to_be_removed = true;
-            // disconnect the troop and the tower
-            console.log("tower destroyed");
-            this.boundTroop.boundTower = null;
-
         }
     }
 };
