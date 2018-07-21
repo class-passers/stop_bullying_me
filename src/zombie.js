@@ -8,7 +8,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         this.z = -1;
     }
     else {
-        this.unitInfo = new Unit(zombieType);
+        this.unitInfo = new Zombie(zombieType);
         this.z = 0;
     }
     this.x = pos_x;
@@ -147,8 +147,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                     this.corpse_interval = setTimeout(function () {
                         self.to_be_removed = true;
                     }, 2000);
-                    base.decreaseEnemies(this.unitInfo.cost);
-					createMoneyIndicator("earn", this.unitInfo.cost, this.x, this.y);
+                    base.decreaseEnemies(this.unitInfo.reward);
+					createMoneyIndicator("earn", this.unitInfo.reward, this.x, this.y);
                 }
             }
         }

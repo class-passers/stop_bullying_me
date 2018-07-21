@@ -1,6 +1,6 @@
-var Unit = function( unitType )
+var Zombie = function( unitType )
 {
-    return Object.create( UnitInfo[unitType] );
+    return Object.create( ZombieInfo[unitType] );
 };
 
 var Boss = function( unitType )
@@ -18,7 +18,7 @@ var Tower = function( towerType )
     return Object.create( TowerInfo[towerType] );
 };
 
-var UnitInfo = {
+var ZombieInfo = {
     normal : {
         name : "normal",
         width : 128,
@@ -28,7 +28,7 @@ var UnitInfo = {
         attackRange : 200,
         attackSpeed : 2000,
         attackPower : 20,
-		cost : 5
+		reward : 5
     },
     fast : {
         name : "fast",
@@ -39,7 +39,7 @@ var UnitInfo = {
         attackRange : 200,
         attackSpeed : 2000,
 		attackPower : 10,
-		cost : 7 
+        reward : 7
     },
     heavy : {
         name : "heavy",
@@ -50,7 +50,7 @@ var UnitInfo = {
         attackRange : 150,
         attackSpeed : 2000,
 		attackPower : 40,
-		cost : 10
+        reward : 10
     },
     ranged : {
         name : "ranged",
@@ -61,7 +61,19 @@ var UnitInfo = {
         attackRange : 150,
         attackSpeed : 2000,
 		attackPower : 10,
-		cost : 7
+        reward : 7
+    },
+    healer : {
+        name : "healer",
+        width : 128,
+        height : 128,
+        hp : 150,
+        moveSpeed : 50,
+        attackRange : 300,
+        attackSpeed : 2000,
+        attackPower : 10,
+        healRange : 150,
+        reward : 10
     }
 };
 
@@ -134,6 +146,18 @@ var HumanTroopInfo = {
         attackSpeed : 1000,
         attackPower : 5,
         cost : 80
+    },
+    wizard : {
+        name : "wizard",
+        width : 128,
+        height : 128,
+        hp : 100,
+        moveSpeed : 100,
+        attackRange : 300,
+        attackSpeed : 1000,
+        attackPower : 5,
+        damageRange : 150,
+        cost : 150
     }
 };
 
