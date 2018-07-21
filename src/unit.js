@@ -132,8 +132,8 @@ var HumanTroopInfo = {
         moveSpeed : 100,
         attackRange : 300,
         attackSpeed : 1000,
-        attackPower : 15,
-        cost : 100
+        attackPower : 5,
+        cost : 80
     }
 };
 
@@ -158,7 +158,7 @@ var TowerInfo =
         attackRange : 200,      // 200 pixels
         attackSpeed : 1000,     // once per second
         attackPower : 10,
-        cost : 50,
+        cost : 80,
         build_interval : 5000
     }
 };
