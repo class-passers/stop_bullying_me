@@ -1,22 +1,3 @@
-var Zombie = function( unitType )
-{
-    return Object.create( ZombieInfo[unitType] );
-};
-
-var BossZombie = function( unitType )
-{
-    return Object.create( BossZombieInfo[unitType] );
-};
-
-var Human = function( unitType )
-{
-    return Object.create( HumanTroopInfo[unitType] );
-};
-
-var Tower = function( towerType )
-{
-    return Object.create( TowerInfo[towerType] );
-};
 
 var ZombieInfo = {
     normal : {
@@ -71,8 +52,8 @@ var ZombieInfo = {
         moveSpeed : 50,
         attackRange : 300,
         attackSpeed : 2000,
-        attackPower : 10,
-        healRange : 150,
+        attackPower : 15,
+        healRange : 150,        // this matters if his heal skill is an area of effect.
         reward : 10
     }
 };

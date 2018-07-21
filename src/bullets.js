@@ -179,8 +179,8 @@ var Fireball = function( x, y, target, damage, range ) {
         context.translate( this.x, this.y );
         context.rotate( this.angle );
         context.translate( -this.x, -this.y );
-        context.drawImage( kunaiImage, 0, 0,
-            kunaiImage.width, kunaiImage.height,
+        context.drawImage( fireballImage, 0, 0,
+            fireballImage.width, fireballImage.height,
             Math.floor(this.x), Math.floor(this.y), this.width, this.height );
         context.restore();
     };

@@ -1,7 +1,7 @@
 var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.objectType = "human";
 
-    this.unitInfo = new Human(humanType);
+    this.unitInfo = HumanTroopInfo[humanType];
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
     this.z = 0;
@@ -192,7 +192,6 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'attack') {
-            this.curTarget = this.findClosestTarget();
             if( this.curTarget !== null ) {
                 if (this.boundTower !== null) {
                     if (this.isInAttackRange(this.curTarget))
@@ -436,13 +435,13 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
                     if( this.unitInfo.name === "ranged ") {
                         var center_x = this.x + Math.floor(this.width / 2);
-                        var center_y = this.y + Math.floor(this.height / 5);
+                        var center_y = this.y + Math.floor(this.height / 2);
                         gameObjects.push(new Kunai(center_x, center_y, target, damage));
                     }
                     else if( this.unitInfo.name === "wizard" )
                     {
                         var center_x = this.x + Math.floor(this.width / 2);
-                        var center_y = this.y + Math.floor(this.height / 5);
+                        var center_y = this.y + Math.floor(this.height / 2);
                         gameObjects.push(new Fireball(center_x, center_y, target, damage, this.unitInfo.damageRange ));
                     }
                     else {

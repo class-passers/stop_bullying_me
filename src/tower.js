@@ -8,7 +8,7 @@ towerImage_lower.src = "img/tower_lower.png";
 
 var TowerObject = function( towerType, pos_x, pos_y ){
     this.objectType = "tower";
-    this.unitInfo = new Tower( towerType );
+    this.unitInfo = TowerInfo[ towerType ];
     // x, y position starts from the top left corner.
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;

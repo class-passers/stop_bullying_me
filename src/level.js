@@ -1,7 +1,7 @@
 var levels = [
     {   // for level 1
-        num_zombies : 15,
-        remaining_zombies : 15,
+        num_zombies : 18,
+        remaining_zombies : 18,
         populate_zombie_info : [
             {
                 start : 0,          // when to start populating a zombie in seconds
@@ -17,6 +17,14 @@ var levels = [
                 type : "fast",
                 amount : 6,
                 remaining : 6,
+                timer : null
+            },
+            {
+                start : 6,
+                interval : 5,
+                type : "healer",
+                amount : 3,
+                remaining : 3,
                 timer : null
             }
         ],
