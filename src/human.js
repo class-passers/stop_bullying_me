@@ -138,6 +138,10 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.moveToTower(deltaTime);
                 }
             }
+            else if( this.curTarget !== null && this.isInAttackRange( this.curTarget ) )
+            {
+                this.changeState('attack');
+            }
             else if( this.curTarget !== null && this.isInAttackRange2( this.curTarget ) )
             {
                 this.moveToTarget( this.curTarget, deltaTime );
