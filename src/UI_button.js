@@ -24,27 +24,29 @@ var ButtonObject = function(container, buttonType)
 	{
 		self.curImage = buttonImages[self.uiInfo.name].pressed.image;
 		return true;
-	}
+	};
+
 	this.release = function()
 	{
 		self.curImage = buttonImages[self.uiInfo.name].default.image;
 		return true;
-	}
+	};
 	
 	this.update = function(deltaTime)
 	{
-		if(self.isVisible == false)
+        self.isClickable = self.isVisible;
+		if(self.isVisible === false)
 			self.isClickable = false;
 		else
 			self.isClickable = true;
-	}
+	};
 	
 	this.render = function(context)
 	{
-		if(self.isVisible == true)
+		if(self.isVisible === true)
 		{
 			context.drawImage(self.curImage, self.x, self.y, self.width, self.height);
-			if(self.uiInfo.text == true && self.uiInfo.param != null)
+			if(self.uiInfo.text === true && self.uiInfo.param != null)
 			{
 				context.fillStyle = 'black';
             	context.font = '48px Comic Sans MS';
@@ -54,4 +56,4 @@ var ButtonObject = function(container, buttonType)
 			}
 		}
 	}
-}
+};

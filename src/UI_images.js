@@ -139,6 +139,20 @@ var buttonImages = {
             image : null
         }
     },
+    build3 : {
+        default : {
+            image_src : "img/button_ranged.png",
+            sprite_width : 70,
+            sprite_height : 70,
+            image : null
+        },
+        pressed : {
+            image_src : "img/button_ranged_pressed.png",
+            sprite_width : 70,
+            sprite_height : 70,
+            image : null
+        }
+    },
 	resume : {
 		default : {
 			image_src : "img/button_resume.png",

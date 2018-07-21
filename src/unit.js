@@ -3,9 +3,9 @@ var Zombie = function( unitType )
     return Object.create( ZombieInfo[unitType] );
 };
 
-var Boss = function( unitType )
+var BossZombie = function( unitType )
 {
-    return Object.create( BossInfo[unitType] );
+    return Object.create( BossZombieInfo[unitType] );
 };
 
 var Human = function( unitType )
@@ -77,7 +77,7 @@ var ZombieInfo = {
     }
 };
 
-var BossInfo = {
+var BossZombieInfo = {
     heavy : {
         name : "heavy",
         width : 250,
@@ -184,6 +184,17 @@ var TowerInfo =
         attackPower : 10,
         cost : 80,
         build_interval : 5000
+    },
+    wizard : {
+        name : "wizard",
+        hp : 100,
+        width : 85,
+        height : 133,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 1000,     // once per second
+        attackPower : 10,
+        cost : 100,
+        build_interval : 6000
     }
 };
 

@@ -4,7 +4,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.isBoss = is_boss;
 
     if (is_boss) {
-        this.unitInfo = new Boss(zombieType);
+        this.unitInfo = new BossZombie(zombieType);
         this.z = -1;
     }
     else {
@@ -267,7 +267,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         else {
             console.log("current = " + this.x + "+" + this.width + ", " + this.y + "+" + this.height);
             console.log("next = " + nextPos.x + ", " + nextPos.y);
-            console.log("out of distance");
+            console.log("wrong distance = " + distX + " " + distY );
         }
     };
 

@@ -95,7 +95,7 @@ var ContainerInfo = {
 		name : "build",
 		x : 1200,
 		y : 90,
-		buttons : ["build","build2"],
+		buttons : ["build","build2","build3"],
 		indicators : [],
 		visibility : true,
 		uiLayer : 0,
@@ -263,6 +263,18 @@ var ButtonInfo = {
         visible : true,
         text : false,
         param : "ranged",
+        execute : function(t){turnOnBuildMode(t);}
+    },
+    build3 : {
+        type : "button",
+        name : "build3",
+        x : 0,
+        y : 200,
+        width : 70,
+        height : 70,
+        visible : true,
+        text : false,
+        param : "wizard",
         execute : function(t){turnOnBuildMode(t);}
     },
 	// resume game

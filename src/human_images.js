@@ -122,6 +122,68 @@ var allHumanImages = {
             image_left: null,
             image_right: null
         }
+    },
+    wizard : {
+        idle: {
+            image_src_left: "img/ninja_idle_flip.png",
+            image_src_right: "img/ninja_idle.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        walk: {
+            image_src_left: "img/ninja_run_flip.png",
+            image_src_right: "img/ninja_run.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        moveInTower: {
+            image_src_left: "img/ninja_run_flip.png",
+            image_src_right: "img/ninja_run.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        dying: {
+            image_src_left: "img/ninja_die_flip.png",
+            image_src_right: "img/ninja_die.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image_left: null,
+            image_right: null
+        },
+        attack: {
+            image_src_left: "img/ninja_attack_flip.png",
+            image_src_right: "img/ninja_attack.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image_left: null,
+            image_right: null
+        }
     }
 };
 
