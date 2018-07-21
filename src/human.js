@@ -85,15 +85,10 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.update = function (deltaTime) {
 
         if (this.state === 'idle') {
-
-            //if (this.isOnCooldown === false) {
-            //    this.changeState('walk');
-            //}
-
             // if the troop was in attack state, it should be idle until they find a near enemy
             if( this.subState === 'moveInTower' )
             {
-                if( this.boundTower !== null && this.boundTower.isBuilt === true )
+                if( this.boundTower !== null && this.boundTower.hp > 0 && this.boundTower.isBuilt === true )
                 {
                     this.subState = "phase1";
                     this.changeState("moveInTower");
@@ -104,10 +99,10 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                 if( this.isOnCooldown === false ) {
                     this.curTarget = this.findClosestTarget();
                     if (this.curTarget !== null) {
-                        if (this.boundTower !== null && this.isInAttackRange(this.curTarget)) {
+                        if (this.isOnTower() === true && this.isInAttackRange(this.curTarget)) {
                             this.changeState('attack');
                         }
-                        else if (this.boundTower === null && this.isInAttackRange2(this.curTarget)) {
+                        else if (this.isOnTower() === false && this.isInAttackRange2(this.curTarget)) {
                             this.changeState('walk');
                         }
                     }
@@ -127,7 +122,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'walk') {
-            if( this.boundTower !== null ) {
+            if( this.boundTower !== null && this.boundTower.hp > 0 ) {
                 // troop doesn't walk except constructing phase if there is a bound tower.
                 if (this.isReachedTower() ) {
                     // just wait
@@ -163,14 +158,12 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.scale = 0.0;
                 }
             }
-
             // phase2 : hide image for a while
             else if( this.subState === "phase2" )
             {
                 var self = this;
                 setTimeout( function() { self.subState = "phase3"; self.scale = 0.80; }, 500 );
             }
-
             // phase3 : popping up the upper part on top of the tower, slightly scaled down.
             else if( this.subState === "phase3" )
             {
@@ -180,14 +173,13 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.subState = "phase4";
                 }
             }
-
             // the troop is now ready to fight
             else if( this.subState === "phase4" )
             {
                 // this tells the troop is in attack state even if it is in idle state due to the attack cool-down or
                 // not finding a nearby enemy.
                 this.subState = 'attack';
-                this.changeState("attack");
+                this.changeState("idle");
                 this.isReadyToFight = true;
             }
         }
