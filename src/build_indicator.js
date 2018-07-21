@@ -41,7 +41,7 @@ var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y,
 	{
 		if(get_tile_type(mouse.x, mouse.y) === 0 &&
 			get_tile_type( this.x+this.width, mouse.y ) === 0 &&
-			base.resource >= TowerInfo["normal"].cost)
+			base.resource >= TowerInfo[this.towerType].cost)
 		{
 			var rec1 = new Rectangle(this.x, this.y, this.width, worldMap.tileHeight);
 			var rec2 = null;
