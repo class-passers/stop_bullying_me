@@ -15,16 +15,9 @@ var cleared_level = 0;
 var cur_game_state = gameStatus.playing;
 var base = null;
 var mouse = new mouseObject(canvas);
-var money_indicator = null;
 var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
-
-var Time = {
-    last : new Date().getTime(),
-    now : null,
-    delta : 0
-};
 
 //var window_focused = true;
 window.addEventListener("mousedown", function() {
@@ -45,18 +38,12 @@ window.addEventListener("mouseup", mouse.up);
 ////////// Game state control
 function deleteLevel()
 {
-    console.log("Delete current level");		
-    if( base != null)
-    {
-        clearInterval(base.earn_interval);
-		base.resource_indicator.to_be_removed = true;
-    }
+    console.log("Delete current level");
+	Time.Reset();
+	
     base = null;
-    if( build_indicator !== null && build_indicator.buildTimer !== null )
-    {
-        clearTimeout( build_indicator.buildTimer );
-    }
 	mouse.assignFunction( function(){console.log("Does nothing");} );
+	mouse.interacting_button = null;
 	turnOffBuildMode();
     gameObjects = [];
 	uiObjects = [];
@@ -79,16 +66,11 @@ function nextLevel()
 }
 function pauseGame()
 {
-    base.isPaused = true;
 	cur_game_state = gameStatus.paused;
-	clearInterval(base.earn_interval);
 }
 function resumeGame()
 {
-    base.isPaused = false;
     cur_game_state = gameStatus.playing;
-
-	base.earn_interval = setInterval(function(){base.earnMoney(1);}, 1000);
 }
 function startGame( level )
 {
@@ -102,6 +84,7 @@ function startGame( level )
 	createIngameUI();
     var endPoint = find_node( worldMap.mapGrid, 20 );
     base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
+	Time.Repeat(function(){base.earnMoney(1);}, 1);
     gameObjects.push(base);
 	uiObjects.push(base.resource_indicator);
 	mouse.ui = uiObjects;
@@ -118,7 +101,7 @@ function populateZombie()
         var pop_info = cur_level.populate_zombie_info[i];
         //console.log("populate zombie: " + JSON.stringify(pop_info));
         pop_info.remaining = pop_info.amount;
-        setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, false );
+        Time.Wait( registerPopulateZombie, pop_info.start, pop_info, false );
     }
 
     for( var i = 0; i < cur_level.populate_boss_info.length; i++ )
@@ -126,18 +109,18 @@ function populateZombie()
         var pop_info = cur_level.populate_boss_info[i];
         //console.log("populate boss: " + JSON.stringify(pop_info));
         pop_info.remaining = pop_info.amount;
-        setTimeout( registerPopulateZombie, pop_info.start * 1000, pop_info, true );
+        Time.Wait( registerPopulateZombie, pop_info.start, pop_info, true );
     }
 }
 function registerPopulateZombie( pop_info, is_boss )
 {
     if( pop_info.timer != null )
     {
-        clearInterval( pop_info.timer );
+        Time.ClearRepeat( pop_info.timer );
         //console.log("clear timer = " + pop_info.timer );
     }
 
-    pop_info.timer = setInterval( function()
+    pop_info.timer = Time.Repeat( function()
         {
             var start = get_start_location();
             if( start != null ) {
@@ -145,17 +128,17 @@ function registerPopulateZombie( pop_info, is_boss )
                 cur_level.remaining_zombies--;
 
                 if( is_boss )
-                    console.log( "creates " + pop_info.type + " at " + totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
+                    console.log( "creates " + pop_info.type + " at " + Time.totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
 
                 var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
                 gameObjects.push(zombie);
 
                 if (pop_info.remaining <= 0) {
-                    clearInterval(pop_info.timer);
+                    Time.ClearRepeat(pop_info.timer);
                 }
             }
         },
-        pop_info.interval * 1000
+        pop_info.interval
     );
 }
 
@@ -197,9 +180,14 @@ function buildTower()
         tower_index++;
 
         music.buildSound.play();
+		
+		//*	<--- (//*)turn off build mode after building || (/*)does not turn off build mode after building
 		build_indicator.to_be_removed = true;
 		build_mode = false;
 		return true;
+		/*/
+		return false;
+		//*/
 	}
 	else
 		return false;
@@ -209,9 +197,7 @@ function buildTower()
 ////////// Game loop
 function update()
 {
-    Time.now = new Date().getTime();
-    Time.delta = (Time.now - Time.last) / 1000;
-    Time.last = Time.now;
+    Time.Tick();
     //console.log( "delta = " + Time.delta );
 
     if( cur_game_state === gameStatus.playing ) {
@@ -229,6 +215,9 @@ function update()
             return (a.y + a.height + a.z) - (b.y + b.height + b.z)
         });
         //console.log( JSON.stringify(gameObjects));
+		
+		Time.Waiting();
+		Time.Repeating();
     }
 
 	for(var i = 0; i < uiObjects.length; i++)

@@ -116,7 +116,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             gameObjects.push( new Bullet( center_x, center_y, this.curTarget, this.unitInfo.attackPower) );
             this.isOnCooldown = true;
             var self = this;
-            setTimeout( function()
+            Time.Wait( function()
             {
                 self.isOnCooldown = false;
             }, this.unitInfo.attackSpeed )

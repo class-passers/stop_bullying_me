@@ -22,14 +22,8 @@ var baseObject = function(pos_x, pos_y )
 
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
-	this.earn_interval = null;
 	this.resource_indicator = new IndicatorOjbect(null, "money", 0);
 	this.button_popup = null;
-	
-	//animation request for main game loop
-	//this.gameStatus  = gameStatus.playing;
-
-    this.isPaused = false;
 
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
@@ -175,7 +169,7 @@ var baseObject = function(pos_x, pos_y )
             gameObjects.push( new Bullet( center_x, center_y, this.curTarget, this.unitInfo.attackPower) );
             this.isOnCooldown = true;
             var self = this;
-            setTimeout( function()
+            Time.Wait( function()
             {
                 self.isOnCooldown = false;
             }, this.unitInfo.attackSpeed )

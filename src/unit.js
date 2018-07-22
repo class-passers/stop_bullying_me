@@ -26,7 +26,7 @@ var UnitInfo = {
         hp : 120,
 		moveSpeed : 50,      // pixel per seconds
         attackRange : 200,
-        attackSpeed : 2000,
+        attackSpeed : 2,
         attackPower : 20,
 		cost : 5
     },
@@ -37,7 +37,7 @@ var UnitInfo = {
         hp : 80,
         moveSpeed : 70,
         attackRange : 200,
-        attackSpeed : 2000,
+        attackSpeed : 2,
 		attackPower : 10,
 		cost : 7 
     },
@@ -48,7 +48,7 @@ var UnitInfo = {
         hp : 300,
         moveSpeed : 10,
         attackRange : 150,
-        attackSpeed : 2000,
+        attackSpeed : 2,
 		attackPower : 40,
 		cost : 10
     },
@@ -59,7 +59,7 @@ var UnitInfo = {
         hp : 100,
         moveSpeed : 50,
         attackRange : 150,
-        attackSpeed : 2000,
+        attackSpeed : 2,
 		attackPower : 10,
 		cost : 7
     }
@@ -73,7 +73,7 @@ var BossInfo = {
         hp : 300,
         moveSpeed : 30,
         attackRange : 150,
-        attackSpeed : 2000,
+        attackSpeed : 2,
         attackPower : 60,
 		cost : 20
     },
@@ -84,7 +84,7 @@ var BossInfo = {
         hp : 100,
         moveSpeed : 45,
         attackRange : 250,
-        attackSpeed : 500,
+        attackSpeed : 0.5,
         attackPower : 10,
 		cost : 20
     }
@@ -98,7 +98,7 @@ var HumanTroopInfo = {
         hp : 120,
         moveSpeed : 90,      // pixel per seconds
         attackRange : 150,
-        attackSpeed : 1000,
+        attackSpeed : 1,
         attackPower : 15,
         cost : 50
     },
@@ -109,7 +109,7 @@ var HumanTroopInfo = {
         hp : 80,
         moveSpeed : 120,
         attackRange : 150,
-        attackSpeed : 500,
+        attackSpeed : 0.5,
         attackPower : 10,
         cost : 70
     },
@@ -120,7 +120,7 @@ var HumanTroopInfo = {
         hp : 300,
         moveSpeed : 60,
         attackRange : 150,
-        attackSpeed : 2000,
+        attackSpeed : 2,
         attackPower : 40,
         cost : 120
     },
@@ -131,7 +131,7 @@ var HumanTroopInfo = {
         hp : 100,
         moveSpeed : 100,
         attackRange : 300,
-        attackSpeed : 1000,
+        attackSpeed : 1,
         attackPower : 5,
         cost : 80
     }
@@ -145,7 +145,7 @@ var TowerInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 1000,     // once per second
+        attackSpeed : 1,     // once per second
         attackPower : 10,
 		cost : 50,
 		build_interval : 5000
@@ -156,7 +156,7 @@ var TowerInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 1000,     // once per second
+        attackSpeed : 1,     // once per second
         attackPower : 10,
         cost : 80,
         build_interval : 5000
@@ -171,7 +171,7 @@ var BaseInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 1500,     // once per second
+        attackSpeed : 1.5,     // once per second
         attackPower : 25,
         cost : 1000,
         build_interval : 5000
@@ -182,7 +182,7 @@ var BaseInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 500,     // once per second
+        attackSpeed : 0.5,     // once per second
         attackPower : 25,
         cost : 1000,
         build_interval : 5000
@@ -193,7 +193,7 @@ var BaseInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 500,     // once per second
+        attackSpeed : 0.5,     // once per second
         attackPower : 25,
         cost : 1000,
         build_interval : 5000

@@ -168,7 +168,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             else if( this.subState === "phase2" )
             {
                 var self = this;
-                setTimeout( function() { self.subState = "phase3"; self.scale = 0.80; }, 500 );
+                Time.Wait( function() { self.subState = "phase3"; self.scale = 0.80; }, 0.5 );
             }
 
             // phase3 : popping up the upper part on top of the tower, slightly scaled down.
@@ -221,9 +221,9 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
                 if (this.corpse_interval === null) {
                     var self = this;
-                    this.corpse_interval = setTimeout(function () {
+                    this.corpse_interval = Time.Wait(function () {
                         self.to_be_removed = true;
-                    }, 2000);
+                    }, 2);
                 }
             }
         }
@@ -441,7 +441,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.isOnCooldown = true;
                     var self = this;
                     // to have attack interval
-                    setTimeout(
+                    Time.Wait(
                         function () {
                             self.isOnCooldown = false;
                         },

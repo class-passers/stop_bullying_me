@@ -144,9 +144,9 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
                 if (this.corpse_interval === null) {
                     var self = this;
-                    this.corpse_interval = setTimeout(function () {
+                    this.corpse_interval = Time.Wait(function () {
                         self.to_be_removed = true;
-                    }, 2000);
+                    }, 2);
                     base.decreaseEnemies(this.unitInfo.cost);
 					createMoneyIndicator("earn", this.unitInfo.cost, this.x, this.y);
                 }
@@ -306,7 +306,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 this.isOnCooldown = true;
                 var self = this;
                 // to have attack interval
-                setTimeout(
+                Time.Wait(
                     function () {
                         self.isOnCooldown = false;
                     },

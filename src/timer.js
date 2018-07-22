@@ -1,3 +1,7 @@
+/*
+	Time.Wait and Time.Repeat take arguments in the same way how setTimeout and setInterval do but interval is in second not milisecond.
+*/
+
 function func_interval(func, interval, params, id)
 {
 	this.func = func;
@@ -82,7 +86,7 @@ var Time = {
 		this.delta = (this.now - this.last) / 1000;
 		this.last = this.now;
 		this.totalSec += this.delta;
-	}
+	},
 	Reset : function(){
 		this.totalSec = 0;
 		this.id = 0;
