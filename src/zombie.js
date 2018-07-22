@@ -196,19 +196,34 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.render = function (context) {
 
         var image = this.curImage.image_right;
+        var flipped = false;
         if( this.curTarget !== null && (this.state === 'attack' || (this.state === 'idle' && this.subState === 'attack' ) ) )
         {
-            if( this.curTarget.x < this.x )
-                image = this.curImage.image_left;
+            if( this.curTarget.x < this.x ) {
+                //image = this.curImage.image_left;
+                flipped = true;
+            }
         }
         else {
             if (this.vx < 0) {
-                image = this.curImage.image_left;
+                //image = this.curImage.image_left;
+                flipped = true;
             }
         }
-        context.drawImage(image, this.get_source_x(), this.get_source_y(),
-            this.get_sprite_width(), this.get_sprite_height(),
-            this.get_x(), this.get_y(), this.width, this.height);
+        if( flipped ) {
+            context.save();
+            context.scale(-1, 1);
+            context.drawImage(image, this.get_source_x(), this.get_source_y(),
+                this.get_sprite_width(), this.get_sprite_height(),
+                -this.get_x() - this.width, this.get_y(), this.width, this.height);
+            context.restore();
+        }
+        else {
+            context.drawImage(image, this.get_source_x(), this.get_source_y(),
+                this.get_sprite_width(), this.get_sprite_height(),
+                this.get_x(), this.get_y(), this.width, this.height);
+        }
+
         this.hpBar.render(context);
     };
 
@@ -275,7 +290,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         var distY = nextPos.y - (this.y + this.height);
 
         var distSquared = distX * distX + distY * distY;
-        if (distSquared > 0) {
+        if (distSquared >= 0) {
 
             var unitVector = Math.sqrt(distSquared);
             this.vx = distX / unitVector;
