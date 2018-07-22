@@ -1,3 +1,5 @@
+var healImage = new Image();
+healImage.src = "img/heal.png";
 
 var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.objectType = "zombie";
@@ -247,6 +249,8 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     this.heal = function( healPower )
     {
         this.hp = Math.min( this.max_hp, this.hp + healPower );
+        var center = new Pos( this.x + Math.floor( this.width / 2 ), this.y + Math.floor( this.height / 2 ) );
+        gameObjects.push( new Effect( center, healImage, 25, 5, 5, 1 ) );
     };
 
     this.findClosestTarget = function () {
@@ -290,8 +294,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         var distY = nextPos.y - (this.y + this.height);
 
         var distSquared = distX * distX + distY * distY;
-        if (distSquared >= 0) {
-
+        if (distSquared > 0) {
             var unitVector = Math.sqrt(distSquared);
             this.vx = distX / unitVector;
             this.vy = distY / unitVector;

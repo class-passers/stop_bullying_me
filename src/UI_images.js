@@ -141,13 +141,13 @@ var buttonImages = {
     },
     build3 : {
         default : {
-            image_src : "img/button_ranged.png",
+            image_src : "img/button_wizard.png",
             sprite_width : 70,
             sprite_height : 70,
             image : null
         },
         pressed : {
-            image_src : "img/button_ranged_pressed.png",
+            image_src : "img/button_wizard_pressed.png",
             sprite_width : 70,
             sprite_height : 70,
             image : null
