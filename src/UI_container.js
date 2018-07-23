@@ -19,7 +19,10 @@ var ContainerObject = function( containerType)
 	{
 		for(var i = 0; i < self.uiInfo.buttons.length; i++)
 		{
-			self.childElements.push(new ButtonObject(self, self.uiInfo.buttons[i]));
+			var temp = new ButtonObject(self, self.uiInfo.buttons[i]);
+			if(temp.uiInfo.display_level > cur_level_index)
+				temp.isVisible = false;
+			self.childElements.push(temp);
 		}
 		for(var i = 0; i < self.uiInfo.indicators.length; i++)
 		{

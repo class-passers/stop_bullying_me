@@ -51,7 +51,7 @@ var ZombieInfo = {
         hp : 150,
         moveSpeed : 50,
         attackRange : 300,
-        attackSpeed : 2000,
+        attackSpeed : 2,
         attackPower : 15,
         healRange : 150,        // this matters if his heal skill is an area of effect.
         reward : 10

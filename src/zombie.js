@@ -395,7 +395,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 this.isOnCooldown = true;
                 var self = this;
                 // to have attack interval
-                setTimeout(
+                Time.Wait(
                     function () {
                         self.isOnCooldown = false;
                     },

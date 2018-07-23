@@ -117,7 +117,7 @@ var ContainerInfo = {
 		name : "win",
 		x : 640,
 		y : 330,
-		buttons : ["next", "replay", "exit"],
+		buttons : ["replay","next", "exit"],
 		indicators : ["win"],
 		visibility : false,
 		uiLayer : 2,
@@ -145,6 +145,7 @@ var ButtonInfo = {
 		y : 0,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : true,
 		param : null,
@@ -158,6 +159,7 @@ var ButtonInfo = {
 		y : 70,
 		width : 360,
 		height : 75,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : "level",
@@ -170,6 +172,7 @@ var ButtonInfo = {
 		y : 190,
 		width : 360,
 		height : 75,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : "credit",
@@ -183,6 +186,7 @@ var ButtonInfo = {
 		y : -320,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : "start",
@@ -196,6 +200,7 @@ var ButtonInfo = {
 		y : 10,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : null,
@@ -209,6 +214,7 @@ var ButtonInfo = {
 		y : 30,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : null,
@@ -222,6 +228,7 @@ var ButtonInfo = {
 		y : 30,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : null,
@@ -235,6 +242,7 @@ var ButtonInfo = {
 		y : 30,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : null,
@@ -248,6 +256,7 @@ var ButtonInfo = {
 		y : 0,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : "normal",
@@ -260,6 +269,7 @@ var ButtonInfo = {
         y : 100,
         width : 70,
         height : 70,
+		display_level : 0,
         visible : true,
         text : false,
         param : "ranged",
@@ -272,6 +282,7 @@ var ButtonInfo = {
         y : 200,
         width : 70,
         height : 70,
+		display_level : 1,
         visible : true,
         text : false,
         param : "wizard",
@@ -285,6 +296,7 @@ var ButtonInfo = {
 		y : 30,
 		width : 70,
 		height : 70,
+		display_level : 0,
 		visible : true,
 		text : false,
 		param : null,
@@ -442,7 +454,6 @@ function createIngameUI()
 		var temp = new ContainerObject(ingameContainer[i]);
 		uiObjects.push(temp);
 	}
-	hideButtonUntill(1, "build3");
 }
 
 function createMoneyIndicator(type, value, pos_x, pos_y)
@@ -450,15 +461,6 @@ function createMoneyIndicator(type, value, pos_x, pos_y)
 	IndicatorInfo[type].x = pos_x;
 	IndicatorInfo[type].y = pos_y;
 	var temp = new IndicatorOjbect(null, type, value);
-	uiObjects.push(temp);
-}
-
-function hideButtonUntill(level, button)
-{
-	if(cur_level_index < level)
-	{
-		FindButton(button).isVisible = false;
-	}
 }
 
 function hideStateContainer(except)
