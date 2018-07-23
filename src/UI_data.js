@@ -442,6 +442,7 @@ function createIngameUI()
 		var temp = new ContainerObject(ingameContainer[i]);
 		uiObjects.push(temp);
 	}
+	hideButtonUntill(1, "build3");
 }
 
 function createMoneyIndicator(type, value, pos_x, pos_y)
@@ -450,6 +451,14 @@ function createMoneyIndicator(type, value, pos_x, pos_y)
 	IndicatorInfo[type].y = pos_y;
 	var temp = new IndicatorOjbect(null, type, value);
 	uiObjects.push(temp);
+}
+
+function hideButtonUntill(level, button)
+{
+	if(cur_level_index < level)
+	{
+		FindButton(button).isVisible = false;
+	}
 }
 
 function hideStateContainer(except)
