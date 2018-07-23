@@ -1,24 +1,5 @@
-var Unit = function( unitType )
-{
-    return Object.create( UnitInfo[unitType] );
-};
 
-var Boss = function( unitType )
-{
-    return Object.create( BossInfo[unitType] );
-};
-
-var Human = function( unitType )
-{
-    return Object.create( HumanTroopInfo[unitType] );
-};
-
-var Tower = function( towerType )
-{
-    return Object.create( TowerInfo[towerType] );
-};
-
-var UnitInfo = {
+var ZombieInfo = {
     normal : {
         name : "normal",
         width : 128,
@@ -28,7 +9,7 @@ var UnitInfo = {
         attackRange : 200,
         attackSpeed : 2,
         attackPower : 20,
-		cost : 5
+		reward : 5
     },
     fast : {
         name : "fast",
@@ -39,7 +20,7 @@ var UnitInfo = {
         attackRange : 200,
         attackSpeed : 2,
 		attackPower : 10,
-		cost : 7 
+        reward : 7
     },
     heavy : {
         name : "heavy",
@@ -50,7 +31,7 @@ var UnitInfo = {
         attackRange : 150,
         attackSpeed : 2,
 		attackPower : 40,
-		cost : 10
+        reward : 10
     },
     ranged : {
         name : "ranged",
@@ -61,11 +42,23 @@ var UnitInfo = {
         attackRange : 150,
         attackSpeed : 2,
 		attackPower : 10,
-		cost : 7
+        reward : 7
+    },
+    healer : {
+        name : "healer",
+        width : 128,
+        height : 128,
+        hp : 150,
+        moveSpeed : 50,
+        attackRange : 300,
+        attackSpeed : 2000,
+        attackPower : 15,
+        healRange : 150,        // this matters if his heal skill is an area of effect.
+        reward : 10
     }
 };
 
-var BossInfo = {
+var BossZombieInfo = {
     heavy : {
         name : "heavy",
         width : 250,
@@ -75,7 +68,7 @@ var BossInfo = {
         attackRange : 150,
         attackSpeed : 2,
         attackPower : 60,
-		cost : 20
+		reward : 20
     },
     ranged : {
         name : "ranged",
@@ -86,7 +79,7 @@ var BossInfo = {
         attackRange : 250,
         attackSpeed : 0.5,
         attackPower : 10,
-		cost : 20
+		reward : 20
     }
 };
 
@@ -134,6 +127,18 @@ var HumanTroopInfo = {
         attackSpeed : 1,
         attackPower : 5,
         cost : 80
+    },
+    wizard : {
+        name : "wizard",
+        width : 128,
+        height : 128,
+        hp : 100,
+        moveSpeed : 100,
+        attackRange : 300,
+        attackSpeed : 1000,
+        attackPower : 5,
+        damageRange : 150,
+        cost : 150
     }
 };
 
@@ -160,6 +165,17 @@ var TowerInfo =
         attackPower : 10,
         cost : 80,
         build_interval : 5000
+    },
+    wizard : {
+        name : "wizard",
+        hp : 100,
+        width : 85,
+        height : 133,
+        attackRange : 200,      // 200 pixels
+        attackSpeed : 1000,     // once per second
+        attackPower : 10,
+        cost : 100,
+        build_interval : 6000
     }
 };
 

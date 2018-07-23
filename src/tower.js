@@ -8,7 +8,7 @@ towerImage_lower.src = "img/tower_lower.png";
 
 var TowerObject = function( towerType, pos_x, pos_y ){
     this.objectType = "tower";
-    this.unitInfo = new Tower( towerType );
+    this.unitInfo = TowerInfo[ towerType ];
     // x, y position starts from the top left corner.
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
@@ -55,7 +55,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.update = function( deltaTime )
     {
         // attack nearby zombies only if a bound troop has not reached the tower yet.
-        if( this.boundTroop === null || this.boundTroop.isOnTower === false ) {
+        if( this.boundTroop === null || this.boundTroop.isOnTower() === false ) {
             this.findTarget();
             this.fire();
         }
@@ -65,7 +65,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.render = function( context )
     {
         var image = towerImage;
-        if( this.boundTroop && this.boundTroop.isOnTower )
+        if( this.boundTroop && this.boundTroop.isOnTower() )
         {
             context.drawImage(towerImage_upper, this.get_source_x(), this.get_source_y(),
                 towerImage.width, towerImage.height,

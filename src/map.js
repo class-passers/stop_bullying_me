@@ -18,14 +18,12 @@ function loadMapData()
 {
     var jsonData = cur_level.map;
 
-
     worldMap.width = jsonData["layers"][0]["width"];
     worldMap.height = jsonData["layers"][0]["height"];
     worldMap.tileHeight = jsonData["tileheight"];
     worldMap.tileWidth = jsonData["tilewidth"];
 
-
-    console.log("w = " + worldMap.width + ", h = " + worldMap.height );
+    //console.log("w = " + worldMap.width + ", h = " + worldMap.height );
     worldMap.mapGrid = new Array( worldMap.height );
     for( var i = 0; i < worldMap.height; i++ ) {
         worldMap.mapGrid[i] = new Array( worldMap.width );

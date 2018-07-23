@@ -122,6 +122,68 @@ var allHumanImages = {
             image_left: null,
             image_right: null
         }
+    },
+    wizard : {
+        idle: {
+            image_src_left: "img/wizard_idle.png",
+            image_src_right: "img/wizard_idle.png",
+            max_num_sprites: 5,
+            num_sprites_horz: 5,
+            num_sprites_vert: 1,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        walk: {
+            image_src_left: "img/wizard_walk.png",
+            image_src_right: "img/wizard_walk.png",
+            max_num_sprites: 5,
+            num_sprites_horz: 2,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        moveInTower: {
+            image_src_left: "img/wizard_walk.png",
+            image_src_right: "img/wizard_walk.png",
+            max_num_sprites: 5,
+            num_sprites_horz: 2,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image_left: null,
+            image_right: null
+        },
+        dying: {
+            image_src_left: "img/wizard_die.png",
+            image_src_right: "img/wizard_die.png",
+            max_num_sprites: 5,
+            num_sprites_horz: 5,
+            num_sprites_vert: 1,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image_left: null,
+            image_right: null
+        },
+        attack: {
+            image_src_left: "img/wizard_attack.png",
+            image_src_right: "img/wizard_attack.png",
+            max_num_sprites: 5,
+            num_sprites_horz: 3,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image_left: null,
+            image_right: null
+        }
     }
 };
 

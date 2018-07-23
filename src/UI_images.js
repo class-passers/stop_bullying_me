@@ -139,7 +139,7 @@ var buttonImages = {
             image : null
         }
     },
-	build3 : {
+    build3 : {
         default : {
             image_src : "img/button_wizard.png",
             sprite_width : 70,

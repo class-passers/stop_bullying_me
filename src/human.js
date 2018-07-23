@@ -1,7 +1,7 @@
 var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.objectType = "human";
 
-    this.unitInfo = new Human(humanType);
+    this.unitInfo = HumanTroopInfo[humanType];
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
     this.z = 0;
@@ -21,7 +21,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.boundTower.boundTroop = this;
     this.curTarget = null;
     this.isOnCooldown = false;
-    this.isOnTower = false;
+    this.isReadyToFight = false;
     this.movePath = find_grass_path( new Pos( this.x, this.y + this.height - 1 ), new Pos( tower.x, tower.y + tower.height - 1 ) );
 
     // target tile index that this troop is pursuing
@@ -85,15 +85,10 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.update = function (deltaTime) {
 
         if (this.state === 'idle') {
-
-            //if (this.isOnCooldown === false) {
-            //    this.changeState('walk');
-            //}
-
             // if the troop was in attack state, it should be idle until they find a near enemy
             if( this.subState === 'moveInTower' )
             {
-                if( this.boundTower !== null && this.boundTower.isBuilt === true )
+                if( this.boundTower !== null && this.boundTower.hp > 0 && this.boundTower.isBuilt === true )
                 {
                     this.subState = "phase1";
                     this.changeState("moveInTower");
@@ -104,10 +99,10 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                 if( this.isOnCooldown === false ) {
                     this.curTarget = this.findClosestTarget();
                     if (this.curTarget !== null) {
-                        if (this.boundTower !== null && this.isInAttackRange(this.curTarget)) {
+                        if (this.isOnTower() === true && this.isInAttackRange(this.curTarget)) {
                             this.changeState('attack');
                         }
-                        else if (this.boundTower === null && this.isInAttackRange2(this.curTarget)) {
+                        else if (this.isOnTower() === false && this.isInAttackRange2(this.curTarget)) {
                             this.changeState('walk');
                         }
                     }
@@ -127,7 +122,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             }
         }
         else if (this.state === 'walk') {
-            if( this.boundTower !== null ) {
+            if( this.boundTower !== null && this.boundTower.hp > 0 ) {
                 // troop doesn't walk except constructing phase if there is a bound tower.
                 if (this.isReachedTower() ) {
                     // just wait
@@ -163,14 +158,12 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.scale = 0.0;
                 }
             }
-
             // phase2 : hide image for a while
             else if( this.subState === "phase2" )
             {
                 var self = this;
                 Time.Wait( function() { self.subState = "phase3"; self.scale = 0.80; }, 0.5 );
             }
-
             // phase3 : popping up the upper part on top of the tower, slightly scaled down.
             else if( this.subState === "phase3" )
             {
@@ -180,19 +173,17 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                     this.subState = "phase4";
                 }
             }
-
             // the troop is now ready to fight
             else if( this.subState === "phase4" )
             {
                 // this tells the troop is in attack state even if it is in idle state due to the attack cool-down or
                 // not finding a nearby enemy.
                 this.subState = 'attack';
-                this.changeState("attack");
-                this.isOnTower = true;
+                this.changeState("idle");
+                this.isReadyToFight = true;
             }
         }
         else if (this.state === 'attack') {
-            this.curTarget = this.findClosestTarget();
             if( this.curTarget !== null ) {
                 if (this.boundTower !== null) {
                     if (this.isInAttackRange(this.curTarget))
@@ -249,19 +240,38 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.renderTroop = function( context )
     {
         var image = this.curImage.image_right;
+
+        var flipped = false;
         if( this.curTarget !== null && (this.state === 'attack' || (this.state === 'idle' && this.subState === 'attack' ) ) )
         {
-            if( this.curTarget.x < this.x )
-                image = this.curImage.image_left;
+            if( this.curTarget.x < this.x ) {
+                flipped = true;
+                //image = this.curImage.image_left;
+            }
         }
         else {
             if (this.vx < 0) {
-                image = this.curImage.image_left;
+                flipped = true;
+                //image = this.curImage.image_left;
             }
         }
-        context.drawImage(image, this.get_source_x(), this.get_source_y(),
-            this.get_sprite_width(), this.get_sprite_height(),
-            this.get_x(), this.get_y(), this.width * this.scale, this.height * this.scale);
+
+        if( flipped ) {
+            context.save();
+            context.scale(-1, 1);
+            context.drawImage(image, this.get_source_x(), this.get_source_y(),
+                this.get_sprite_width(), this.get_sprite_height(),
+                -this.get_x() - this.width * this.scale, this.get_y(), this.width * this.scale, this.height * this.scale);
+            context.restore();
+        }
+        else {
+            context.drawImage(image, this.get_source_x(), this.get_source_y(),
+                this.get_sprite_width(), this.get_sprite_height(),
+                this.get_x(), this.get_y(), this.width * this.scale, this.height * this.scale);
+        }
+
+
+
         this.hpBar.render(context);
     };
 
@@ -269,7 +279,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.render = function (context) {
         // when the troop is in the tower,
         // troop will call render function directly rather than this;
-        if( this.boundTower && this.boundTower.hp > 0 && this.isOnTower )
+        if( this.isOnTower() )
         {
             return;
         }
@@ -319,6 +329,11 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             }
         }
         return closestTarget;
+    };
+
+    this.isOnTower = function()
+    {
+        return this.boundTower && this.boundTower.hp > 0 && this.isReadyToFight;
     };
 
     this.isReachedTower = function()
@@ -428,11 +443,16 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                         damage += this.boundTower.unitInfo.attackPower;
                     }
 
-                    if( this.isRangedUnit() )
+                    if( this.unitInfo.name === "ranged") {
+                        var center_x = this.x + Math.floor(this.width / 2);
+                        var center_y = this.y + Math.floor(this.height / 2);
+                        gameObjects.push(new Kunai(center_x, center_y, target, damage));
+                    }
+                    else if( this.unitInfo.name === "wizard" )
                     {
                         var center_x = this.x + Math.floor(this.width / 2);
-                        var center_y = this.y + Math.floor(this.height/ 5);
-                        gameObjects.push( new Kunai( center_x, center_y, target, damage ) );
+                        var center_y = this.y + Math.floor(this.height / 2);
+                        gameObjects.push(new Fireball(center_x, center_y, target, damage, this.unitInfo.damageRange ));
                     }
                     else {
                         target.takeDamage(damage);
