@@ -54,6 +54,7 @@ var baseObject = function(pos_x, pos_y )
 	this.lose = function()
 	{
 		pauseGame();
+		Time.TimeScale(1);
         cur_game_state = gameStatus.lost;
 		console.log("Lose");
 		
@@ -73,6 +74,7 @@ var baseObject = function(pos_x, pos_y )
 	this.win = function()
 	{
 		pauseGame();
+		Time.TimeScale(1);
         cur_game_state = gameStatus.won;
         cleared_level = cur_level_index+1;
 		console.log("Win");

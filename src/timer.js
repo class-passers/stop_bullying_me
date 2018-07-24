@@ -19,6 +19,7 @@ var Time = {
 	waiting : [],
 	repeating : [],
 	id : 0,
+	time_scale : 1,
 	
 	Wait : function(func, interval, ...params){
 		this.id++;
@@ -83,7 +84,7 @@ var Time = {
 	},
 	Tick : function(){
 		this.now = new Date().getTime();
-		this.delta = (this.now - this.last) / 1000;
+		this.delta = ((this.now - this.last) / 1000)*this.time_scale;
 		this.last = this.now;
 		this.totalSec += this.delta;
 	},
@@ -92,5 +93,11 @@ var Time = {
 		this.id = 0;
 		this.waiting = [];
 		this.repeating = [];
+		this.time_scale = 1;
+	},
+	TimeScale : function(scale){
+		if(scale > 0)
+			this.time_scale = scale;
+		console.log("time scale : " + this.time_scale);
 	}
 };

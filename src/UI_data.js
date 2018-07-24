@@ -84,7 +84,7 @@ var ContainerInfo = {
 		name : "timer",
 		x : 0,
 		y : 0,
-		buttons : ["pause"],
+		buttons : ["pause","time_double","time_half","time_default"],
 		indicators : [],
 		visibility : true,
 		uiLayer : 0,
@@ -205,6 +205,45 @@ var ButtonInfo = {
 		text : false,
 		param : null,
 		execute : function(){pauseGame(); hideStateContainer("paused");}
+	},
+	time_double : {
+		type : "button",
+		name : "time_double",
+		x : 110,
+		y : 10,
+		width : 70,
+		height : 70,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : 2,
+		execute : function(p){Time.TimeScale(p); hideTimerButton("time_half");}
+	},
+	time_half : {
+		type : "button",
+		name : "time_half",
+		x : 110,
+		y : 10,
+		width : 70,
+		height : 70,
+		display_level : 0,
+		visible : false,
+		text : false,
+		param : 0.5,
+		execute : function(p){Time.TimeScale(p); hideTimerButton("time_default");}
+	},
+	time_default : {
+		type : "button",
+		name : "time_default",
+		x : 110,
+		y : 10,
+		width : 70,
+		height : 70,
+		display_level : 0,
+		visible : false,
+		text : false,
+		param : 1,
+		execute : function(p){Time.TimeScale(p); hideTimerButton("time_double");}
 	},
 	// next stage
 	next : {
@@ -482,6 +521,22 @@ function hideStateContainer(except)
 	}
 	if(except == null)
 		mouse.uiLayer = 0;
+}
+
+function hideTimerButton(except)
+{
+	for(var i = 0; i < ContainerInfo["timer"].buttons.length; i++)
+	{
+		if(ContainerInfo["timer"].buttons[i] !== except &&
+		ContainerInfo["timer"].buttons[i] !== "pause")
+		{
+			FindButton(ContainerInfo["timer"].buttons[i]).isVisible = false;
+		}
+		else
+		{
+			FindButton(ContainerInfo["timer"].buttons[i]).isVisible = true;
+		}
+	}
 }
 
 ////////// Start menu control
