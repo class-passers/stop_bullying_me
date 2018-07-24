@@ -239,33 +239,29 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.renderTroop = function( context )
     {
-        var image = this.curImage.image_right;
-
         var flipped = false;
         if( this.curTarget !== null && (this.state === 'attack' || (this.state === 'idle' && this.subState === 'attack' ) ) )
         {
             if( this.curTarget.x < this.x ) {
                 flipped = true;
-                //image = this.curImage.image_left;
             }
         }
         else {
             if (this.vx < 0) {
                 flipped = true;
-                //image = this.curImage.image_left;
             }
         }
 
         if( flipped ) {
             context.save();
             context.scale(-1, 1);
-            context.drawImage(image, this.get_source_x(), this.get_source_y(),
+            context.drawImage(this.curImage.image, this.get_source_x(), this.get_source_y(),
                 this.get_sprite_width(), this.get_sprite_height(),
                 -this.get_x() - this.width * this.scale, this.get_y(), this.width * this.scale, this.height * this.scale);
             context.restore();
         }
         else {
-            context.drawImage(image, this.get_source_x(), this.get_source_y(),
+            context.drawImage(this.curImage.image, this.get_source_x(), this.get_source_y(),
                 this.get_sprite_width(), this.get_sprite_height(),
                 this.get_x(), this.get_y(), this.width * this.scale, this.height * this.scale);
         }

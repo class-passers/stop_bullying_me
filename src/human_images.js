@@ -1,188 +1,158 @@
 var allHumanImages = {
     normal : {
         idle: {
-            image_src_left: "img/knight_idle_flip.png",
-            image_src_right: "img/knight_idle.png",
+            image_src: "img/knight_idle.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         walk: {
-            image_src_left: "img/knight_walk_flip.png",
-            image_src_right: "img/knight_walk.png",
+            image_src: "img/knight_walk.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         moveInTower: {
-            image_src_left: "img/knight_walk_flip.png",
-            image_src_right: "img/knight_walk.png",
+            image_src: "img/knight_walk.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         dying: {
-            image_src_left: "img/knight_dying_flip.png",
-            image_src_right: "img/knight_dying.png",
+            image_src: "img/knight_dying.png",
             max_num_sprites: 10,
             num_sprites_horz: 2,
             num_sprites_vert: 5,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image_left: null,
-            image_right: null
+            image: null
         },
         attack: {
-            image_src_left: "img/knight_attack_flip.png",
-            image_src_right: "img/knight_attack.png",
+            image_src: "img/knight_attack.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image_left: null,
-            image_right: null
+            image: null
         }
     },
     ranged : {
         idle: {
-            image_src_left: "img/ninja_idle_flip.png",
-            image_src_right: "img/ninja_idle.png",
+            image_src: "img/ninja_idle.png",
             max_num_sprites: 10,
             num_sprites_horz: 4,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         walk: {
-            image_src_left: "img/ninja_run_flip.png",
-            image_src_right: "img/ninja_run.png",
+            image_src: "img/ninja_run.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         moveInTower: {
-            image_src_left: "img/ninja_run_flip.png",
-            image_src_right: "img/ninja_run.png",
+            image_src: "img/ninja_run.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         dying: {
-            image_src_left: "img/ninja_die_flip.png",
-            image_src_right: "img/ninja_die.png",
+            image_src: "img/ninja_die.png",
             max_num_sprites: 10,
             num_sprites_horz: 4,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image_left: null,
-            image_right: null
+            image: null
         },
         attack: {
-            image_src_left: "img/ninja_attack_flip.png",
-            image_src_right: "img/ninja_attack.png",
+            image_src: "img/ninja_attack.png",
             max_num_sprites: 10,
             num_sprites_horz: 5,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image_left: null,
-            image_right: null
+            image: null
         }
     },
     wizard : {
         idle: {
-            image_src_left: "img/wizard_idle.png",
-            image_src_right: "img/wizard_idle.png",
+            image_src: "img/wizard_idle.png",
             max_num_sprites: 5,
             num_sprites_horz: 5,
             num_sprites_vert: 1,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         walk: {
-            image_src_left: "img/wizard_walk.png",
-            image_src_right: "img/wizard_walk.png",
+            image_src: "img/wizard_walk.png",
             max_num_sprites: 5,
             num_sprites_horz: 2,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         moveInTower: {
-            image_src_left: "img/wizard_walk.png",
-            image_src_right: "img/wizard_walk.png",
+            image_src: "img/wizard_walk.png",
             max_num_sprites: 5,
             num_sprites_horz: 2,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
-            image_left: null,
-            image_right: null
+            image: null
         },
         dying: {
-            image_src_left: "img/wizard_die.png",
-            image_src_right: "img/wizard_die.png",
+            image_src: "img/wizard_die.png",
             max_num_sprites: 5,
             num_sprites_horz: 5,
             num_sprites_vert: 1,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image_left: null,
-            image_right: null
+            image: null
         },
         attack: {
-            image_src_left: "img/wizard_attack.png",
-            image_src_right: "img/wizard_attack.png",
+            image_src: "img/wizard_attack.png",
             max_num_sprites: 5,
             num_sprites_horz: 3,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image_left: null,
-            image_right: null
+            image: null
         }
     }
 };
@@ -192,17 +162,14 @@ for( var type in allHumanImages ) {
     if( allHumanImages.hasOwnProperty(type) ) {
         for (var status in allHumanImages[type]) {
             if( allHumanImages[type].hasOwnProperty( status ) ) {
-                allHumanImages[type][status].image_left = new Image();
-                allHumanImages[type][status].image_left.src = allHumanImages[type][status].image_src_left;
-                allHumanImages[type][status].image_left.onload = (function (type, it) {
+                allHumanImages[type][status].image = new Image();
+                allHumanImages[type][status].image.src = allHumanImages[type][status].image_src;
+                allHumanImages[type][status].image.onload = (function (type, it) {
                     return function () {
-                        allHumanImages[type][it].sprite_width = Math.floor(allHumanImages[type][it].image_left.width / allHumanImages[type][it].num_sprites_horz);
-                        allHumanImages[type][it].sprite_height = Math.floor(allHumanImages[type][it].image_left.height / allHumanImages[type][it].num_sprites_vert);
+                        allHumanImages[type][it].sprite_width = Math.floor(allHumanImages[type][it].image.width / allHumanImages[type][it].num_sprites_horz);
+                        allHumanImages[type][it].sprite_height = Math.floor(allHumanImages[type][it].image.height / allHumanImages[type][it].num_sprites_vert);
                     }
                 }(type, status));
-
-                allHumanImages[type][status].image_right = new Image();
-                allHumanImages[type][status].image_right.src = allHumanImages[type][status].image_src_right;
             }
         }
     }
