@@ -22,7 +22,7 @@ var baseObject = function(pos_x, pos_y )
 
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
-	this.resource_indicator = new IndicatorOjbect(null, "money", 0);
+	this.resource_indicator = new IndicatorObject(null, "money", 0);
 	this.button_popup = null;
 
     this.x = pos_x;

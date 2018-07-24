@@ -1,4 +1,4 @@
-var IndicatorOjbect = function(container, indicatorType, txt_value)
+var IndicatorObject = function(container, indicatorType, txt_value)
 {
 	var self = this;
 	this.uiInfo = Indicator(indicatorType);

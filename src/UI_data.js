@@ -460,7 +460,9 @@ function createMoneyIndicator(type, value, pos_x, pos_y)
 {
 	IndicatorInfo[type].x = pos_x;
 	IndicatorInfo[type].y = pos_y;
-	var temp = new IndicatorOjbect(null, type, value);
+	var temp = new IndicatorObject(null, type, value);
+	
+	uiObjects.push(temp);
 }
 
 function hideStateContainer(except)
@@ -502,7 +504,7 @@ function createStartMenu()
 		}
 		else
 		{
-			temp = new IndicatorOjbect(level, "locked", null);
+			temp = new IndicatorObject(level, "locked", null);
 		}
 		var gap = 100;
 		var start_x = (((levels.length/2)*gap)+((levels.length/2)*temp.width));

@@ -26,7 +26,7 @@ var ContainerObject = function( containerType)
 		}
 		for(var i = 0; i < self.uiInfo.indicators.length; i++)
 		{
-			self.childElements.push(new IndicatorOjbect(self, self.uiInfo.indicators[i], null));
+			self.childElements.push(new IndicatorObject(self, self.uiInfo.indicators[i], null));
 		}
 	}
 	this.movingOn = function(layer)
