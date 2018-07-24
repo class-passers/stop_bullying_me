@@ -1,7 +1,7 @@
 var levels = [
     {   // for level 1
-        num_zombies : 18,
-        remaining_zombies : 18,
+        num_zombies : 15,
+        remaining_zombies : 15,
         populate_zombie_info : [
             {
                 start : 0,          // when to start populating a zombie in seconds
@@ -17,14 +17,6 @@ var levels = [
                 type : "fast",
                 amount : 6,
                 remaining : 6,
-                timer : null
-            },
-            {
-                start : 6,
-                interval : 5,
-                type : "healer",
-                amount : 3,
-                remaining : 3,
                 timer : null
             }
         ],
@@ -43,33 +35,42 @@ var levels = [
 		start_money : 200
     },
     {   // for level 2
-        num_zombies : 15,
-        remaining_zombies : 15,
+        num_zombies : 23,
+        remaining_zombies : 23,
         populate_zombie_info : [
             {
                 start : 0,          // when to start populating a zombie in seconds
                 interval : 5,       // interval time for populating a zombie in seconds
                 type : "normal",    // what type of zombie
-                amount : 8,         // how many zombies are populated.
-                remaining : 8,
+                amount : 10,         // how many zombies are populated.
+                remaining : 10,
                 timer : null        // just for timer variable
             },
             {
                 start : 3,
                 interval : 4,
                 type : "fast",
-                amount : 6,
-                remaining : 6,
+                amount : 10,
+                remaining : 10,
+                timer : null
+            },
+            {
+                start : 10,
+                interval : 5,
+                type : "healer",
+                amount : 1,
+                remaining : 1,
                 timer : null
             }
+
         ],
         populate_boss_info : [
             {
-                start : 35,
-                interval : 0,
+                start : 30,
+                interval : 10,
                 type : "heavy",
-                amount : 1,
-                remaining : 1,
+                amount : 2,
+                remaining : 2,
                 timer : null
             }
         ],
@@ -77,34 +78,43 @@ var levels = [
         map : level1_map,
         start_money : 200
     },
-    {   // for level 2
-        num_zombies : 15,
-        remaining_zombies : 15,
+    {   // for level 3
+        num_zombies : 31,
+        remaining_zombies : 31,
         populate_zombie_info : [
             {
                 start : 0,          // when to start populating a zombie in seconds
                 interval : 5,       // interval time for populating a zombie in seconds
                 type : "normal",    // what type of zombie
-                amount : 8,         // how many zombies are populated.
-                remaining : 8,
+                amount : 15,         // how many zombies are populated.
+                remaining : 15,
                 timer : null        // just for timer variable
             },
             {
                 start : 3,
                 interval : 4,
                 type : "fast",
-                amount : 6,
-                remaining : 6,
+                amount : 10,
+                remaining : 10,
+                timer : null
+            },
+            {
+                start : 10,
+                interval : 5,
+                type : "healer",
+                amount : 3,
+                remaining : 3,
                 timer : null
             }
+
         ],
         populate_boss_info : [
             {
-                start : 35,
-                interval : 0,
+                start : 30,
+                interval : 10,
                 type : "heavy",
-                amount : 1,
-                remaining : 1,
+                amount : 3,
+                remaining : 3,
                 timer : null
             }
         ],
