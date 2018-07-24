@@ -135,7 +135,7 @@ var HumanTroopInfo = {
         hp : 100,
         moveSpeed : 100,
         attackRange : 300,
-        attackSpeed : 1000,
+        attackSpeed : 1,
         attackPower : 5,
         damageRange : 150,
         cost : 150
