@@ -69,6 +69,48 @@ var buttonImages = {
 			image : null
 		}
 	},
+	time_double : {
+		default : {
+			image_src : "img/button_time_double.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_time_double_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+	time_half : {
+		default : {
+			image_src : "img/button_time_half.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_time_half_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+	time_default : {
+		default : {
+			image_src : "img/button_time_default.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_time_default_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
 	next : {
 		default : {
 			image_src : "img/button_nextStage.png",

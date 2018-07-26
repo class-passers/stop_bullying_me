@@ -198,6 +198,7 @@ function buildTower()
 function update()
 {
     Time.Tick();
+	mouse.checkUI();
     //console.log( "delta = " + Time.delta );
 
     if( cur_game_state === gameStatus.playing ) {
