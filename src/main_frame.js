@@ -24,7 +24,7 @@ function ToggleDebugDraw()
     debug_draw = !debug_draw;
 }
 
-//var window_focused = true;
+var window_focused = true;
 window.addEventListener("mousedown", function() {
     //window_focused = true;
     if( music.bgm_played === false ) {
