@@ -15,6 +15,11 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     }
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
+    var nextPos = get_world_next_position(1);
+    if( nextPos.x - pos_x > 0 ) {
+        // move left by its width if its next tile is on his right side
+        this.x -= this.unitInfo.width;
+    }
 
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
@@ -306,9 +311,9 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
         else {
-            console.log("current = " + this.x + "+" + this.width + ", " + this.y + "+" + this.height);
-            console.log("next = " + nextPos.x + ", " + nextPos.y);
-            console.log("wrong distance = " + distX + " " + distY );
+            console.log("something weired on move path:");
+            console.log("current = " + this.x + "( " + this.width/2 + " ), " + this.y + " ( " + this.height + " ) ->  next = " + nextPos.x + ", " + nextPos.y );
+            this.moveIndex += 1;
         }
     };
 

@@ -73,15 +73,18 @@ function get_world_next_position( index )
 {
     if( worldMap.movePath !== null )
     {
-        if( index < worldMap.movePath.length ) {
-            var nextLocation = worldMap.movePath[index];
-            // return bottom left position of the grid
-            return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
-        }
-        else
+        if( index < 0 )
         {
             console.log("went out of index");
+            index = 0;
         }
+        else if( index >= worldMap.movePath.length ) {
+            console.log("went out of index");
+            index = worldMap.movePath.length - 1;
+        }
+        var nextLocation = worldMap.movePath[index];
+        // return bottom left position of the grid
+        return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
     }
     return new Pos( 0, 0 );
 }
@@ -96,7 +99,7 @@ function get_start_location()
     if( worldMap.movePath !== null )
     {
         var nextLocation = worldMap.movePath[0];
-        return new Pos( Math.floor( ( nextLocation.x - 2 ) * worldMap.tileWidth ) ,
+        return new Pos( Math.floor( nextLocation.x  * worldMap.tileWidth ) ,
             Math.floor( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
     }
     else
