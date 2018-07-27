@@ -42,8 +42,8 @@ var baseObject = function(pos_x, pos_y )
 	this.resource = cur_level.start_money;
 	this.resource_indicator = new IndicatorObject(null, "money", 0);
 
-    this.x = pos_x;
-    this.y = pos_y - this.unitInfo.height;
+    this.x = pos_x - Math.floor( this.unitInfo.width / 4 );
+    this.y = pos_y - Math.floor( this.unitInfo.height * 3 / 4 );
     this.z = 0;
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;

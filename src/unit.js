@@ -184,8 +184,8 @@ var BaseInfo =
     {
         name : "level0",
         hp : 300,
-        width : 150,
-        height : 121,
+        width : 300,
+        height : 300,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1.5,     // once per second
         attackPower : 25,
@@ -195,8 +195,8 @@ var BaseInfo =
     {
         name : "level1",
         hp : 400,
-        width : 150,
-        height : 121,
+        width : 300,
+        height : 300,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1.5,
         attackPower : 25,
@@ -206,8 +206,8 @@ var BaseInfo =
     {
         name : "level2",
         hp : 500,
-        width : 150,
-        height : 121,
+        width : 300,
+        height : 300,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1.5,
         attackPower : 25,
