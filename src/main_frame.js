@@ -68,6 +68,7 @@ function restartGame()
 {
     //cur_level_index = 0;
     startGame(cur_level_index);
+    music.bgm.play();
 }
 
 function nextLevel()
@@ -75,14 +76,17 @@ function nextLevel()
     cur_level_index++;
     //cleared_level = cur_level_index;
     startGame(cur_level_index);
+    music.bgm.play();
 }
 function pauseGame()
 {
 	cur_game_state = gameStatus.paused;
+    music.bgm.pause();
 }
 function resumeGame()
 {
     cur_game_state = gameStatus.playing;
+    music.bgm.play();
 }
 function startGame( level )
 {
@@ -191,6 +195,7 @@ function buildTower()
 		gameObjects.push( new BuildObject( towerType, TowerInfo[towerType].build_interval,
             build_indicator.x, build_indicator.y + worldMap.tileHeight,
             TowerInfo[towerType].width, TowerInfo[towerType].height ) );
+        music.towerSound.play();
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
 		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
         tower_index++;
