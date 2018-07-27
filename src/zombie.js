@@ -214,6 +214,15 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
                 flipped = true;
             }
         }
+
+        if( debug_draw && this.isBoss )
+        {
+            context.beginPath();
+            context.arc(Math.floor(this.get_x() + this.width / 2), Math.floor(this.get_y() + this.height / 2), this.unitInfo.attackRange, 0, 2 * Math.PI);
+            context.fillStyle = "rgba(128, 0, 0, 0.2)";
+            context.fill();
+        }
+
         if( flipped ) {
             context.save();
             context.scale(-1, 1);

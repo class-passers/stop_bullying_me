@@ -18,6 +18,11 @@ var mouse = new mouseObject(canvas);
 var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
+var debug_draw = true;
+function ToggleDebugDraw()
+{
+    debug_draw = !debug_draw;
+}
 
 //var window_focused = true;
 window.addEventListener("mousedown", function() {

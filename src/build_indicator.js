@@ -71,8 +71,15 @@ var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y,
     };
     this.render = function( context )
     {
+    	// draw the attack range of the bound troop, not tower's range
+        context.beginPath();
+        context.arc( Math.floor(this.get_x() + this.width/2), Math.floor(this.get_y() + this.height/2), HumanTroopInfo[this.towerType].attackRange, 0, 2*Math.PI );
+        context.fillStyle = "rgba(0, 0, 128, 0.2)";
+        context.fill();
+
         context.drawImage( this.image, this.get_source_x(), this.get_source_y(),
             towerImage.width, towerImage.height,
             this.get_x(), this.get_y(), this.width, this.height );
+
     };
 };

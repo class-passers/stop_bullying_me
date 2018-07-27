@@ -99,7 +99,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
                 if( this.isOnCooldown === false ) {
                     this.curTarget = this.findClosestTarget();
                     if (this.curTarget !== null) {
-                        if (this.isOnTower() === true && this.isInAttackRange(this.curTarget)) {
+                        if (this.isReadyToFight === true && this.isInAttackRange(this.curTarget)) {
                             this.changeState('attack');
                         }
                         else if (this.isOnTower() === false && this.isInAttackRange2(this.curTarget)) {
@@ -250,6 +250,13 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
             if (this.vx < 0) {
                 flipped = true;
             }
+        }
+
+        if( debug_draw ) {
+            context.beginPath();
+            context.arc(Math.floor(this.get_x() + this.width / 2), Math.floor(this.get_y() + this.height / 2), this.unitInfo.attackRange, 0, 2 * Math.PI);
+            context.fillStyle = "rgba(0, 128, 0, 0.2)";
+            context.fill();
         }
 
         if( flipped ) {
