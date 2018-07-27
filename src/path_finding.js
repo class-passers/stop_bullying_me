@@ -35,7 +35,7 @@ function get_neighbors( mapGrid, width, height, node, end_node, isAttacker )
             else {
                 // increases move cost to the road to avoid it for defender troops
                 if( mapGrid[next_y][next_x] === ROAD || mapGrid[next_y][next_x] === END ){
-                    moveCost = 50;
+                    moveCost = 10;
                 }
 
                 neighbors.push(new SearchNode(next_x, next_y, node.costFrom + moveCost, get_heuristic(new Pos(next_x, next_y), end_node), node));
