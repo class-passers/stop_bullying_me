@@ -106,7 +106,7 @@ var ContainerInfo = {
 		name : "paused",
 		x : 640,
 		y : 330,
-		buttons : ["replay", "resume", "exit"],
+		buttons : ["replay", "next", "exit"],
 		indicators : ["paused"],
 		visibility : false,
 		uiLayer : 2,
@@ -530,11 +530,11 @@ function hideTimerButton(except)
 		if(ContainerInfo["timer"].buttons[i] !== except &&
 		ContainerInfo["timer"].buttons[i] !== "pause")
 		{
-			FindButton(ContainerInfo["timer"].buttons[i]).isVisible = false;
+			FindButton(ContainerInfo["timer"].buttons[i]).visibilityOff();
 		}
 		else
 		{
-			FindButton(ContainerInfo["timer"].buttons[i]).isVisible = true;
+			FindButton(ContainerInfo["timer"].buttons[i]).visibilityOn();
 		}
 	}
 }

@@ -186,6 +186,20 @@ function turnOffBuildMode()
 		build_mode = false;
 	}
 }
+function checkTowerCost()
+{
+	for(var i = 0; i < ContainerInfo["build"].buttons.length; i++)
+	{
+		if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
+		{
+			FindButton(ContainerInfo["build"].buttons[i]).clickabilityOff();
+		}
+		else
+		{
+			FindButton(ContainerInfo["build"].buttons[i]).clickabilityOn();
+		}
+	}
+}
 function buildTower()
 {
 	// check it is on road or not
@@ -242,7 +256,7 @@ function update()
             return (a.y + a.height + a.z) - (b.y + b.height + b.z)
         });
         //console.log( JSON.stringify(gameObjects));
-		
+		checkTowerCost();
 		Time.Waiting();
 		Time.Repeating();
     }
