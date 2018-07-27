@@ -55,7 +55,7 @@ var levels = [
                 timer : null
             },
             {
-                start : 10,
+                start : 20,
                 interval : 5,
                 type : "healer",
                 amount : 1,
@@ -99,7 +99,7 @@ var levels = [
                 timer : null
             },
             {
-                start : 10,
+                start : 20,
                 interval : 5,
                 type : "healer",
                 amount : 3,
