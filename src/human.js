@@ -149,38 +149,43 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
         }
         else if( this.state === 'moveInTower' )
         {
-            // phase1 : getting scale down and moving to the tower as if the troop is entering the tower
-            if( this.subState === "phase1" )
-            {
-                this.scale -= 0.01;
-                if( this.scale < 0.5 ) {
-                    this.subState = "phase2";
-                    this.scale = 0.0;
-                }
-            }
-            // phase2 : hide image for a while
-            else if( this.subState === "phase2" )
-            {
-                var self = this;
-                Time.Wait( function() { self.subState = "phase3"; self.scale = 0.80; }, 0.5 );
-            }
-            // phase3 : popping up the upper part on top of the tower, slightly scaled down.
-            else if( this.subState === "phase3" )
-            {
-                this.y -= 1;
-                if( this.boundTower.y - this.y > 60 )
-                {
-                    this.subState = "phase4";
-                }
-            }
-            // the troop is now ready to fight
-            else if( this.subState === "phase4" )
-            {
-                // this tells the troop is in attack state even if it is in idle state due to the attack cool-down or
-                // not finding a nearby enemy.
+            if( this.boundTower === null || this.boundTower.hp <= 0 ) {
                 this.subState = 'attack';
                 this.changeState("idle");
                 this.isReadyToFight = true;
+            }
+            else {
+                // phase1 : getting scale down and moving to the tower as if the troop is entering the tower
+                if (this.subState === "phase1") {
+                    this.scale -= 0.01;
+                    if (this.scale < 0.5) {
+                        this.subState = "phase2";
+                        this.scale = 0.0;
+                    }
+                }
+                // phase2 : hide image for a while
+                else if (this.subState === "phase2") {
+                    var self = this;
+                    Time.Wait(function () {
+                        self.subState = "phase3";
+                        self.scale = 0.80;
+                    }, 0.5);
+                }
+                // phase3 : popping up the upper part on top of the tower, slightly scaled down.
+                else if (this.subState === "phase3") {
+                    this.y -= 1;
+                    if (this.boundTower.y - this.y > 60) {
+                        this.subState = "phase4";
+                    }
+                }
+                // the troop is now ready to fight
+                else if (this.subState === "phase4") {
+                    // this tells the troop is in attack state even if it is in idle state due to the attack cool-down or
+                    // not finding a nearby enemy.
+                    this.subState = 'attack';
+                    this.changeState("idle");
+                    this.isReadyToFight = true;
+                }
             }
         }
         else if (this.state === 'attack') {
