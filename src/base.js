@@ -26,7 +26,8 @@ var gameStatus = {
     playing : 0,
 	paused : 1,
     won : 2,
-    lost : 3
+    lost : 3,
+	startMenu : 4
 };
 
 // base object for storing player's hp and enemies which are still alive on map

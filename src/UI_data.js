@@ -285,7 +285,7 @@ var ButtonInfo = {
 		visible : true,
 		text : false,
 		param : null,
-		execute : function(){deleteLevel(); cur_level = levels[0]; loadMapData();createStartMenu();}
+		execute : function(){deleteLevel(); cur_level = levels[0]; loadMapData();startMenu();}
 	},
 	// turn on build mode
 	build : {
@@ -582,6 +582,7 @@ function startMenu()//create start menu and hide other scenes
     FindContainer("start").isVisible = true;
     FindContainer("level").isVisible = false;
     FindContainer("credit").isVisible = false;
+	cur_game_state = gameStatus.startMenu;
     mouse.ui = uiObjects;
 	mouse.uiLayer = 0;
 }
