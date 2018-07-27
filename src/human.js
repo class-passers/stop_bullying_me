@@ -457,7 +457,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
 
     this.isRangedUnit = function()
     {
-        return this.unitInfo.attackRange >= 200;
+        return this.unitInfo.attackRange > 200;
     };
 
     this.attackTarget = function( target )

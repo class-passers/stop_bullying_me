@@ -28,7 +28,7 @@ var ZombieInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 10,
-        attackRange : 150,
+        attackRange : 200,
         attackSpeed : 2,
 		attackPower : 40,
         reward : 10
@@ -39,7 +39,7 @@ var ZombieInfo = {
         height : 128,
         hp : 100,
         moveSpeed : 50,
-        attackRange : 150,
+        attackRange : 300,
         attackSpeed : 2,
 		attackPower : 10,
         reward : 7
@@ -50,7 +50,7 @@ var ZombieInfo = {
         height : 128,
         hp : 150,
         moveSpeed : 50,
-        attackRange : 300,
+        attackRange : 250,
         attackSpeed : 2,
         attackPower : 15,
         healRange : 150,        // this matters if his heal skill is an area of effect.
@@ -65,7 +65,7 @@ var BossZombieInfo = {
         height : 250,
         hp : 300,
         moveSpeed : 30,
-        attackRange : 150,
+        attackRange : 200,
         attackSpeed : 2,
         attackPower : 60,
 		reward : 20
@@ -76,7 +76,7 @@ var BossZombieInfo = {
         height : 160,
         hp : 100,
         moveSpeed : 45,
-        attackRange : 250,
+        attackRange : 300,
         attackSpeed : 0.5,
         attackPower : 10,
 		reward : 20
@@ -90,7 +90,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 120,
         moveSpeed : 90,      // pixel per seconds
-        attackRange : 150,
+        attackRange : 200,
         attackSpeed : 1,
         attackPower : 15,
         cost : 50
@@ -101,7 +101,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 80,
         moveSpeed : 120,
-        attackRange : 150,
+        attackRange : 200,
         attackSpeed : 0.5,
         attackPower : 10,
         cost : 70
@@ -112,7 +112,7 @@ var HumanTroopInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 60,
-        attackRange : 150,
+        attackRange : 200,
         attackSpeed : 2,
         attackPower : 40,
         cost : 120
@@ -198,7 +198,7 @@ var BaseInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 0.5,     // once per second
+        attackSpeed : 1.5,
         attackPower : 25,
         cost : 1000,
         build_interval : 5000
@@ -209,7 +209,7 @@ var BaseInfo =
         width : 85,
         height : 133,
         attackRange : 200,      // 200 pixels
-        attackSpeed : 0.5,     // once per second
+        attackSpeed : 1.5,
         attackPower : 25,
         cost : 1000,
         build_interval : 5000
