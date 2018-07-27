@@ -79,8 +79,8 @@ var levels = [
         start_money : 200
     },
     {   // for level 3
-        num_zombies : 31,
-        remaining_zombies : 31,
+        num_zombies : 30,
+        remaining_zombies : 30,
         populate_zombie_info : [
             {
                 start : 0,          // when to start populating a zombie in seconds
@@ -100,10 +100,10 @@ var levels = [
             },
             {
                 start : 20,
-                interval : 5,
+                interval : 15,
                 type : "healer",
-                amount : 3,
-                remaining : 3,
+                amount : 2,
+                remaining : 2,
                 timer : null
             }
 
@@ -111,7 +111,7 @@ var levels = [
         populate_boss_info : [
             {
                 start : 30,
-                interval : 10,
+                interval : 15,
                 type : "heavy",
                 amount : 3,
                 remaining : 3,
