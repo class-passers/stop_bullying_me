@@ -12,7 +12,7 @@ var tower_positions = [];
 var cur_level = null;
 var cur_level_index = 0;
 var cleared_level = 0;
-var cur_game_state = gameStatus.playing;
+var cur_game_state = gameStatus.startMenu;
 var base = null;
 var mouse = new mouseObject(canvas);
 var build_indicator = null;
@@ -38,6 +38,10 @@ window.onfocus = function() {
 };
 window.onblur = function() {
     window_focused = false;
+	if(cur_game_state === gameStatus.playing)
+	{
+		ButtonInfo["pause"].execute();
+	}
     // pause
     //pauseGame();
     //console.log("paused" + Time.now );
@@ -185,8 +189,9 @@ function turnOffBuildMode()
 function buildTower()
 {
 	// check it is on road or not
-	if(build_indicator.isValid == true &&
-		mouse.interacting_button == null)
+	if(build_indicator.isValid === true &&
+		mouse.interacting_button === null &&
+		cur_game_state === gameStatus.playing)
 	{
 	    var towerType = build_indicator.towerType;
 		createMoneyIndicator("spend", TowerInfo[towerType].cost, build_indicator.x, (build_indicator.y-150));
