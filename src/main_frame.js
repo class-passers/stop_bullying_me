@@ -18,7 +18,7 @@ var mouse = new mouseObject(canvas);
 var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
-var debug_draw = true;
+var debug_draw = false;
 function ToggleDebugDraw()
 {
     debug_draw = !debug_draw;

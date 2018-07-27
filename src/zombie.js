@@ -76,6 +76,16 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         return this.curImage.sprite_height * Math.floor(this.spriteIndex / this.curImage.num_sprites_horz);
     };
 
+    this.get_center_x = function()
+    {
+        return Math.floor( this.x + this.width / 2 );
+    };
+
+    this.get_center_y = function()
+    {
+        return Math.floor( this.y + this.height / 2 );
+    };
+
     this.get_sprite_width = function () {
         return this.curImage.sprite_width;
     };
@@ -218,9 +228,24 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
         if( debug_draw && ( this.isBoss || this.unitInfo.name === "healer" ) )
         {
             context.beginPath();
-            context.arc(Math.floor(this.get_x() + this.width / 2), Math.floor(this.get_y() + this.height / 2), this.unitInfo.attackRange, 0, 2 * Math.PI);
+            context.arc( this.get_center_x(), this.get_center_y(), this.unitInfo.attackRange, 0, 2 * Math.PI);
             context.fillStyle = "rgba(128, 0, 0, 0.2)";
             context.fill();
+
+
+            if( this.curTarget )
+            {
+                if( this.curTarget.hasOwnProperty("get_center_x") === false )
+                {
+                    console.log("wrong target " + this.objectType + " => " + this.curTarget.objectType + " : " + this.curTarget.unitInfo.name );
+                }
+                var target_x = Math.floor( this.curTarget.x + this.curTarget.width / 2 );
+                var target_y = Math.floor( this.curTarget.x + this.curTarget.width / 2 );
+                context.moveTo( this.get_center_x(), this.get_center_y() );
+                context.lineTo( this.curTarget.get_center_x(), this.curTarget.get_center_y() );
+                context.stroke();
+            }
+
         }
 
         if( flipped ) {

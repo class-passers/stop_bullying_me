@@ -52,6 +52,16 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         return 0;
     };
 
+    this.get_center_x = function()
+    {
+        return Math.floor( this.x + this.width / 2 );
+    };
+
+    this.get_center_y = function()
+    {
+        return Math.floor( this.y + this.height / 2 );
+    };
+
     this.update = function( deltaTime )
     {
         // attack nearby zombies only if a bound troop has not reached the tower yet.
