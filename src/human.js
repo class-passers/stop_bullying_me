@@ -4,7 +4,7 @@ var HumanObject = function( humanType, tower, pos_x, pos_y ) {
     this.unitInfo = HumanTroopInfo[humanType];
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
-    this.z = 0;
+    this.z = 1;
 
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
