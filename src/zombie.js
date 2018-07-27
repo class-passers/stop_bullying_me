@@ -11,7 +11,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
     }
     else {
         this.unitInfo = ZombieInfo[zombieType];
-        this.z = 0;
+        this.z = getRandom(5);  // not to flicker by z-fighting
     }
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
@@ -215,7 +215,7 @@ var ZombieObject = function( zombieType, is_boss, pos_x, pos_y ) {
             }
         }
 
-        if( debug_draw && this.isBoss )
+        if( debug_draw && ( this.isBoss || this.unitInfo.name === "healer" ) )
         {
             context.beginPath();
             context.arc(Math.floor(this.get_x() + this.width / 2), Math.floor(this.get_y() + this.height / 2), this.unitInfo.attackRange, 0, 2 * Math.PI);
