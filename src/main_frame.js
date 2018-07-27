@@ -32,9 +32,16 @@ window.addEventListener("mousedown", function() {
         music.bgm_played = true;
     }
 } );
-//window.onblur = function() {
-//    window_focused = false;
-//};
+window.onfocus = function() {
+    window_focused = true;
+    //resumeGame();
+};
+window.onblur = function() {
+    window_focused = false;
+    // pause
+    //pauseGame();
+    //console.log("paused" + Time.now );
+};
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
