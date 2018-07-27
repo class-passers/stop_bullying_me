@@ -88,7 +88,11 @@ function startGame( level )
     populateZombie();
 	createIngameUI();
     var endPoint = find_node( worldMap.mapGrid, 20 );
+	/*
     base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
+	/*/
+	base = new baseObject(((endPoint.x-0.5)*worldMap.tileWidth), ((endPoint.y+1.5) * worldMap.tileHeight) );
+	//*/
 	Time.Repeat(function(){base.earnMoney(1);}, 1);
     gameObjects.push(base);
 	uiObjects.push(base.resource_indicator);

@@ -1,5 +1,23 @@
+/*
 var baseImage = new Image();
 baseImage.src = "img/tower.png";
+/*/
+var baseImg = {
+	image_src : "img/Base.png",
+	max_num_sprites : 4,
+	num_sprites_horz : 4,
+	num_sprites_vert : 1,
+	sprite_width : 0,
+	sprite_height : 0,
+	image : null
+};
+baseImg.image = new Image();
+baseImg.image.src = baseImg.image_src;
+baseImg.image.onload = (function(){
+	baseImg.sprite_width = Math.floor(baseImg.image.width / baseImg.num_sprites_horz);
+	baseImg.sprite_height = Math.floor(baseImg.image.height / baseImg.num_sprites_vert);
+});
+//*/
 
 var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
@@ -23,15 +41,18 @@ var baseObject = function(pos_x, pos_y )
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
 	this.resource_indicator = new IndicatorObject(null, "money", 0);
-	this.button_popup = null;
 
     this.x = pos_x;
     this.y = pos_y - this.unitInfo.height;
     this.z = 0;
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
+	/*
 	this.image = baseImage;
 	this.max_num_sprites = 1;
+	/*/
+	this.spriteIndex = 0;
+	//*/
 
 	this.hpBar = new HPBar( this );
 
@@ -45,9 +66,16 @@ var baseObject = function(pos_x, pos_y )
 	this.takeDamage = function(damage)
 	{
 		this.hp -= damage;
+		//*
+		if((this.max_hp-this.hp) > ((this.max_hp/baseImg.max_num_sprites)*(this.spriteIndex+1)))
+		{
+			this.spriteIndex++;
+		}
+		//*/
 		if(this.hp <= 0)
 		{
 			this.lose();
+			this.spriteIndex = (baseImg.max_num_sprites-1);
 		}
 	};
 
@@ -96,12 +124,22 @@ var baseObject = function(pos_x, pos_y )
 
     this.get_source_x = function()
     {
-        return 0;
+		/*/
+		return 0;
+		/*/
+        return baseImg.sprite_width * (Math.floor(this.spriteIndex)%baseImg.num_sprites_horz);
+		//*/
     };
     this.get_source_y = function()
     {
         return 0;
     };
+	this.get_sprite_width = function() {
+		return baseImg.sprite_width;
+	};
+	this.get_sprite_height = function() {
+		return baseImg.sprite_height;
+	};	
 
     this.get_center_x = function()
     {
@@ -135,19 +173,13 @@ var baseObject = function(pos_x, pos_y )
 
 	this.render = function(context)
 	{
+		/*
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
+		/*/
+		context.drawImage(baseImg.image, this.get_source_x(), this.get_source_y(),this.get_sprite_width(), this.get_sprite_height(),this.get_x(), this.get_y(), this.width, this.height);
+		//*/
 
 		this.hpBar.render(context );
-	};
-	this.findButton = function(buttonType)
-	{
-		for(var i = 0; i < uiObjects.length; i++)
-		{
-			if(uiObjects[i].uiInfo.name === buttonType)
-			{
-				this.button_popup = uiObjects[i];
-			}
-		}
 	};
 
     this.findTarget = function() {
