@@ -11,11 +11,12 @@ var __extends = (this && this.__extends) || (function () {
 })();
 
 var TroopObject = /** @class */ (function () {
-    function TroopObject( pos_x, pos_y, unitInfo, tower ) {
+    function TroopObject( pos_x, pos_y, unitInfo, tower, is_boss ) {
         this.unitInfo = unitInfo;
         this.x = pos_x;
         this.y = pos_y - this.unitInfo.height;
         this.z = 0;
+        this.is_boss = is_boss;
 
         this.width = this.unitInfo.width;
         this.height = this.unitInfo.height;
@@ -27,6 +28,9 @@ var TroopObject = /** @class */ (function () {
         // for move vector
         this.vx = 0;
         this.vy = 0;
+
+        // target tile index that this troop is pursuing
+        this.moveIndex = 1;
 
         this.is_defender = ( tower !== null );
         if( this.is_defender )
@@ -42,13 +46,24 @@ var TroopObject = /** @class */ (function () {
         {
             this.movePath = worldMap.movePath;
             this.isReadyToFight = true;
-            this.z = getRandom(5);
+            if( this.is_boss ) {
+                this.z = 0;
+            }
+            else
+            {
+                this.z = getRandom(1, 5);
+            }
+
+            var nextPos = this.get_next_position();
+            if( nextPos.x - pos_x > 0 ) {
+                // move left by its width if its next tile is on his right side
+                this.x -= this.unitInfo.width;
+            }
+
         }
         this.curTarget = null;
         this.isOnCooldown = false;
 
-        // target tile index that this troop is pursuing
-        this.moveIndex = 1;
         // render sprite index
         this.spriteIndex = 0;
         this.scale = 1.0;
@@ -104,7 +119,7 @@ var TroopObject = /** @class */ (function () {
             return this.curImage.sprite_height;
         };
 
-        this.update = function (deltaTime) {
+        TroopObject.prototype.update = function (deltaTime) {
 
             if( this.is_defender )
                 this.updateDefender( deltaTime );
@@ -277,7 +292,117 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.updateAttacker = function( deltaTime )
         {
+            if (this.state === 'idle') {
+                if( this.subState === 'attack' )
+                {
+                    if( this.curTarget === null || this.curTarget.hp <= 0 )
+                        this.changeState('walk');
+                    else {
+                        if (this.isOnCooldown === false) {
+                            this.curTarget = this.findClosestTarget();
+                            if (this.curTarget !== null && this.isInAttackRange(this.curTarget)) {
+                                this.changeState('attack');
+                            }
+                            else {
+                                this.changeState('walk');
+                            }
+                        }
+                    }
+                }
+            }
+            else if (this.state === 'walk') {
 
+                if (is_reached_at_destination(this.moveIndex)) {
+                    this.curTarget = this.findClosestTarget();
+
+                    if( this.isInAttackRange(this.curTarget) ){
+                        this.changeState('attack');
+                    }
+                    else {
+                        this.moveTo( this.curTarget, deltaTime );
+                    }
+                }
+                else if( this.isBoss ){
+                    // boss can attack any tower or troop on his way
+                    this.curTarget = this.findClosestTarget();
+                    if (this.curTarget !== null && this.curTarget.hp > 0 && this.isInAttackRange(this.curTarget)) {
+                        this.changeState('attack');
+                    }
+                    else {
+                        this.moveAhead(deltaTime);
+                    }
+                }
+                else if( this.unitInfo.name === "healer" )
+                {
+                    this.curTarget = this.findWoundedAlliedTroop();
+                    if( this.curTarget !== null && this.curTarget.hp > 0 )
+                    {
+                        // change to attack state, but it actually heals the target.
+                        this.changeState('attack');
+                    }
+                    else
+                    {
+                        this.moveAhead(deltaTime);
+                    }
+                }
+                else {
+                    this.moveAhead(deltaTime);
+                }
+            }
+            else if (this.state === 'attack') {
+
+                if( this.curTarget !== null ) {
+                    if( this.unitInfo.name === 'healer' )
+                    {
+                        if( this.curTarget.hp > 0 )
+                        {
+                            this.healTarget( this.curTarget );
+                        }
+                    }
+                    else {
+                        if ( this.curTarget && this.curTarget.hp > 0 && this.isInAttackRange(this.curTarget)) {
+                            this.attackTarget(this.curTarget);
+                            if (this.curTarget.hp <= 0) {
+                                this.curTarget = null;
+                            }
+                        }
+                        else {
+                            this.changeState('walk');
+                        }
+                    }
+                }
+                else
+                {
+                    this.changeState('walk');
+                }
+            }
+            else if (this.state === 'dying') {
+                if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                    if (this.corpse_interval === null) {
+                        var self = this;
+                        this.corpse_interval = Time.Wait(function () {
+                            self.to_be_removed = true;
+                        }, 2);
+                        base.decreaseEnemies(this.unitInfo.reward);
+                        createMoneyIndicator("earn", this.unitInfo.reward, this.x, this.y);
+                    }
+                }
+            }
+
+            if (this.hp <= 0) {
+                this.changeState('dying');
+            }
+
+            // change to next sprite image every 4 frames not to make zombie moving so fast.
+            this.spriteIndex += 12 * deltaTime;
+            if (this.spriteIndex >= this.curImage.max_num_sprites) {
+                if( this.curImage.repeat ) {
+                    this.spriteIndex = 0;
+                }
+                else {
+                    this.spriteIndex = this.curImage.max_num_sprites - 1;
+                }
+            }
         };
 
         TroopObject.prototype.render = function (context) {
@@ -302,7 +427,7 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.renderAttacker = function( context )
         {
-
+            this.renderTroop( context );
         };
 
         TroopObject.prototype.renderTroop = function( context )
@@ -359,6 +484,36 @@ var TroopObject = /** @class */ (function () {
             this.hp -= damage;
         };
 
+        TroopObject.prototype.heal = function( healPower )
+        {
+            this.hp = Math.min( this.max_hp, this.hp + healPower );
+            var center = new Pos( this.x + Math.floor( this.width / 2 ), this.y + Math.floor( this.height / 2 ) );
+            gameObjects.push( new Effect( center, healImage, 25, 5, 5, 1 ) );
+        };
+
+        TroopObject.prototype.healTarget = function( target )
+        {
+            if( target !== null && this.isOnCooldown === false ) {
+                if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
+                    //console.log( this.unitInfo.name  + " healed " + target.objectType + "[" + target.unitInfo.name + "]" );
+                    target.heal(this.unitInfo.attackPower);
+                    this.isOnCooldown = true;
+                    var self = this;
+                    // to have attack interval
+                    Time.Wait(
+                        function () {
+                            self.isOnCooldown = false;
+                        },
+                        this.unitInfo.attackSpeed
+                    );
+                    this.subState = 'attack';
+                    this.changeState('walk');
+                }
+            }
+        };
+
+
+
         TroopObject.prototype.isOnTower = function()
         {
             return this.boundTower && this.boundTower.hp > 0 && this.isReadyToFight;
@@ -393,6 +548,33 @@ var TroopObject = /** @class */ (function () {
             return new Pos( this.x, this.y + this.height );
         };
 
+        TroopObject.prototype.moveAhead = function (deltaTime) {
+            var nextPos = this.get_next_position();
+            // add a quarter size of the zombie to the position to look better on the road.
+            var distX = nextPos.x - (this.x + this.width / 2);
+            var distY = nextPos.y - (this.y + this.height);
+
+            var distSquared = distX * distX + distY * distY;
+            if (distSquared > 0) {
+                var unitVector = Math.sqrt(distSquared);
+                this.vx = distX / unitVector;
+                this.vy = distY / unitVector;
+
+                var speed = this.unitInfo.moveSpeed * deltaTime;
+                this.x += this.vx * speed;
+                this.y += this.vy * speed;
+
+                // check if the zombie is already closed to the target position
+                if (distSquared <= speed * speed ) {
+                    this.moveIndex += 1;
+                }
+            }
+            else {
+                console.log("something weired on move path:");
+                console.log("current = " + this.x + "( " + this.width/2 + " ), " + this.y + " ( " + this.height + " ) ->  next = " + nextPos.x + ", " + nextPos.y );
+                this.moveIndex += 1;
+            }
+        };
 
         TroopObject.prototype.moveToTower = function (deltaTime) {
 

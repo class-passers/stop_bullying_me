@@ -2,7 +2,7 @@
 var HumanObject = /** @class */ (function (_super) {
     __extends(HumanObject, _super);
     function HumanObject(humanType, tower, pos_x, pos_y ) {
-        var _this = _super.call(this, pos_x, pos_y, HumanTroopInfo[humanType], tower ) || this;
+        var _this = _super.call(this, pos_x, pos_y, HumanTroopInfo[humanType], tower, false ) || this;
         _this.objectType = "human";
         _this.curImage = allHumanImages[this.unitInfo.name][this.state];
         return _this;

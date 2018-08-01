@@ -19,6 +19,12 @@ function getRandom( maxValue )
     return Math.floor( Math.random() * maxValue );
 }
 
+// return an random integer number between [min, max)
+function getRandom( minValue, maxValue )
+{
+    return Math.floor( Math.random() * (maxValue-minValue) ) + minValue;
+}
+
 // return a value between [minValue, maxValue]
 function clamp( value, minValue, maxValue )
 {
