@@ -154,8 +154,8 @@ function registerPopulateZombie( pop_info, is_boss )
                 if( is_boss )
                     console.log( "creates " + pop_info.type + " at " + Time.totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
 
-                var zombie = new ZombieObject( pop_info.type, is_boss, start.x, start.y );
-                gameObjects.push(zombie);
+                var attacker = new HumanObject( pop_info.type, start.x, start.y, null, is_boss );
+                gameObjects.push(attacker);
 
                 if (pop_info.remaining <= 0) {
                     Time.ClearRepeat(pop_info.timer);

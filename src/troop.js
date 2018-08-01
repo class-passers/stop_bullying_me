@@ -53,13 +53,6 @@ var TroopObject = /** @class */ (function () {
             {
                 this.z = getRandom(1, 5);
             }
-
-            var nextPos = this.get_next_position();
-            if( nextPos.x - pos_x > 0 ) {
-                // move left by its width if its next tile is on his right side
-                this.x -= this.unitInfo.width;
-            }
-
         }
         this.curTarget = null;
         this.isOnCooldown = false;
@@ -280,6 +273,7 @@ var TroopObject = /** @class */ (function () {
 
             // change to next sprite image every 4 frames not to make this moves so fast.
             this.spriteIndex += 12 * deltaTime;
+            console.log("this.curImage = " + JSON.stringify(this.curImage) );
             if (this.spriteIndex >= this.curImage.max_num_sprites) {
                 if (this.curImage.repeat === true) {
                     this.spriteIndex = 0;
@@ -312,14 +306,14 @@ var TroopObject = /** @class */ (function () {
             }
             else if (this.state === 'walk') {
 
-                if (is_reached_at_destination(this.moveIndex)) {
+                if ( this.moveIndex >= this.movePath.length ) {
                     this.curTarget = this.findClosestTarget();
 
                     if( this.isInAttackRange(this.curTarget) ){
                         this.changeState('attack');
                     }
                     else {
-                        this.moveTo( this.curTarget, deltaTime );
+                        this.moveToTarget( this.curTarget, deltaTime );
                     }
                 }
                 else if( this.isBoss ){
@@ -608,21 +602,23 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.moveToTarget = function( target, deltaTime )
         {
-            var nextPos = new Pos( target.x + target.width, target.y + target.height );
-            // add a quarter size of the zombie to the position to look better on the road.
-            var distX = nextPos.x - (this.x + this.width / 2);
-            var distY = nextPos.y - (this.y + this.height);
+            if( target !== null ) {
+                var nextPos = new Pos(target.x + target.width, target.y + target.height);
+                // add a quarter size of the zombie to the position to look better on the road.
+                var distX = nextPos.x - (this.x + this.width / 2);
+                var distY = nextPos.y - (this.y + this.height);
 
-            var distSquared = distX * distX + distY * distY;
-            var speed = this.unitInfo.moveSpeed * deltaTime;
-            if (distSquared > speed * speed) {
+                var distSquared = distX * distX + distY * distY;
+                var speed = this.unitInfo.moveSpeed * deltaTime;
+                if (distSquared > speed * speed) {
 
-                var unitVector = Math.sqrt(distSquared);
-                this.vx = distX / unitVector;
-                this.vy = distY / unitVector;
+                    var unitVector = Math.sqrt(distSquared);
+                    this.vx = distX / unitVector;
+                    this.vy = distY / unitVector;
 
-                this.x += this.vx * speed;
-                this.y += this.vy * speed;
+                    this.x += this.vx * speed;
+                    this.y += this.vy * speed;
+                }
             }
         };
 

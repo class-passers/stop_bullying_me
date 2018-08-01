@@ -127,7 +127,102 @@ var allZombieImages = {
             image: null
         }
     },
+    ranged : {
+        idle: {
+            image_src: "img/ninja_idle.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        walk: {
+            image_src: "img/ninja_run.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        moveInTower: {
+            image_src: "img/ninja_run.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        dying: {
+            image_src: "img/ninja_die.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 4,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image: null
+        },
+        attack: {
+            image_src: "img/ninja_attack.png",
+            max_num_sprites: 10,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image: null
+        }
+    },
     healer : {
+        idle: {
+            image_src: "img/orc1_idle.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 7,
+            num_sprites_vert: 1,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
+        walk: {
+            image_src: "img/orc1_walk.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+
+        },
+        dying: {
+            image_src: "img/orc1_die.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image: null
+        },
+        attack: {
+            image_src: "img/orc1_attack.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: false,
+            image: null
+        }
+    },
+    wizard : {
         idle: {
             image_src: "img/orc1_idle.png",
             max_num_sprites: 7,

@@ -3,29 +3,16 @@ healImage.src = "img/heal.png";
 
 var ZombieObject = /** @class */ (function (_super) {
     __extends(ZombieObject, _super);
-    function ZombieObject(param1, param2, param3) {
-        var _this = _super.call(this, param1, param2) || this;
-        _this.param2 = param2;
-        _this.param3 = param3;
-        _this._depart = param3;
-        return _this;
-    }
-    //...
-    return ZombieObject;
-}(TroopObject));
-
-var ZombieObject = /** @class */ (function (_super) {
-    __extends(ZombieObject, _super);
-    function ZombieObject(zombieType, is_boss, pos_x, pos_y ) {
+    function ZombieObject(zombieType, pos_x, pos_y, tower, is_boss ) {
 
         if( is_boss ) {
-            var unitInfo = BossZombieInfo[zombieType];
+            var unitInfo = ZombieBossInfo[zombieType];
         }
         else {
             var unitInfo = ZombieInfo[zombieType];
         }
 
-        var _this = _super.call(this, pos_x, pos_y, unitInfo, null, is_boss ) || this;
+        var _this = _super.call(this, pos_x, pos_y, unitInfo, tower, is_boss ) || this;
         _this.objectType = "zombie";
         _this.curImage = allZombieImages[this.unitInfo.name][this.state];
         return _this;

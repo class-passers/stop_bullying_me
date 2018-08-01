@@ -198,9 +198,10 @@ var baseObject = function(pos_x, pos_y )
         }
 
         this.curTarget = null;
+        var attackerType = "human";
         // find any zombie in its attack range
         for( var i = 0; i < gameObjects.length; i++ ) {
-            if (gameObjects[i].objectType === "zombie" && gameObjects[i].hp > 0 ) {
+            if (gameObjects[i].objectType === attackerType && gameObjects[i].hp > 0 ) {
                 // check if the zombie is in tower's attack range
                 if( getDistanceSquare( this, gameObjects[i] ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
                     this.curTarget = gameObjects[i];

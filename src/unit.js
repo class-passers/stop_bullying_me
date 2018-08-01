@@ -5,7 +5,7 @@ var ZombieInfo = {
         width : 128,
         height : 128,
         hp : 120,
-		moveSpeed : 50,      // pixel per seconds
+		moveSpeed : 80,      // pixel per seconds
         attackRange : 200,
         attackSpeed : 2,
         attackPower : 20,
@@ -16,7 +16,7 @@ var ZombieInfo = {
         width : 128,
         height : 128,
         hp : 80,
-        moveSpeed : 70,
+        moveSpeed : 90,
         attackRange : 200,
         attackSpeed : 2,
 		attackPower : 10,
@@ -27,7 +27,7 @@ var ZombieInfo = {
         width : 200,
         height : 200,
         hp : 300,
-        moveSpeed : 10,
+        moveSpeed : 50,
         attackRange : 200,
         attackSpeed : 2,
 		attackPower : 40,
@@ -38,7 +38,7 @@ var ZombieInfo = {
         width : 128,
         height : 128,
         hp : 100,
-        moveSpeed : 50,
+        moveSpeed : 70,
         attackRange : 300,
         attackSpeed : 2,
 		attackPower : 10,
@@ -49,16 +49,29 @@ var ZombieInfo = {
         width : 128,
         height : 128,
         hp : 150,
-        moveSpeed : 50,
+        moveSpeed : 60,
         attackRange : 250,
         attackSpeed : 2,
         attackPower : 15,
         healRange : 150,        // this matters if his heal skill is an area of effect.
         reward : 10
+    },
+    wizard : {
+        name : "wizard",
+        width : 128,
+        height : 128,
+        hp : 100,
+        moveSpeed : 60,
+        attackRange : 300,
+        attackSpeed : 1,
+        attackPower : 5,
+        damageRange : 150,
+        cost : 150
     }
+
 };
 
-var BossZombieInfo = {
+var ZombieBossInfo = {
     heavy : {
         name : "heavy",
         width : 250,
@@ -89,7 +102,7 @@ var HumanTroopInfo = {
         width : 128,
         height : 128,
         hp : 120,
-        moveSpeed : 90,      // pixel per seconds
+        moveSpeed : 70,      // pixel per seconds
         attackRange : 200,
         attackSpeed : 1,
         attackPower : 15,
@@ -100,7 +113,7 @@ var HumanTroopInfo = {
         width : 128,
         height : 128,
         hp : 80,
-        moveSpeed : 120,
+        moveSpeed : 80,
         attackRange : 200,
         attackSpeed : 0.5,
         attackPower : 10,
@@ -122,18 +135,30 @@ var HumanTroopInfo = {
         width : 128,
         height : 128,
         hp : 100,
-        moveSpeed : 100,
+        moveSpeed : 60,
         attackRange : 300,
         attackSpeed : 1,
         attackPower : 5,
         cost : 80
+    },
+    healer : {
+        name : "healer",
+        width : 128,
+        height : 128,
+        hp : 150,
+        moveSpeed : 50,
+        attackRange : 250,
+        attackSpeed : 2,
+        attackPower : 15,
+        healRange : 150,        // this matters if his heal skill is an area of effect.
+        reward : 10
     },
     wizard : {
         name : "wizard",
         width : 128,
         height : 128,
         hp : 100,
-        moveSpeed : 100,
+        moveSpeed : 50,
         attackRange : 300,
         attackSpeed : 1,
         attackPower : 5,
@@ -141,6 +166,33 @@ var HumanTroopInfo = {
         cost : 150
     }
 };
+
+
+var HumanBossInfo = {
+    heavy : {
+        name : "heavy",
+        width : 250,
+        height : 250,
+        hp : 300,
+        moveSpeed : 30,
+        attackRange : 200,
+        attackSpeed : 2,
+        attackPower : 60,
+        reward : 20
+    },
+    ranged : {
+        name : "ranged",
+        width : 160,
+        height : 160,
+        hp : 100,
+        moveSpeed : 40,
+        attackRange : 300,
+        attackSpeed : 0.5,
+        attackPower : 10,
+        reward : 20
+    }
+};
+
 
 var TowerInfo =
 {
@@ -178,6 +230,8 @@ var TowerInfo =
         build_interval : 6000
     }
 };
+
+
 
 var BaseInfo =
 [
