@@ -20,6 +20,14 @@ var build_mode = false;
 var tower_index = 0;
 var debug_draw = false;
 var attacker_type = "human";
+function selectZombie()
+{
+    attacker_type = "human";
+}
+function selectHuman()
+{
+    attacker_type = "zombie";
+}
 function ToggleDebugDraw()
 {
     debug_draw = !debug_draw;
