@@ -157,20 +157,31 @@ var allHumanImages = {
     },
     heavy : {
         idle: {
-            image_src: "img/troll1_idle.png",
+            image_src: "img/heavy_knight_idle.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 3,
+            num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
             image: null
         },
         walk: {
-            image_src: "img/troll1_walk.png",
+            image_src: "img/heavy_knight_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 3,
+            num_sprites_vert: 3,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+
+        },
+        moveInTower: {
+            image_src: "img/heavy_knight_walk.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 3,
+            num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -178,9 +189,9 @@ var allHumanImages = {
 
         },
         dying: {
-            image_src: "img/troll1_die.png",
-            max_num_sprites: 7,
-            num_sprites_horz: 3,
+            image_src: "img/heavy_knight_dying.png",
+            max_num_sprites: 6,
+            num_sprites_horz: 2,
             num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
@@ -189,10 +200,10 @@ var allHumanImages = {
 
         },
         attack: {
-            image_src: "img/troll1_attack.png",
+            image_src: "img/heavy_knight_attack.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 3,
+            num_sprites_vert: 3,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
