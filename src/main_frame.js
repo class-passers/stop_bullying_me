@@ -176,6 +176,10 @@ function turnOnBuildMode(tower_type)
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
+	else // player can change tower
+	{
+		build_indicator.towerType = tower_type;
+	}
 }
 function turnOffBuildMode()
 {
@@ -184,20 +188,6 @@ function turnOffBuildMode()
 		mouse.assignFunction(mouse.defaultFunction);
 		build_indicator.to_be_removed = true;
 		build_mode = false;
-	}
-}
-function checkTowerCost()
-{
-	for(var i = 0; i < ContainerInfo["build"].buttons.length; i++)
-	{
-		if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
-		{
-			FindButton(ContainerInfo["build"].buttons[i]).clickabilityOff();
-		}
-		else
-		{
-			FindButton(ContainerInfo["build"].buttons[i]).clickabilityOn();
-		}
 	}
 }
 function buildTower()
@@ -224,6 +214,7 @@ function buildTower()
 		//*	<--- (//*)turn off build mode after building || (/*)does not turn off build mode after building
 		build_indicator.to_be_removed = true;
 		build_mode = false;
+		buildButtonToggleOff();
 		return true;
 		/*/
 		return false;
@@ -232,7 +223,26 @@ function buildTower()
 	else
 		return false;
 }
-
+function checkTowerCost()
+{
+	for(var i = 0; i < ContainerInfo["build"].buttons.length; i++)
+	{
+		if(FindButton(ContainerInfo["build"].buttons[i]).isVisible === true &&
+		FindButton(ContainerInfo["build"].buttons[i]).uiInfo.name != "buildCancel")
+		{
+			if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
+			{
+				FindButton(ContainerInfo["build"].buttons[i]).isClickable = false;
+				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
+			}
+			else
+			{
+				FindButton(ContainerInfo["build"].buttons[i]).isClickable = true;
+				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
+			}
+		}
+	}
+}
 
 ////////// Game loop
 function update()

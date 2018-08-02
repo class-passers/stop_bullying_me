@@ -1,49 +1,8 @@
 var stateContainer = ["paused","win","lose"];
 var ingameContainer = ["paused","win","lose","build","timer"];
 var startContainer = ["start","level","credit"];
-var credit_text = "Script Engineers : Younggi Kim, Maksim Tumazev, Beomjin Kim \nAudio Engineer : Younggi Kim, Maksim Tumazev, Beomjin Kim \nArtist : Younggi Kim, Maksim Tumazev, Beomjin Kim";
+var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
 
-var Button = function(buttonType)
-{
-	return Object.create(ButtonInfo[buttonType]);
-};
-
-var Indicator = function(indicatorType)
-{
-	return Object.create(IndicatorInfo[indicatorType]);
-};
-
-var Container = function( containerType )
-{
-	return Object.create( ContainerInfo[containerType] );
-};
-var FindContainer = function(type)
-{
-	for(var i = 0; i < uiObjects.length; i++)
-	{
-		if(uiObjects[i].uiInfo.name === type)
-			return uiObjects[i];
-	}
-};
-var FindButton = function(type)
-{
-	for(var i = 0; i < uiObjects.length; i++)
-	{
-		if(uiObjects[i].uiInfo.type === "container")
-		{
-			for(var j = 0; j < uiObjects[i].childElements.length; j++)
-			{
-				if(uiObjects[i].childElements[j].uiInfo.name === type)
-					return uiObjects[i].childElements[j]
-			}
-		}
-		else
-		{
-			if(uiObjects[i].uiInfo.name === type)
-				return uiObjects[i];
-		}
-	}
-};
 
 var ContainerInfo = {
 	start : {
@@ -95,8 +54,8 @@ var ContainerInfo = {
 		name : "build",
 		x : 1200,
 		y : 90,
-		buttons : ["build","build2","build3"],
-		indicators : [],
+		buttons : ["build1","build2","build3","buildCancel"],
+		indicators : ["build1Disabled","build2Disabled","build3Disabled"],
 		visibility : true,
 		uiLayer : 0,
 		target_positions : null
@@ -106,7 +65,7 @@ var ContainerInfo = {
 		name : "paused",
 		x : 640,
 		y : 330,
-		buttons : ["replay", "next", "exit"],
+		buttons : ["replay", "resume", "exit"],
 		indicators : ["paused"],
 		visibility : false,
 		uiLayer : 2,
@@ -273,7 +232,7 @@ var ButtonInfo = {
 		param : null,
 		execute : function(){restartGame(); hideStateContainer(null);}
 	},
-	// exit build mode
+	// exit to start menu
 	exit : {
 		type : "button",
 		name : "exit",
@@ -288,18 +247,18 @@ var ButtonInfo = {
 		execute : function(){deleteLevel(); cur_level = levels[0]; loadMapData();startMenu();}
 	},
 	// turn on build mode
-	build : {
+	build1 : {
 		type : "button",
-		name : "build",
+		name : "build1",
 		x : 0,
 		y : 0,
 		width : 70,
-		height : 70,
+		height : 90,
 		display_level : 0,
 		visible : true,
 		text : false,
 		param : "normal",
-		execute : function(t){turnOnBuildMode(t);}
+		execute : function(t){buildButtonToggleOff();turnOnBuildMode(t);buildButtonToggleOn("build1");}
 	},
     build2 : {
         type : "button",
@@ -307,12 +266,12 @@ var ButtonInfo = {
         x : 0,
         y : 100,
         width : 70,
-        height : 70,
+        height : 90,
 		display_level : 0,
         visible : true,
         text : false,
         param : "ranged",
-        execute : function(t){turnOnBuildMode(t);}
+        execute : function(t){buildButtonToggleOff();turnOnBuildMode(t);buildButtonToggleOn("build2");}
     },
     build3 : {
         type : "button",
@@ -320,12 +279,25 @@ var ButtonInfo = {
         x : 0,
         y : 200,
         width : 70,
-        height : 70,
+        height : 90,
 		display_level : 1,
         visible : true,
         text : false,
         param : "wizard",
-        execute : function(t){turnOnBuildMode(t);}
+        execute : function(t){buildButtonToggleOff();turnOnBuildMode(t);buildButtonToggleOn("build3");}
+    },
+	buildCancel : {
+        type : "button",
+        name : "buildCancel",
+        x : 0,
+        y : 0,
+        width : 70,
+        height : 90,
+		display_level : 0,
+        visible : false,
+        text : false,
+        param : "",
+        execute : function(t){turnOffBuildMode();buildButtonToggleOff();}
     },
 	// resume game
 	resume : {
@@ -344,6 +316,51 @@ var ButtonInfo = {
 };
 
 var IndicatorInfo = {
+	build1Disabled : {
+		type : "indicator",
+		name : "build1Disabled",
+		x : 0,
+		y : 0,
+		width : 70,
+		height : 70,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	build2Disabled : {
+		type : "indicator",
+		name : "build2Disabled",
+		x : 0,
+		y : 100,
+		width : 70,
+		height : 70,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	build3Disabled : {
+		type : "indicator",
+		name : "build3Disabled",
+		x : 0,
+		y : 200,
+		width : 70,
+		height : 70,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
 	title : {
 		type : "indicator",
 		name : "title",
@@ -351,6 +368,7 @@ var IndicatorInfo = {
 		y : -120,
 		width : 650,
 		height : 190,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
@@ -365,6 +383,7 @@ var IndicatorInfo = {
 		y : 0,
 		width : 70,
 		height : 70,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
@@ -379,6 +398,7 @@ var IndicatorInfo = {
 		y : -300,
 		width : 360,
 		height : 75,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
@@ -393,11 +413,12 @@ var IndicatorInfo = {
 		y : -300,
 		width : 360,
 		height : 75,
+		visibility : true,
 		txt_sign : credit_text,
-		txt_x : -800,
-		txt_y : 200,
+		txt_x : -400,
+		txt_y : 150,
 		txt_color : 'black',
-		txt_font : '42px Comic Sans MS',
+		txt_font : '70px Comic Sans MS',
 		interval : 0
 	},
 	money : {
@@ -407,11 +428,27 @@ var IndicatorInfo = {
 		y : 10,
 		width : 70,
 		height : 70,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 20,
 		txt_y : 10,
 		txt_color : 'yellow',
 		txt_font : '48px Arial',
+		interval : 0
+	},
+	cost : {
+		type : "indicator",
+		name : "cost",
+		x : 10,
+		y : 74,
+		width : 10,
+		height : 10,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 10,
+		txt_y : -2,
+		txt_color : 'yellow',
+		txt_font : '13px Arial',
 		interval : 0
 	},
 	spend : {
@@ -421,6 +458,7 @@ var IndicatorInfo = {
 		y : 0,
 		width : 44,
 		height : 40,
+		visibility : true,
 		txt_sign : "-",
 		txt_x : 10,
 		txt_y : -5,
@@ -435,6 +473,7 @@ var IndicatorInfo = {
 		y : 0,
 		width : 44,
 		height : 40,
+		visibility : true,
 		txt_sign : "+",
 		txt_x : 10,
 		txt_y : -5,
@@ -449,6 +488,7 @@ var IndicatorInfo = {
 		y : -150,
 		width : 300,
 		height : 150,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
@@ -463,6 +503,7 @@ var IndicatorInfo = {
 		y : -150,
 		width : 300,
 		height : 150,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
@@ -477,6 +518,7 @@ var IndicatorInfo = {
 		y : -150,
 		width : 300,
 		height : 150,
+		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
 		txt_y : 0,
@@ -485,120 +527,3 @@ var IndicatorInfo = {
 		interval : 0
 	}
 };
-
-function createIngameUI()
-{
-	for(var i = 0; i < ingameContainer.length; i++)
-	{
-		var temp = new ContainerObject(ingameContainer[i]);
-		uiObjects.push(temp);
-	}
-}
-
-function createMoneyIndicator(type, value, pos_x, pos_y)
-{
-	IndicatorInfo[type].x = pos_x;
-	IndicatorInfo[type].y = pos_y;
-	var temp = new IndicatorObject(null, type, value);
-	
-	uiObjects.push(temp);
-}
-
-function hideStateContainer(except)
-{
-	for(var i = 0; i < stateContainer.length; i++)
-	{
-		if(stateContainer[i] !== except)
-		{
-			FindContainer(stateContainer[i]).isVisible = false;
-		}
-		else
-		{
-			FindContainer(stateContainer[i]).isVisible = true;
-			mouse.uiLayer = FindContainer(stateContainer[i]).uiLayer;
-		}
-
-	}
-	if(except == null)
-		mouse.uiLayer = 0;
-}
-
-function hideTimerButton(except)
-{
-	for(var i = 0; i < ContainerInfo["timer"].buttons.length; i++)
-	{
-		if(ContainerInfo["timer"].buttons[i] !== except &&
-		ContainerInfo["timer"].buttons[i] !== "pause")
-		{
-			FindButton(ContainerInfo["timer"].buttons[i]).visibilityOff();
-		}
-		else
-		{
-			FindButton(ContainerInfo["timer"].buttons[i]).visibilityOn();
-		}
-	}
-}
-
-////////// Start menu control
-function createStartMenu()
-{
-	var start = new ContainerObject("start");
-	var level = new ContainerObject("level");
-	for(var i = 0; i < levels.length; i++)
-	{
-		var temp;
-		if(i <= cleared_level)
-		{
-			temp = new ButtonObject(level, "levelSelection");
-			temp.uiInfo.param = i;
-			temp.execute = function(level)
-			{
-				cur_level_index = level;
-				restartGame();
-			}
-		}
-		else
-		{
-			temp = new IndicatorObject(level, "locked", null);
-		}
-		var gap = 100;
-		var start_x = (((levels.length/2)*gap)+((levels.length/2)*temp.width));
-		temp.x = start_x + ((i+1)*(temp.width + gap));
-		level.childElements.push(temp);
-	}
-
-	var credit = new ContainerObject("credit");
-
-	uiObjects.push(start);
-	uiObjects.push(level);
-	uiObjects.push(credit);
-	mouse.ui = uiObjects;
-	mouse.uiLayer = 0;
-}
-
-function startMenu()//create start menu and hide other scenes
-{
-    createStartMenu();
-    FindContainer("start").isVisible = true;
-    FindContainer("level").isVisible = false;
-    FindContainer("credit").isVisible = false;
-	cur_game_state = gameStatus.startMenu;
-    mouse.ui = uiObjects;
-	mouse.uiLayer = 0;
-}
-
-function hideStartContainer(except)
-{
-	for(var i = 0; i < startContainer.length; i++)
-	{
-		if(startContainer[i] !== except)
-		{
-			FindContainer(startContainer[i]).isVisible = false;
-		}
-		else
-		{
-			FindContainer(startContainer[i]).isVisible = true;
-		}
-	}
-	mouse.uiLayer = 0;
-}

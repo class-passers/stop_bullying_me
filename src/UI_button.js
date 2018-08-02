@@ -25,36 +25,24 @@ var ButtonObject = function(container, buttonType)
 		self.curImage = buttonImages[self.uiInfo.name].pressed.image;
 		return true;
 	};
+
 	this.release = function()
 	{
 		self.curImage = buttonImages[self.uiInfo.name].default.image;
 		return true;
 	};
-	this.visibilityOff = function()
-	{
-		self.isVisible = false;
-		self.isClickable = false;
-	};
-	this.visibilityOn = function()
+	this.showUp = function()
 	{
 		self.isVisible = true;
 		self.isClickable = true;
-	};
-	this.clickabilityOn = function()
-	{
-		self.isClickable = true;
-		this.release();
-	};
-	this.clickabilityOff = function()
-	{
-		self.isClickable = false;
-		this.press();
-	};
-	
+	}
 	this.update = function(deltaTime)
 	{
-		if(this.isVisible === false)
-				this.isClickable = false;
+        //self.isClickable = self.isVisible;
+		if(self.isVisible === false)
+			self.isClickable = false;
+		//else
+			//self.isClickable = true;
 	};
 	
 	this.render = function(context)

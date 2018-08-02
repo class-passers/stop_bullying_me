@@ -20,6 +20,7 @@ var IndicatorObject = function(container, indicatorType, txt_value)
 	this.txt_font = this.uiInfo.txt_font;
 
 	this.isClickable = false;
+	this.isVisible = this.uiInfo.visibility;
 	this.spriteIndex = 0;
 	this.curImage = indicatorImages[this.uiInfo.name];
 	
@@ -59,7 +60,7 @@ var IndicatorObject = function(container, indicatorType, txt_value)
 	};
 	this.render = function(context)
 	{
-		if( this.curImage.image ) {
+		if( this.curImage.image && this.isVisible === true) {
             //*
             context.drawImage(this.curImage.image, this.get_source_x(), this.get_source_y(),
                 this.get_sprite_width(), this.get_sprite_height(),
@@ -70,7 +71,7 @@ var IndicatorObject = function(container, indicatorType, txt_value)
             context.font = this.txt_font;
             context.textAlign = 'left';
 			context.textBaseline = 'top';
-			wrapText(context,self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y, 1000, 100)
+			wrapText(context,self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y, 1000, 150)
             //context.fillText(self.uiInfo.txt_sign + this.txt, this.txt_x, this.txt_y);
         }
 	};
