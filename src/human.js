@@ -33,8 +33,8 @@ var HumanObject = /** @class */ (function (_super) {
             this.prevState = this.state;
             this.state = newState;
 
-            if( this.isBoss )
-                console.log( this.unitInfo.name + " : " + this.prevState + " changed to " + this.state );
+            //if( this.isBoss )
+            //    console.log( this.unitInfo.name + " : " + this.prevState + " changed to " + this.state );
 
             this.curImage = allHumanImages[this.unitInfo.name][this.state];
 

@@ -672,8 +672,8 @@ var TroopObject = /** @class */ (function () {
                 }
             }
             else {
-                console.log("something weired on move path:");
-                console.log("current = " + this.x + "( " + this.width/2 + " ), " + this.y + " ( " + this.height + " ) ->  next = " + nextPos.x + ", " + nextPos.y );
+                //console.log("something weired on move path:");
+                //console.log("current = " + this.x + "( " + this.width/2 + " ), " + this.y + " ( " + this.height + " ) ->  next = " + nextPos.x + ", " + nextPos.y );
                 this.moveIndex += 1;
             }
         };
