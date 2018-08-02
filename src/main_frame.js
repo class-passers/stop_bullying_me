@@ -19,6 +19,7 @@ var build_indicator = null;
 var build_mode = false;
 var tower_index = 0;
 var debug_draw = false;
+var attacker_type = "human";
 function ToggleDebugDraw()
 {
     debug_draw = !debug_draw;
@@ -154,7 +155,10 @@ function registerPopulateZombie( pop_info, is_boss )
                 if( is_boss )
                     console.log( "creates " + pop_info.type + " at " + Time.totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
 
-                var attacker = new HumanObject( pop_info.type, start.x, start.y, null, is_boss );
+                if( attacker_type === "human" )
+                    var attacker = new HumanObject( pop_info.type, start.x, start.y, null, is_boss );
+                else
+                    var attacker = new ZombieObject( pop_info.type, start.x, start.y, null, is_boss );
                 gameObjects.push(attacker);
 
                 if (pop_info.remaining <= 0) {

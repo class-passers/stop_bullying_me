@@ -66,7 +66,8 @@ var ZombieInfo = {
         attackSpeed : 1,
         attackPower : 5,
         damageRange : 150,
-        cost : 150
+        cost : 150,
+        reward : 10
     }
 
 };
@@ -106,7 +107,8 @@ var HumanTroopInfo = {
         attackRange : 200,
         attackSpeed : 1,
         attackPower : 15,
-        cost : 50
+        cost : 50,
+        reward : 5
     },
     fast : {
         name : "fast",
@@ -117,7 +119,8 @@ var HumanTroopInfo = {
         attackRange : 200,
         attackSpeed : 0.5,
         attackPower : 10,
-        cost : 70
+        cost : 70,
+        reward : 7
     },
     heavy : {
         name : "heavy",
@@ -128,7 +131,8 @@ var HumanTroopInfo = {
         attackRange : 200,
         attackSpeed : 2,
         attackPower : 40,
-        cost : 120
+        cost : 120,
+        reward : 10
     },
     ranged : {
         name : "ranged",
@@ -139,7 +143,8 @@ var HumanTroopInfo = {
         attackRange : 300,
         attackSpeed : 1,
         attackPower : 5,
-        cost : 80
+        cost : 80,
+        reward : 7
     },
     healer : {
         name : "healer",
@@ -151,6 +156,7 @@ var HumanTroopInfo = {
         attackSpeed : 2,
         attackPower : 15,
         healRange : 150,        // this matters if his heal skill is an area of effect.
+        cost : 80,
         reward : 10
     },
     wizard : {
@@ -163,7 +169,8 @@ var HumanTroopInfo = {
         attackSpeed : 1,
         attackPower : 5,
         damageRange : 150,
-        cost : 150
+        cost : 150,
+        reward : 10
     }
 };
 
@@ -178,6 +185,7 @@ var HumanBossInfo = {
         attackRange : 200,
         attackSpeed : 2,
         attackPower : 60,
+        cost : 200,
         reward : 20
     },
     ranged : {
@@ -189,6 +197,7 @@ var HumanBossInfo = {
         attackRange : 300,
         attackSpeed : 0.5,
         attackPower : 10,
+        cost : 200,
         reward : 20
     }
 };

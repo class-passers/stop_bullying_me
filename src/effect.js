@@ -1,5 +1,6 @@
 var Effect = function( pos, image, num_max_sprites, num_horz_sprites, num_vert_sprites, num_loops )
 {
+    this.objectType = "effect";
     this.x = pos.x - Math.floor( ( image.width / num_horz_sprites ) );
     this.y = pos.y - Math.floor( ( image.height / num_vert_sprites ) );
     this.z = 500;

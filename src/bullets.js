@@ -87,9 +87,10 @@ var Kunai = function( x, y, target, damage ) {
         this.x += this.bulletSpeed * deltaTime * xDist / dist ;
         this.y += this.bulletSpeed * deltaTime * yDist / dist;
 
-        this.angle = getAngleInRadian( this, this.target );
-        if( xDist < 0 )
-            this.angle += Math.PI;
+        //this.angle = getAngleInRadian( this, this.target );
+        //if( xDist < 0 )
+        //    this.angle += Math.PI;
+        this.angle += 0.7;
 
         //console.log( "this = " + this.x + ", " + this.y + " ==> " + this.target.x + ", " + this.target.y + " : " + dist + ", angle = " + this.angle * 180 / Math.PI );
 
@@ -108,9 +109,9 @@ var Kunai = function( x, y, target, damage ) {
         //context.fill();
 
         context.save();
-        context.translate( this.x, this.y );
+        context.translate( this.x+this.width/2, this.y+this.height/2 );
         context.rotate( this.angle );
-        context.translate( -this.x, -this.y );
+        context.translate( -(this.x+this.width/2), -(this.y+this.height/2) );
         context.drawImage( kunaiImage, 0, 0,
             kunaiImage.width, kunaiImage.height,
             Math.floor(this.x), Math.floor(this.y), this.width, this.height );
@@ -178,7 +179,7 @@ var Fireball = function( x, y, target, damage, range ) {
         if( isCollided( this, this.target.get_bounding_rect() ) )
         {
             var center = new Pos( this.x + Math.floor( this.width / 2 ), this.y + Math.floor( this.height / 2 ) );
-            var targets = FindNearbyZombies( center, this.damageRange );
+            var targets = FindNearbyEnemies( center, this.damageRange );
             for( var i = 0; i < targets.length; i++)
                 targets[i].takeDamage( this.damage );
             this.to_be_removed = true;
@@ -205,12 +206,12 @@ var Fireball = function( x, y, target, damage, range ) {
     };
 };
 
-function FindNearbyZombies( pos, range )
+function FindNearbyEnemies( pos, range )
 {
     var targets = [];
     for( var i = 0; i < gameObjects.length; i++ )
     {
-        if( gameObjects[i].objectType == "zombie" && gameObjects[i].hp > 0 )
+        if( gameObjects[i].objectType === attacker_type && gameObjects[i].hp > 0 )
         {
             var zombie = gameObjects[i];
             var targetPos = new Pos( zombie.x + Math.floor( zombie.width / 2 ), zombie.y + Math.floor( zombie.height / 2 ) );

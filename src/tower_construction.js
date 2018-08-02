@@ -21,7 +21,8 @@ progressImage.src = "img/progress_bar.png";
 var BuildObject = function ( tower_type, interval, pos_x, pos_y, width, height )
 {
 	this.progress = 0;
-	
+
+	this.objectType = "towerInConstruction";
 	this.x = pos_x;
     this.y = pos_y - height;
 	this.z = 0;
@@ -32,7 +33,10 @@ var BuildObject = function ( tower_type, interval, pos_x, pos_y, width, height )
 	this.buildInterval = interval / 1000;
 	this.buildTimer = 0;
 	this.preBuiltTower = new TowerObject( tower_type, pos_x, pos_y );
-    gameObjects.push( new ZombieObject( tower_type, base.x, base.y+base.height, this.preBuiltTower, false ) );
+	if( attacker_type === "human" )
+    	gameObjects.push( new ZombieObject( tower_type, base.x, base.y+base.height, this.preBuiltTower, false ) );
+	else
+    	gameObjects.push( new HumanObject( tower_type, base.x, base.y+base.height, this.preBuiltTower, false ) );
 
 	this.progress_image = progressImage;
 	this.progress_width = this.width;
