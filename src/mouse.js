@@ -39,10 +39,6 @@ var mouseObject = function(can)
 				self.assignFunction(self.defaultFunction);
 			}
 		}
-		else if(event.which == 2) // wheel click
-		{
-			turnOffBuildMode();
-		}
 	};
 	this.up = function(event)
 	{

@@ -153,7 +153,7 @@ var buttonImages = {
 			image : null
 		}
 	},
-	build : {
+	build1 : {
 		default : {
 			image_src : "img/button_melee.png",
 			sprite_width : 70,
@@ -195,6 +195,20 @@ var buttonImages = {
             image : null
         }
     },
+	buildCancel : {
+        default : {
+            image_src : "img/button_melee_pressed.png",
+            sprite_width : 70,
+            sprite_height : 70,
+            image : null
+        },
+        pressed : {
+            image_src : "img/button_melee_pressed.png",
+            sprite_width : 70,
+            sprite_height : 70,
+            image : null
+        }
+	},
 	resume : {
 		default : {
 			image_src : "img/button_resume.png",
@@ -240,6 +254,33 @@ var buttonImages = {
 }
 
 var indicatorImages = {
+	build1Disabled : {
+		image_src : "img/button_disable.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	build2Disabled : {
+		image_src : "img/button_disable.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	build3Disabled : {
+		image_src : "img/button_disable.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
 	title : {
 		image_src : "img/title.png",
 		max_num_sprites : 1,
@@ -280,6 +321,15 @@ var indicatorImages = {
 		image_src : "img/coin.png",
 		max_num_sprites : 10,
         num_sprites_horz: 10,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	cost : {
+		image_src : "img/cost.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
         num_sprites_vert: 1,
         sprite_width: 0,
         sprite_height: 0,

@@ -31,14 +31,18 @@ var ButtonObject = function(container, buttonType)
 		self.curImage = buttonImages[self.uiInfo.name].default.image;
 		return true;
 	};
-	
+	this.showUp = function()
+	{
+		self.isVisible = true;
+		self.isClickable = true;
+	}
 	this.update = function(deltaTime)
 	{
-        self.isClickable = self.isVisible;
+        //self.isClickable = self.isVisible;
 		if(self.isVisible === false)
 			self.isClickable = false;
-		else
-			self.isClickable = true;
+		//else
+			//self.isClickable = true;
 	};
 	
 	this.render = function(context)
