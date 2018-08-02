@@ -163,10 +163,11 @@ function registerPopulateZombie( pop_info, is_boss )
                 if( is_boss )
                     console.log( "creates " + pop_info.type + " at " + Time.totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
 
+                var attacker = null;
                 if( attacker_type === "human" )
-                    var attacker = new HumanObject( pop_info.type, start.x, start.y, null, is_boss );
+                    attacker = new HumanObject( pop_info.type, start.x, start.y, null, is_boss );
                 else
-                    var attacker = new ZombieObject( pop_info.type, start.x, start.y, null, is_boss );
+                    attacker = new ZombieObject( pop_info.type, start.x, start.y, null, is_boss );
                 gameObjects.push(attacker);
 
                 if (pop_info.remaining <= 0) {
@@ -181,7 +182,7 @@ function registerPopulateZombie( pop_info, is_boss )
 //////// build mode control
 function turnOnBuildMode(tower_type)
 {
-	if(build_mode == false)
+	if(build_mode === false)
 	{
 		mouse.assignFunction(buildTower);
 		build_indicator = new BuildIndicator(tower_type, mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
@@ -195,7 +196,7 @@ function turnOnBuildMode(tower_type)
 }
 function turnOffBuildMode()
 {
-	if(build_mode == true)
+	if(build_mode === true)
 	{
 		mouse.assignFunction(mouse.defaultFunction);
 		build_indicator.to_be_removed = true;
@@ -240,7 +241,7 @@ function checkTowerCost()
 	for(var i = 0; i < ContainerInfo["build"].buttons.length; i++)
 	{
 		if(FindButton(ContainerInfo["build"].buttons[i]).isVisible === true &&
-		FindButton(ContainerInfo["build"].buttons[i]).uiInfo.name != "buildCancel")
+		FindButton(ContainerInfo["build"].buttons[i]).uiInfo.name !== "buildCancel")
 		{
 			if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
 			{

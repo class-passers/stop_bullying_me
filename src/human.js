@@ -3,11 +3,12 @@ var HumanObject = /** @class */ (function (_super) {
     __extends(HumanObject, _super);
     function HumanObject(humanType, pos_x, pos_y, tower, is_boss ) {
 
+        var unitInfo = null;
         if( is_boss ) {
-            var unitInfo = HumanBossInfo[humanType];
+            unitInfo = HumanBossInfo[humanType];
         }
         else {
-            var unitInfo = HumanTroopInfo[humanType];
+            unitInfo = HumanTroopInfo[humanType];
         }
 
         var _this = _super.call(this, pos_x, pos_y, unitInfo, tower, is_boss ) || this;

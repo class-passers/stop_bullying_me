@@ -5,11 +5,12 @@ var ZombieObject = /** @class */ (function (_super) {
     __extends(ZombieObject, _super);
     function ZombieObject(zombieType, pos_x, pos_y, tower, is_boss ) {
 
+        var unitInfo = null;
         if( is_boss ) {
-            var unitInfo = ZombieBossInfo[zombieType];
+            unitInfo = ZombieBossInfo[zombieType];
         }
         else {
-            var unitInfo = ZombieInfo[zombieType];
+            unitInfo = ZombieInfo[zombieType];
         }
 
         var _this = _super.call(this, pos_x, pos_y, unitInfo, tower, is_boss ) || this;

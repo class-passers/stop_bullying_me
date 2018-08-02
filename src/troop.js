@@ -1,4 +1,4 @@
-// the mechanism to inherit from TroopObject from Typescript
+// the mechanism to inherit from TroopObject by Typescript
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
         ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
@@ -362,26 +362,17 @@ var TroopObject = /** @class */ (function () {
         TroopObject.prototype.render = function (context) {
 
             if( this.isDefender )
-                this.renderDefender(context);
-            else
-                this.renderAttacker(context);
-
-        };
-
-        TroopObject.prototype.renderDefender = function( context )
-        {
-            // when the troop is in the tower,
-            // the tower will draw the troop so that do not draw here;
-            if( this.isOnTower() )
             {
-                return;
+                // when the troop is in the tower,
+                // the tower will draw the troop to make it seamless so that do not draw here;
+                if( this.isOnTower() === false )
+                {
+                    this.renderTroop( context );
+                }
             }
-            this.renderTroop( context );
-        };
-
-        TroopObject.prototype.renderAttacker = function( context )
-        {
-            this.renderTroop( context );
+            else {
+                this.renderTroop(context);
+            }
         };
 
         TroopObject.prototype.renderTroop = function( context )
@@ -403,13 +394,17 @@ var TroopObject = /** @class */ (function () {
 
                 context.beginPath();
                 context.arc( this.get_center_x(), this.get_center_y(), this.unitInfo.attackRange, 0, 2 * Math.PI);
-                context.fillStyle = "rgba(0, 128, 0, 0.2)";
+                if( this.isDefender ) {
+                    context.fillStyle = "rgba(0, 128, 0, 0.2)";
+                }
+                else
+                {
+                    context.fillStyle = "rgba(128, 0, 0, 0.2)";
+                }
                 context.fill();
 
                 if( this.curTarget )
                 {
-                    var target_x = Math.floor( this.curTarget.x + this.curTarget.width / 2 );
-                    var target_y = Math.floor( this.curTarget.x + this.curTarget.width / 2 );
                     context.moveTo( this.get_center_x(), this.get_center_y() );
                     context.lineTo( this.curTarget.get_center_x(), this.curTarget.get_center_y() );
                     context.stroke();
@@ -526,14 +521,10 @@ var TroopObject = /** @class */ (function () {
                         }
 
                         if (this.unitInfo.name === "ranged") {
-                            var center_x = this.x + Math.floor(this.width / 2);
-                            var center_y = this.y + Math.floor(this.height / 2);
-                            gameObjects.push(new Kunai(center_x, center_y, target, damage));
+                            gameObjects.push(new Kunai(this.get_center_x(), this.get_center_y(), target, damage));
                         }
                         else if (this.unitInfo.name === "wizard") {
-                            var center_x = this.x + Math.floor(this.width / 2);
-                            var center_y = this.y + Math.floor(this.height / 2);
-                            gameObjects.push(new Fireball(center_x, center_y, target, damage, this.unitInfo.damageRange));
+                            gameObjects.push(new Fireball(this.get_center_x(), this.get_center_y(), target, damage, this.unitInfo.damageRange));
                         }
                         else {
                             target.takeDamage(damage);
@@ -597,7 +588,7 @@ var TroopObject = /** @class */ (function () {
             var closestWoundedTroop = null;
             // find any zombie in its heal(attack) range
             for (var i = 0; i < gameObjects.length; i++) {
-                if( gameObjects[i].objectType == attacker_type && gameObjects[i].hp > 0 ) {
+                if( gameObjects[i].objectType === attacker_type && gameObjects[i].hp > 0 ) {
                     if (gameObjects[i].hp < gameObjects[i].max_hp) {
                         // if we want to increase the difficulty,
                         // we can find a troop which lost the most hp ( max_hp - hp ).
@@ -644,7 +635,7 @@ var TroopObject = /** @class */ (function () {
                     index = this.movePath.length - 1;
                 }
 
-                var nextLocation = this.movePath[this.moveIndex];
+                var nextLocation = this.movePath[index];
                 return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
             }
             return new Pos( this.x, this.y + this.height );
