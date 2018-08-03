@@ -753,19 +753,14 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.isAttackable = function( target ) {
             if( target !== null && target.hp > 0 ) {
-                if (this.boundTower) {
-                    return this.boundTower.isInAttackRange(target);
-                }
-                else {
-                    return this.isInAttackRange(target);
-                }
+                return this.isInAttackRange(target);
             }
             return false;
         };
 
         TroopObject.prototype.isInAttackRange = function (target) {
             if (target !== null ) {
-                if( this.boundTower ) {
+                if( this.boundTower !== null ) {
                     return (getDistanceSquare(this.boundTower, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
                 }
                 else {
