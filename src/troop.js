@@ -635,17 +635,16 @@ var TroopObject = /** @class */ (function () {
         {
             if( this.movePath !== null )
             {
-                var index = this.moveIndex;
-                if( index < 0 ) {
-                    console.log("went out of index : " + index);
-                    index = 0;
+                if( this.moveIndex < 0 ) {
+                    console.log("went out of index : " + this.moveIndex);
+                    this.moveIndex = 0;
                 }
-                else if( index >= this.movePath.length ) {
-                    console.log("went out of index :" + index + "[ " + this.movePath.length + " ]");
-                    index = this.movePath.length - 1;
+                else if( this.moveIndex >= this.movePath.length ) {
+                    console.log("went out of index :" + this.moveIndex + "[ " + this.movePath.length + " ]");
+                    this.moveIndex = this.movePath.length - 1;
                 }
 
-                var nextLocation = this.movePath[index];
+                var nextLocation = this.movePath[this.moveIndex];
                 return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
             }
             return new Pos( this.x, this.y + this.height );

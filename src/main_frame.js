@@ -184,7 +184,7 @@ function turnOnBuildMode(tower_type)
 	if(build_mode === false)
 	{
 		mouse.assignFunction(buildTower);
-		build_indicator = new BuildIndicator(tower_type, mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
+		build_indicator = new BuildIndicator(tower_type, tower_positions, base, mouse.x, mouse.y, 85, 133);
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
@@ -214,7 +214,7 @@ function buildTower()
 		base.spendMoney(TowerInfo[towerType].cost);
 
 		gameObjects.push( new BuildObject( towerType, TowerInfo[towerType].build_interval,
-            build_indicator.x, build_indicator.y + worldMap.tileHeight,
+            build_indicator.x, build_indicator.y + build_indicator.height,
             TowerInfo[towerType].width, TowerInfo[towerType].height ) );
         music.towerSound.play();
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
@@ -263,7 +263,7 @@ function update()
 	mouse.checkUI();
     //console.log( "delta = " + Time.delta );
     //console.log("resource loading : " + numLoadedAssets + " / " + numAllAssets );
-    document.getElementById("game_info").innerHTML = "resource loaded : " + numLoadedAssets + " / " + numAllAssets;
+    //document.getElementById("game_info").innerHTML = "resource loaded : " + numLoadedAssets + " / " + numAllAssets;
 
 
     if( cur_game_state === gameStatus.playing ) {
@@ -306,7 +306,7 @@ function render()
     if( numLoadedAssets < numAllAssets )
     {
         var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
-        drawText(msg);
+        drawText(msg, canvas.width * 0.5, canvas.height * 0.5 );
     }
     else {
        context.drawImage(worldMap.image, 0, 0);
@@ -321,10 +321,10 @@ function render()
     }
 }
 
-function drawText( message )
+function drawText( message, x, y )
 {
     context.font = "30px Comic Sans MS";
     context.fillStyle = "red";
     context.textAlign = "center";
-    context.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
+    context.fillText( message, x, y );
 }

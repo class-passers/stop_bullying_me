@@ -143,7 +143,19 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             this.boundTroop.towerDestroyed();
             this.to_be_removed = true;
             // disconnect the troop and the tower
-            //console.log("tower destroyed : " + JSON.stringify(this.boundTroop.unitInfo));
+            var index = -1;
+            for( var i = 0; i < tower_positions.length; i++ )
+            {
+                if( tower_positions[i].x == this.x && tower_positions[i].y == this.y ) {
+                    index = i;
+                    break;
+                }
+            }
+            if( index >= 0 )
+                tower_positions.splice( index, 1 );
+
+            //console.log("tower destroyed : " + this.x + " , " + this.y );
+            //console.log("tower positions = " + JSON.stringify(tower_positions) );
         }
     }
 };
