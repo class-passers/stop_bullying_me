@@ -118,7 +118,7 @@ var ButtonInfo = {
 		visible : true,
 		text : true,
 		param : null,
-		execute : function(){selectZombie(); restartGame();}
+		execute : function(){selectZombie(); hideStartContainer("level");}
 	},
 	selectHuman : {
 		type : "button",
@@ -131,7 +131,7 @@ var ButtonInfo = {
 		visible : true,
 		text : true,
 		param : null,
-		execute : function(){selectHuman(); restartGame();}
+		execute : function(){selectHuman(); hideStartContainer("level");}
 	},
 	//Select a level
 	levelSelection : {
@@ -158,7 +158,7 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
-		param : "level",
+		param : "side",
 		execute : function(e){hideStartContainer(e);}
 	},
 	credit : {
