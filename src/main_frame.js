@@ -302,18 +302,22 @@ function update()
 
 function render()
 {
-    // no need to clear context
-    context.drawImage( worldMap.image, 0, 0 );
-    // draw gameObjects
-    for( var i = 0; i < gameObjects.length; i++ )
+    context.clearRect( 0, 0, canvas.width, canvas.height );
+    if( numLoadedAssets < numAllAssets )
     {
-        gameObjects[i].render( context );
+        var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
+        drawText(msg);
     }
-	
-	for(var i = 0; i < uiObjects.length; i++)
-	{
-		uiObjects[i].render(context)
-	}
+    
+    context.drawImage(worldMap.image, 0, 0);
+    // draw gameObjects
+    for (var i = 0; i < gameObjects.length; i++) {
+        gameObjects[i].render(context);
+    }
+
+    for (var i = 0; i < uiObjects.length; i++) {
+        uiObjects[i].render(context)
+    }
 }
 
 function drawText( message )
