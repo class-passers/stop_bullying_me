@@ -107,8 +107,8 @@ var allZombieImages = {
         idle: {
             image_src: "img/troll1_idle.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -117,8 +117,8 @@ var allZombieImages = {
         walk: {
             image_src: "img/troll1_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -128,8 +128,8 @@ var allZombieImages = {
         moveInTower: {
             image_src: "img/troll1_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -137,7 +137,7 @@ var allZombieImages = {
 
         },
         dying: {
-            image_src: "img/troll1_die.png",
+            image_src: "img/troll1_dying.png",
             max_num_sprites: 7,
             num_sprites_horz: 3,
             num_sprites_vert: 3,
@@ -215,8 +215,8 @@ var allZombieImages = {
         idle: {
             image_src: "img/orc1_idle.png",
             max_num_sprites: 7,
-            num_sprites_horz: 7,
-            num_sprites_vert: 1,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -225,8 +225,8 @@ var allZombieImages = {
         walk: {
             image_src: "img/orc1_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 2,
+            num_sprites_vert: 4,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -235,18 +235,18 @@ var allZombieImages = {
         moveInTower: {
             image_src: "img/orc1_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
             image: null
         },
         dying: {
-            image_src: "img/orc1_die.png",
+            image_src: "img/orc1_dying.png",
             max_num_sprites: 7,
-            num_sprites_horz: 4,
-            num_sprites_vert: 2,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
