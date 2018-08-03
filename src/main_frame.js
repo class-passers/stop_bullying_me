@@ -111,7 +111,19 @@ function startGame( level )
     loadMapData();
     populateZombie();
 	createIngameUI();
-    var endPoint = find_node( worldMap.mapGrid, 20 );
+
+    var endPoint = null;
+	if( attacker_type === "zombie" )
+    {
+        endPoint = find_node( worldMap.mapGrid, 20 );
+
+    }
+    else
+    {
+        endPoint = find_node( worldMap.mapGrid, 10 );
+        worldMap.movePath = worldMap.movePath.reverse();
+    }
+
 	/*
     base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
 	/*/
