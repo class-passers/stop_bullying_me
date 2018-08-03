@@ -16,7 +16,9 @@ baseImg.image.src = baseImg.image_src;
 baseImg.image.onload = (function(){
 	baseImg.sprite_width = Math.floor(baseImg.image.width / baseImg.num_sprites_horz);
 	baseImg.sprite_height = Math.floor(baseImg.image.height / baseImg.num_sprites_vert);
+    numLoadedAssets++;
 });
+numAllAssets++;
 //*/
 
 var hpImage = new Image();

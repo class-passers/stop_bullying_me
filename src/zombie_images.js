@@ -329,8 +329,10 @@ for( var type in allZombieImages ) {
                     return function () {
                         allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image.width / allZombieImages[type][it].num_sprites_horz);
                         allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image.height / allZombieImages[type][it].num_sprites_vert);
+                        numLoadedAssets++;
                     }
                 }(type, status));
+                numAllAssets++;
             }
         }
     }

@@ -439,8 +439,10 @@ for(var type in indicatorImages)
 			return function(){
 				indicatorImages[type].sprite_width = Math.floor(indicatorImages[type].image.width / indicatorImages[type].num_sprites_horz);
 				indicatorImages[type].sprite_height = Math.floor(indicatorImages[type].image.height / indicatorImages[type].num_sprites_vert);
+                numLoadedAssets++;
 			}
 		}(type));
+        numAllAssets++;
 	}
 }
 //*/
@@ -458,8 +460,10 @@ for (var type in buttonImages)
 					return function(){
 						buttonImages[type][it].sprite_height = buttonImages[type][it].image.width;
 						buttonImages[type][it].sprite_height = buttonImages[type][it].image.height;
+                        numLoadedAssets++;
 					}
 				}(type, status));
+                numAllAssets++;
 			}
 		}
 	}

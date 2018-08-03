@@ -5,21 +5,9 @@ canvas.height = 800;
 
 var context = canvas.getContext("2d");
 
-var gameObjects = [];
-var uiObjects = [];
-var tower_positions = [];
-
-var cur_level = null;
-var cur_level_index = 0;
-var cleared_level = 0;
 var cur_game_state = gameStatus.startMenu;
-var base = null;
 var mouse = new mouseObject(canvas);
-var build_indicator = null;
-var build_mode = false;
-var tower_index = 0;
-var debug_draw = false;
-var attacker_type = "human";
+
 function selectZombie()
 {
     attacker_type = "human";
@@ -58,7 +46,6 @@ window.onblur = function() {
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
-
 
 ////////// Game state control
 function deleteLevel()
@@ -275,6 +262,9 @@ function update()
     Time.Tick();
 	mouse.checkUI();
     //console.log( "delta = " + Time.delta );
+    //console.log("resource loading : " + numLoadedAssets + " / " + numAllAssets );
+    document.getElementById("game_info").innerHTML = "resource loaded : " + numLoadedAssets + " / " + numAllAssets;
+
 
     if( cur_game_state === gameStatus.playing ) {
         //if( document.hasFocus() === false )
