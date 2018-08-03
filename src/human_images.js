@@ -107,8 +107,8 @@ var allHumanImages = {
         idle: {
             image_src: "img/ninja_idle.png",
             max_num_sprites: 10,
-            num_sprites_horz: 4,
-            num_sprites_vert: 3,
+            num_sprites_horz: 5,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -152,8 +152,7 @@ var allHumanImages = {
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null,
-            scale : 1.2
+            image: null
         }
     },
     heavy : {
