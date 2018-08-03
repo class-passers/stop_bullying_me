@@ -155,7 +155,8 @@ var allZombieImages = {
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image: null,
+            scale : 1.2
         }
     },
     ranged : {
@@ -208,7 +209,7 @@ var allZombieImages = {
             sprite_height: 0,
             repeat: false,
             image: null,
-            scale : 1.0
+            scale : 1.2
         }
     },
     healer : {
