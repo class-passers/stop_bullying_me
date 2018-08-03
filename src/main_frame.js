@@ -303,13 +303,14 @@ function update()
 function render()
 {
     context.clearRect( 0, 0, canvas.width, canvas.height );
+    context.drawImage(worldMap.image, 0, 0);
+
     if( numLoadedAssets < numAllAssets )
     {
         var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
         drawText(msg, canvas.width * 0.5, canvas.height * 0.5 );
     }
     else {
-       context.drawImage(worldMap.image, 0, 0);
         // draw gameObjects
         for (var i = 0; i < gameObjects.length; i++) {
             gameObjects[i].render(context);
