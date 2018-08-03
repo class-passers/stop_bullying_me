@@ -308,15 +308,16 @@ function render()
         var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
         drawText(msg);
     }
-    
-    context.drawImage(worldMap.image, 0, 0);
-    // draw gameObjects
-    for (var i = 0; i < gameObjects.length; i++) {
-        gameObjects[i].render(context);
-    }
+    else {
+       context.drawImage(worldMap.image, 0, 0);
+        // draw gameObjects
+        for (var i = 0; i < gameObjects.length; i++) {
+            gameObjects[i].render(context);
+        }
 
-    for (var i = 0; i < uiObjects.length; i++) {
-        uiObjects[i].render(context)
+        for (var i = 0; i < uiObjects.length; i++) {
+            uiObjects[i].render(context)
+        }
     }
 }
 
