@@ -155,7 +155,8 @@ var allZombieImages = {
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image: null,
+            scale : 1.2
         }
     },
     ranged : {
@@ -208,7 +209,7 @@ var allZombieImages = {
             sprite_height: 0,
             repeat: false,
             image: null,
-            scale : 1.0
+            scale : 1.2
         }
     },
     healer : {
@@ -329,8 +330,10 @@ for( var type in allZombieImages ) {
                     return function () {
                         allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image.width / allZombieImages[type][it].num_sprites_horz);
                         allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image.height / allZombieImages[type][it].num_sprites_vert);
+                        numLoadedAssets++;
                     }
                 }(type, status));
+                numAllAssets++;
             }
         }
     }

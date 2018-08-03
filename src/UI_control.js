@@ -80,8 +80,8 @@ function createStartMenu()
 			temp.execute = function(level)
 			{
 				cur_level_index = level;
-				hideStartContainer("side");
-				//restartGame();
+				//hideStartContainer("side");
+				restartGame();
 			}
 		}
 		else

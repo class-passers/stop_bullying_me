@@ -37,7 +37,9 @@ function loadMapData()
     worldMap.image.onload = function() {
         canvas.width = worldMap.image.width;
         canvas.height = worldMap.image.height;
+        numLoadedAssets++;
     };
+    numAllAssets++;
 
     for( var idx = 0; idx < mapData.length; idx++ )
     {
@@ -99,6 +101,7 @@ function get_start_location()
     if( worldMap.movePath !== null )
     {
         var nextLocation = worldMap.movePath[0];
+
         return new Pos( Math.floor( nextLocation.x  * worldMap.tileWidth ) ,
             Math.floor( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
     }

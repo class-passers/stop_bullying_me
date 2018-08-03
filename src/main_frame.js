@@ -5,21 +5,9 @@ canvas.height = 800;
 
 var context = canvas.getContext("2d");
 
-var gameObjects = [];
-var uiObjects = [];
-var tower_positions = [];
-
-var cur_level = null;
-var cur_level_index = 0;
-var cleared_level = 0;
 var cur_game_state = gameStatus.startMenu;
-var base = null;
 var mouse = new mouseObject(canvas);
-var build_indicator = null;
-var build_mode = false;
-var tower_index = 0;
-var debug_draw = false;
-var attacker_type = "human";
+
 function selectZombie()
 {
     attacker_type = "human";
@@ -58,7 +46,6 @@ window.onblur = function() {
 window.addEventListener("mousemove", mouse.position);
 window.addEventListener("mousedown", mouse.down);
 window.addEventListener("mouseup", mouse.up);
-
 
 ////////// Game state control
 function deleteLevel()
@@ -111,7 +98,19 @@ function startGame( level )
     loadMapData();
     populateZombie();
 	createIngameUI();
-    var endPoint = find_node( worldMap.mapGrid, 20 );
+
+    var endPoint = null;
+	if( attacker_type === "zombie" )
+    {
+        endPoint = find_node( worldMap.mapGrid, 20 );
+
+    }
+    else
+    {
+        endPoint = find_node( worldMap.mapGrid, 10 );
+        worldMap.movePath = worldMap.movePath.reverse();
+    }
+
 	/*
     base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
 	/*/
@@ -185,7 +184,7 @@ function turnOnBuildMode(tower_type)
 	if(build_mode === false)
 	{
 		mouse.assignFunction(buildTower);
-		build_indicator = new BuildIndicator(tower_type, mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
+		build_indicator = new BuildIndicator(tower_type, tower_positions, base, mouse.x, mouse.y, 85, 133);
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
@@ -215,7 +214,7 @@ function buildTower()
 		base.spendMoney(TowerInfo[towerType].cost);
 
 		gameObjects.push( new BuildObject( towerType, TowerInfo[towerType].build_interval,
-            build_indicator.x, build_indicator.y + worldMap.tileHeight,
+            build_indicator.x, build_indicator.y + build_indicator.height,
             TowerInfo[towerType].width, TowerInfo[towerType].height ) );
         music.towerSound.play();
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
@@ -263,6 +262,9 @@ function update()
     Time.Tick();
 	mouse.checkUI();
     //console.log( "delta = " + Time.delta );
+    //console.log("resource loading : " + numLoadedAssets + " / " + numAllAssets );
+    //document.getElementById("game_info").innerHTML = "resource loaded : " + numLoadedAssets + " / " + numAllAssets;
+
 
     if( cur_game_state === gameStatus.playing ) {
         //if( document.hasFocus() === false )
@@ -300,24 +302,30 @@ function update()
 
 function render()
 {
-    // no need to clear context
-    context.drawImage( worldMap.image, 0, 0 );
-    // draw gameObjects
-    for( var i = 0; i < gameObjects.length; i++ )
+    context.clearRect( 0, 0, canvas.width, canvas.height );
+    context.drawImage(worldMap.image, 0, 0);
+
+    if( numLoadedAssets < numAllAssets )
     {
-        gameObjects[i].render( context );
+        var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
+        drawText(msg, canvas.width * 0.5, canvas.height * 0.5 );
     }
-	
-	for(var i = 0; i < uiObjects.length; i++)
-	{
-		uiObjects[i].render(context)
-	}
+    else {
+        // draw gameObjects
+        for (var i = 0; i < gameObjects.length; i++) {
+            gameObjects[i].render(context);
+        }
+
+        for (var i = 0; i < uiObjects.length; i++) {
+            uiObjects[i].render(context)
+        }
+    }
 }
 
-function drawText( message )
+function drawText( message, x, y )
 {
     context.font = "30px Comic Sans MS";
     context.fillStyle = "red";
     context.textAlign = "center";
-    context.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
+    context.fillText( message, x, y );
 }

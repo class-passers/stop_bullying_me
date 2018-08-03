@@ -13,7 +13,9 @@ buildImage.image.src = buildImage.image_src;
 buildImage.image.onload = function(){
 	buildImage.sprite_width = Math.floor(buildImage.image.width / buildImage.num_sprite_horz);
 	buildImage.sprite_height = Math.floor(buildImage.image.height / buildImage.num_sprite_vert);
+    numLoadedAssets++;
 };
+numAllAssets++;
 
 var progressImage = new Image();
 progressImage.src = "img/progress_bar.png";

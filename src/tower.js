@@ -96,11 +96,19 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         this.hpBar.render( context );
     };
 
+    this.isInAttackRange = function (target) {
+        if (target !== null ) {
+            return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
+        }
+        return false;
+    };
+
+
     this.findTarget = function() {
 
         // if  a zombie is already in target, fire him.
         if( this.curTarget && this.curTarget.hp > 0 ){
-            if(getDistanceSquare( this, this.curTarget ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
+            if( this.isInAttackRange(this.curTarget ) ) {
                 return;
             }
         }
@@ -111,7 +119,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         for( var i = 0; i < gameObjects.length; i++ ) {
             if (gameObjects[i].objectType === attacker_type && gameObjects[i].hp > 0 ) {
                 // check if the zombie is in tower's attack range
-                if( getDistanceSquare( this, gameObjects[i] ) < this.unitInfo.attackRange * this.unitInfo.attackRange ) {
+                if( this.isInAttackRange( gameObjects[i] ) ){
                     this.curTarget = gameObjects[i];
                     return;
                 }
@@ -143,7 +151,19 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             this.boundTroop.towerDestroyed();
             this.to_be_removed = true;
             // disconnect the troop and the tower
-            //console.log("tower destroyed : " + JSON.stringify(this.boundTroop.unitInfo));
+            var index = -1;
+            for( var i = 0; i < tower_positions.length; i++ )
+            {
+                if( tower_positions[i].x == this.x && tower_positions[i].y == this.y ) {
+                    index = i;
+                    break;
+                }
+            }
+            if( index >= 0 )
+                tower_positions.splice( index, 1 );
+
+            //console.log("tower destroyed : " + this.x + " , " + this.y );
+            //console.log("tower positions = " + JSON.stringify(tower_positions) );
         }
     }
 };

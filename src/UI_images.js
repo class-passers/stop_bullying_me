@@ -83,6 +83,21 @@ var buttonImages = {
 			image : null
 		}
 	},
+	setting : {
+		default : {
+			image_src : "img/button_setting.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_setting_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+
 	pause : {
 		default : {
 			image_src : "img/button_pause.png",
@@ -92,6 +107,20 @@ var buttonImages = {
 		},
 		pressed : {
 			image_src : "img/button_pause_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+	volume : {
+		default : {
+			image_src : "img/button_audio.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_audio_mute.png",
 			sprite_width : 70,
 			sprite_height : 70,
 			image : null
@@ -354,6 +383,15 @@ var indicatorImages = {
         sprite_height: 0,
         image: null,
 	},
+	settingTitle : {
+		image_src : "img/button_setting_small.png",
+		max_num_sprites : 1,
+		num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,	
+	},
 	money : {
 		image_src : "img/coin.png",
 		max_num_sprites : 10,
@@ -439,8 +477,10 @@ for(var type in indicatorImages)
 			return function(){
 				indicatorImages[type].sprite_width = Math.floor(indicatorImages[type].image.width / indicatorImages[type].num_sprites_horz);
 				indicatorImages[type].sprite_height = Math.floor(indicatorImages[type].image.height / indicatorImages[type].num_sprites_vert);
+                numLoadedAssets++;
 			}
 		}(type));
+        numAllAssets++;
 	}
 }
 //*/
@@ -458,8 +498,10 @@ for (var type in buttonImages)
 					return function(){
 						buttonImages[type][it].sprite_height = buttonImages[type][it].image.width;
 						buttonImages[type][it].sprite_height = buttonImages[type][it].image.height;
+                        numLoadedAssets++;
 					}
 				}(type, status));
+                numAllAssets++;
 			}
 		}
 	}

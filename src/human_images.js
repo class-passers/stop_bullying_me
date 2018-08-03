@@ -152,7 +152,8 @@ var allHumanImages = {
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image: null,
+            scale : 1.2
         }
     },
     heavy : {
@@ -327,8 +328,10 @@ for( var type in allHumanImages ) {
                     return function () {
                         allHumanImages[type][it].sprite_width = Math.floor(allHumanImages[type][it].image.width / allHumanImages[type][it].num_sprites_horz);
                         allHumanImages[type][it].sprite_height = Math.floor(allHumanImages[type][it].image.height / allHumanImages[type][it].num_sprites_vert);
+                        numLoadedAssets++;
                     }
                 }(type, status));
+                numAllAssets++;
             }
         }
     }

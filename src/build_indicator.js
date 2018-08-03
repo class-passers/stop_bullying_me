@@ -5,9 +5,9 @@ validImage.src = "img/tower_valid.png";
 var invalidImage = new Image();
 invalidImage.src = "img/tower_invalid.png";
 
-var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y, width, height ){
-    this.x = pos_x;
-    this.y = pos_y;
+var BuildIndicator = function( tower_type, positions, base, pos_x, pos_y, width, height ){
+    this.x = pos_x - Math.floor( width / 2 );
+    this.y = pos_y - Math.floor( height / 2 );
 	this.z = 0;
     this.width = width;
     this.height = height;
@@ -26,7 +26,7 @@ var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y,
     };
     this.get_y = function()
     {
-        return (this.y - this.height)+worldMap.tileHeight;
+        return this.y;
     };
 
     this.get_source_x = function()
@@ -39,8 +39,16 @@ var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y,
     };
 	this.canBuild = function()
 	{
-		if(get_tile_type(mouse.x, mouse.y) === 0 &&
-			get_tile_type( this.x+this.width, mouse.y ) === 0 &&
+	    var x = this.x;
+	    var end_x = this.x + this.width;
+	    end_x -= ( end_x % worldMap.tileWidth );
+        var y = this.y + this.height;
+        y -= ( y % worldMap.tileHeight + worldMap.tileHeight);
+        document.getElementById("game_info").innerHTML = "mouse" + ":" + mouse.x + "," + mouse.y;
+        document.getElementById("game_info").innerHTML += "<br>" +"build :" + this.x + "," + this.y + "("+y+")";
+
+		if(get_tile_type( x, y ) === 0 &&
+			get_tile_type( end_x, y ) === 0 &&
 			base.resource >= TowerInfo[this.towerType].cost)
 		{
 			var rec1 = new Rectangle(this.x, this.y, this.width, worldMap.tileHeight);
@@ -65,8 +73,11 @@ var BuildIndicator = function( tower_type, mouse, positions, base, pos_x, pos_y,
 	};
     this.update = function(deltaTime)
     {
-		this.x = mouse.x - (mouse.x % worldMap.tileWidth);
-		this.y = mouse.y - (mouse.y % worldMap.tileHeight);
+
+        this.x = mouse.x - Math.floor(this.width/ 2);
+        this.x -= ( this.x % worldMap.tileWidth) ;
+		this.y = mouse.y - Math.floor(this.height / 2);
+		this.y -= ( this.y % worldMap.tileHeight );
 		this.isValid = this.canBuild();
     };
     this.render = function( context )
