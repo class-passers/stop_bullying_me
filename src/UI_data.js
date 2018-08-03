@@ -1,6 +1,6 @@
 var stateContainer = ["paused","win","lose"];
 var ingameContainer = ["paused","win","lose","build","timer"];
-var startContainer = ["start","level","credit","side"];
+var startContainer = ["start","level","credit", "setting", "side"];
 var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
 
 
@@ -21,7 +21,7 @@ var ContainerInfo = {
 		name : "start",
 		x : 640,
 		y : 330,
-		buttons : ["startGame", "credit"],
+		buttons : ["startGame", "credit", "setting"],
 		indicators : ["title"],
 		visibility : true,
 		uiLayer : 0,
@@ -45,6 +45,17 @@ var ContainerInfo = {
 		y : 330,
 		buttons : ["back"],
 		indicators : ["creditTitle"],
+		visibility : false,
+		uiLayer : 0,
+		target_positions : null
+	},
+	setting : {
+		type : "container",
+		name : "setting",
+		x : 640,
+		y : 330,
+		buttons : ["back", "setting"],
+		indicators : ["settingTitle"],
 		visibility : false,
 		uiLayer : 0,
 		target_positions : null
@@ -165,13 +176,26 @@ var ButtonInfo = {
 		type : "button",
 		name : "credit",
 		x : -180,
-		y : 190,
+		y : 140,
 		width : 360,
 		height : 75,
 		display_level : 0,
 		visible : true,
 		text : false,
 		param : "credit",
+		execute : function(e){hideStartContainer(e);}
+	},
+	setting : {
+		type : "button",
+		name : "setting",
+		x : -180,
+		y : 210,
+		width : 360,
+		height : 75,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : "setting",
 		execute : function(e){hideStartContainer(e);}
 	},
 	//going back to start menu
@@ -471,6 +495,21 @@ var IndicatorInfo = {
 		txt_y : 150,
 		txt_color : 'black',
 		txt_font : '70px Comic Sans MS',
+		interval : 0
+	},
+	settingTitle : {
+		type : "indicator",
+		name : "settingTitle",
+		x : -180,
+		y : -300,
+		width : 360,
+		height : 75,
+		visibility: true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
 		interval : 0
 	},
 	money : {
