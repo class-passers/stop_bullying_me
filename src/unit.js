@@ -7,7 +7,7 @@ var ZombieInfo = {
         hp : 120,
 		moveSpeed : 80,      // pixel per seconds
         attackRange : 200,
-        attackSpeed : 2,
+        attackSpeed : 1.5,
         attackPower : 20,
 		reward : 5
     },
@@ -18,7 +18,7 @@ var ZombieInfo = {
         hp : 80,
         moveSpeed : 90,
         attackRange : 200,
-        attackSpeed : 2,
+        attackSpeed : 1,
 		attackPower : 10,
         reward : 7
     },
@@ -40,7 +40,7 @@ var ZombieInfo = {
         hp : 100,
         moveSpeed : 70,
         attackRange : 300,
-        attackSpeed : 2,
+        attackSpeed : 1.5,
 		attackPower : 10,
         reward : 7
     },
@@ -63,8 +63,8 @@ var ZombieInfo = {
         hp : 100,
         moveSpeed : 60,
         attackRange : 300,
-        attackSpeed : 1,
-        attackPower : 5,
+        attackSpeed : 1.5,
+        attackPower : 7,
         damageRange : 150,
         cost : 150,
         reward : 10
@@ -75,8 +75,8 @@ var ZombieInfo = {
 var ZombieBossInfo = {
     heavy : {
         name : "heavy",
-        width : 250,
-        height : 250,
+        width : 200,
+        height : 200,
         hp : 300,
         moveSpeed : 30,
         attackRange : 200,
@@ -178,8 +178,8 @@ var HumanTroopInfo = {
 var HumanBossInfo = {
     heavy : {
         name : "heavy",
-        width : 250,
-        height : 250,
+        width : 200,
+        height : 200,
         hp : 300,
         moveSpeed : 30,
         attackRange : 200,
