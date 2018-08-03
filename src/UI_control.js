@@ -223,3 +223,32 @@ function hideTimerButton(except)
 		}
 	}
 }
+
+//////////////////	Tutorial
+function showTutorial()
+{
+	if(is_cleared_before())
+	{
+		return 0;
+	}
+	else
+	{
+		pauseGame();
+		var tutorial = FindContainer("tutorial");
+		//delete tutorial from uiObjects
+		//add again
+		tutorial.isVisible = true;
+		FindIndicator("tutorial_lev"+cur_level_index.toString()).isVisible = true;
+		mouse.uiLayer = tutorial.uiInfo.uiLayer;
+	}
+}
+function hideTutorial()
+{
+	var tutorial = FindContainer("tutorial");
+	for(var i = 0; i < tutorial.uiInfo.indicators.length; i++)
+	{
+		FindIndicator(tutorial.uiInfo.indicators[i]).isVisible = false;
+	}
+	tutorial.isVisible = false;
+	mouse.uiLayer = 0;
+}

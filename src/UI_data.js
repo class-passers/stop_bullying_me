@@ -1,10 +1,21 @@
 var stateContainer = ["paused","win","lose"];
-var ingameContainer = ["paused","win","lose","build","timer"];
+var ingameContainer = ["paused","win","lose","build","timer","tutorial"];
 var startContainer = ["start","level","credit","side"];
 var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
 
 
 var ContainerInfo = {
+	tutorial : {
+		type : "container",
+		name : "tutorial",
+		x : 140,
+		y : 50,
+		buttons : ["exitCircle"],
+		indicators : ["tutorial_lev0","tutorial_lev1","tutorial_lev2"],
+		visibility : false,
+		uiLayer : 3,
+		target_positions : null
+	},
 	side : {
 		type : "container",
 		name : "side",
@@ -107,6 +118,19 @@ var ContainerInfo = {
 };
 
 var ButtonInfo = {
+	exitCircle : {
+		type : "button",
+		name : "exitCircle",
+		x : 965,
+		y : -35,
+		width : 70,
+		height : 70,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : null,
+		execute : function(){resumeGame(); hideTutorial();}
+	},
 	selectZombie : {
 		type : "button",
 		name : "selectZombie",
@@ -353,6 +377,51 @@ var ButtonInfo = {
 };
 
 var IndicatorInfo = {
+	tutorial_lev0 : {
+		type : "indicator",
+		name : "tutorial_lev0",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_lev1 : {
+		type : "indicator",
+		name : "tutorial_lev1",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_lev2 : {
+		type : "indicator",
+		name : "tutorial_lev2",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
 	build1Disabled : {
 		type : "indicator",
 		name : "build1Disabled",

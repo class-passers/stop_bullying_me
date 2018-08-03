@@ -1,4 +1,18 @@
 var buttonImages = {
+	exitCircle : {
+		default : {
+			image_src : "img/button_exit_circle.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_exit_circle_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
 	selectZombie : {
 		default : {
 			image_src : "img/button_zombie.png",
@@ -282,6 +296,33 @@ var buttonImages = {
 }
 
 var indicatorImages = {
+	tutorial_lev0 : {
+		image_src : "img/tutorial_0.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_lev1 : {
+		image_src : "img/tutorial_1.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_lev2 : {
+		image_src : "img/tutorial_2.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
 	build1Disabled : {
 		image_src : "img/button_disable.png",
 		max_num_sprites : 1,

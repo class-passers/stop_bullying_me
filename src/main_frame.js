@@ -134,6 +134,11 @@ function startGame( level )
 	uiObjects.push(base.resource_indicator);
 	mouse.ui = uiObjects;
 	resumeGame();
+	showTutorial();
+}
+function is_cleared_before()
+{
+	return !(cleared_level <= cur_level_index);
 }
 
 /////// Create zombie
