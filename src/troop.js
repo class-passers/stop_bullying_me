@@ -167,6 +167,7 @@ var TroopObject = /** @class */ (function () {
                             }
                             else if( (this.boundTower === null || this.boundTower.hp <= 0 ) &&
                                 this.isInAttackRange3(this.curTarget) ) {
+                                console.log("follow the target : " + this.curTarget.unitInfo );
                                 this.changeState('walk');
                             }
                         }
@@ -411,18 +412,24 @@ var TroopObject = /** @class */ (function () {
                 }
             }
 
+            var scale = this.scale;
+            if( this.curImage.hasOwnProperty("scale") )
+            {
+                scale = this.curImage.scale;
+            }
+
             if( flipped ) {
                 context.save();
                 context.scale(-1, 1);
                 context.drawImage(this.curImage.image, this.get_source_x(), this.get_source_y(),
                     this.get_sprite_width(), this.get_sprite_height(),
-                    -this.get_x() - this.width * this.scale, this.get_y(), this.width * this.scale, this.height * this.scale);
+                    -this.get_x() - this.width * scale, this.get_y(), this.width * scale, this.height * scale);
                 context.restore();
             }
             else {
                 context.drawImage(this.curImage.image, this.get_source_x(), this.get_source_y(),
                     this.get_sprite_width(), this.get_sprite_height(),
-                    this.get_x(), this.get_y(), this.width * this.scale, this.height * this.scale);
+                    this.get_x(), this.get_y(), this.width * scale, this.height * scale);
             }
 
             this.hpBar.render(context);
@@ -521,7 +528,7 @@ var TroopObject = /** @class */ (function () {
                         }
 
                         if (this.unitInfo.name === "ranged") {
-                            gameObjects.push(new Kunai(this.get_center_x(), this.get_center_y(), target, damage));
+                            gameObjects.push(new RangedBullet(this.get_center_x(), this.get_center_y(), target, damage));
                         }
                         else if (this.unitInfo.name === "wizard") {
                             gameObjects.push(new Fireball(this.get_center_x(), this.get_center_y(), target, damage, this.unitInfo.damageRange));
@@ -609,12 +616,12 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.isOnTower = function()
         {
-            return this.boundTower && this.boundTower.hp > 0 && this.isReadyToFight;
+            return ( this.boundTower !== null && this.boundTower.hp > 0 && this.isReadyToFight );
         };
 
         TroopObject.prototype.isReachedTower = function()
         {
-            if( this.boundTower && this.boundTower.objectType === "tower" )
+            if( this.boundTower !== null && this.boundTower.objectType === "tower" )
             {
                 return this.moveIndex >= this.movePath.length;
             }
@@ -739,6 +746,12 @@ var TroopObject = /** @class */ (function () {
                 return ( getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange * 9 );
             }
             return false;
+        };
+
+        TroopObject.prototype.towerDestroyed = function()
+        {
+            this.boundTower = null;
+            //console.log("bound tower destroyed :" + this.isOnTower() );
         };
 
         TroopObject.prototype.isRangedUnit = function()

@@ -58,8 +58,11 @@ var Bullet = function( x, y, target, damage ) {
 var kunaiImage = new Image();
 kunaiImage.src = "img/kunai.png";
 
+var throwingAxeImage = new Image();
+throwingAxeImage.src = "img/throwing_axe.png";
+
 // Bullet is a kind of guided projectile so that this always follow the target.
-var Kunai = function( x, y, target, damage ) {
+var RangedBullet = function( x, y, target, damage ) {
     this.objectType = "bullet";
     // x, y should be center position of the bullet
     this.x = x;
@@ -90,7 +93,7 @@ var Kunai = function( x, y, target, damage ) {
         //this.angle = getAngleInRadian( this, this.target );
         //if( xDist < 0 )
         //    this.angle += Math.PI;
-        this.angle += 0.7;
+        this.angle += 0.6;
 
         //console.log( "this = " + this.x + ", " + this.y + " ==> " + this.target.x + ", " + this.target.y + " : " + dist + ", angle = " + this.angle * 180 / Math.PI );
 
@@ -108,13 +111,20 @@ var Kunai = function( x, y, target, damage ) {
         //context.fillStyle = 'black';
         //context.fill();
 
+        var bulletImage = null;
+        if( attacker_type === "human" ) {
+            bulletImage = throwingAxeImage;
+        }
+        else {
+            bulletImage = kunaiImage;
+        }
+
         context.save();
         context.translate( this.x+this.width/2, this.y+this.height/2 );
         context.rotate( this.angle );
         context.translate( -(this.x+this.width/2), -(this.y+this.height/2) );
-        context.drawImage( kunaiImage, 0, 0,
-            kunaiImage.width, kunaiImage.height,
-            Math.floor(this.x), Math.floor(this.y), this.width, this.height );
+        context.drawImage(bulletImage, 0, 0, bulletImage.width, bulletImage.height,
+            Math.floor(this.x), Math.floor(this.y), this.width, this.height);
         context.restore();
     };
 };

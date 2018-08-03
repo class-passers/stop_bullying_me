@@ -75,7 +75,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.render = function( context )
     {
         var image = towerImage;
-        if( this.boundTroop && this.boundTroop.isOnTower() )
+        if( this.boundTroop && this.boundTroop.isReadyToFight )
         {
             context.drawImage(towerImage_upper, this.get_source_x(), this.get_source_y(),
                 towerImage.width, towerImage.height,
@@ -130,7 +130,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             Time.Wait( function()
             {
                 self.isOnCooldown = false;
-            }, this.unitInfo.attackSpeed )
+            }, this.unitInfo.attackSpeed );
             music.fireSound.play();
         }
     };
@@ -140,10 +140,10 @@ var TowerObject = function( towerType, pos_x, pos_y ){
         this.hp -= damage;
         if( this.hp <= 0 )
         {
-            this.boundTroop.boundTower = null;
+            this.boundTroop.towerDestroyed();
             this.to_be_removed = true;
             // disconnect the troop and the tower
-            console.log("tower destroyed");
+            //console.log("tower destroyed : " + JSON.stringify(this.boundTroop.unitInfo));
         }
     }
 };

@@ -160,19 +160,19 @@ var allZombieImages = {
     },
     ranged : {
         idle: {
-            image_src: "img/ninja_idle.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 4,
-            num_sprites_vert: 3,
+            image_src: "img/ranged_orc_idle.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 2,
+            num_sprites_vert: 4,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
             image: null
         },
         walk: {
-            image_src: "img/ninja_run.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 5,
+            image_src: "img/ranged_orc_walk.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 4,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
@@ -180,9 +180,9 @@ var allZombieImages = {
             image: null
         },
         moveInTower: {
-            image_src: "img/ninja_run.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 5,
+            image_src: "img/ranged_orc_walk.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 4,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
@@ -190,24 +190,25 @@ var allZombieImages = {
             image: null
         },
         dying: {
-            image_src: "img/ninja_die.png",
-            max_num_sprites: 10,
+            image_src: "img/ranged_orc_dying.png",
+            max_num_sprites: 7,
             num_sprites_horz: 4,
-            num_sprites_vert: 3,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
             image: null
         },
         attack: {
-            image_src: "img/ninja_attack.png",
-            max_num_sprites: 10,
-            num_sprites_horz: 5,
+            image_src: "img/ranged_orc_attack.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 4,
             num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image: null,
+            scale : 1.0
         }
     },
     healer : {
