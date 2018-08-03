@@ -125,6 +125,9 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.update = function (deltaTime) {
 
+            if( this.curTarget !== null && this.curTarget.hp <= 0 )
+                this.curTarget = null;
+
             this.updateHandler[this.state]( deltaTime );
 
             if (this.hp <= 0) {
