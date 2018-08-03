@@ -1,4 +1,32 @@
 var buttonImages = {
+	selectZombie : {
+		default : {
+			image_src : "img/button_zombie.png",
+			sprite_width : 280,
+			sprite_height : 430,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_zombie_pressed.png",
+			sprite_width : 280,
+			sprite_height : 430,
+			image : null
+		}
+	},
+	selectHuman : {
+		default : {
+			image_src : "img/button_human.png",
+			sprite_width : 280,
+			sprite_height : 430,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_human_pressed.png",
+			sprite_width : 280,
+			sprite_height : 430,
+			image : null
+		}
+	},
 	levelSelection : {
 		default : {
 			image_src : "img/button_level_selection.png",
@@ -292,6 +320,15 @@ var indicatorImages = {
 	},
 	locked : {
 		image_src : "img/button_level_selection_locked.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	sideSelectionTitle : {
+		image_src : "img/title_side_selection.png",
 		max_num_sprites : 1,
         num_sprites_horz: 1,
         num_sprites_vert: 1,

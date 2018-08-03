@@ -65,8 +65,11 @@ var FindIndicator = function(type)
 ////////// Start menu control
 function createStartMenu()
 {
-	var start = new ContainerObject("start");
-	var level = new ContainerObject("level");
+	for(var i = 0; i < startContainer.length; i++)
+	{
+		uiObjects.push(new ContainerObject(startContainer[i]));
+	}
+	var level = FindContainer("level");
 	for(var i = 0; i < levels.length; i++)
 	{
 		var temp;
@@ -77,7 +80,8 @@ function createStartMenu()
 			temp.execute = function(level)
 			{
 				cur_level_index = level;
-				restartGame();
+				hideStartContainer("side");
+				//restartGame();
 			}
 		}
 		else
@@ -90,11 +94,6 @@ function createStartMenu()
 		level.childElements.push(temp);
 	}
 
-	var credit = new ContainerObject("credit");
-
-	uiObjects.push(start);
-	uiObjects.push(level);
-	uiObjects.push(credit);
 	mouse.ui = uiObjects;
 	mouse.uiLayer = 0;
 }
@@ -102,9 +101,7 @@ function createStartMenu()
 function startMenu()//create start menu and hide other scenes
 {
     createStartMenu();
-    FindContainer("start").isVisible = true;
-    FindContainer("level").isVisible = false;
-    FindContainer("credit").isVisible = false;
+    hideStartContainer("start");
 	cur_game_state = gameStatus.startMenu;
     mouse.ui = uiObjects;
 	mouse.uiLayer = 0;

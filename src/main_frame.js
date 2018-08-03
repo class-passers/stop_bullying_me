@@ -246,12 +246,12 @@ function checkTowerCost()
 			if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
 			{
 				FindButton(ContainerInfo["build"].buttons[i]).isClickable = false;
-				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
+				//FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
 			}
 			else
 			{
 				FindButton(ContainerInfo["build"].buttons[i]).isClickable = true;
-				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
+				//FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
 			}
 		}
 	}

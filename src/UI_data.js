@@ -1,10 +1,21 @@
 var stateContainer = ["paused","win","lose"];
 var ingameContainer = ["paused","win","lose","build","timer"];
-var startContainer = ["start","level","credit"];
+var startContainer = ["start","level","credit","side"];
 var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
 
 
 var ContainerInfo = {
+	side : {
+		type : "container",
+		name : "side",
+		x : 640,
+		y : 330,
+		buttons : ["selectZombie", "selectHuman","back"],
+		indicators : ["sideSelectionTitle"],
+		visibility : false,
+		uiLayer : 0,
+		target_positions : null
+	},
 	start : {
 		type : "container",
 		name : "start",
@@ -96,6 +107,32 @@ var ContainerInfo = {
 };
 
 var ButtonInfo = {
+	selectZombie : {
+		type : "button",
+		name : "selectZombie",
+		x : -355,
+		y : -200,
+		width : 280,
+		height : 430,
+		display_level : 0,
+		visible : true,
+		text : true,
+		param : null,
+		execute : function(){selectZombie(); restartGame();}
+	},
+	selectHuman : {
+		type : "button",
+		name : "selectHuman",
+		x : 75,
+		y : -200,
+		width : 280,
+		height : 430,
+		display_level : 0,
+		visible : true,
+		text : true,
+		param : null,
+		execute : function(){selectHuman(); restartGame();}
+	},
 	//Select a level
 	levelSelection : {
 		type : "button",
@@ -383,6 +420,21 @@ var IndicatorInfo = {
 		y : 0,
 		width : 70,
 		height : 70,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	sideSelectionTitle : {
+		type : "indicator",
+		name : "sideSelectionTitle",
+		x : -180,
+		y : -300,
+		width : 360,
+		height : 75,
 		visibility : true,
 		txt_sign : "",
 		txt_x : 0,
