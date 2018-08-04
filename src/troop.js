@@ -1,3 +1,5 @@
+
+
 // the mechanism to inherit from TroopObject by Typescript
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -9,6 +11,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
+var healImage = new Image();
+healImage.src = "img/heal.png";
 
 var TroopObject = /** @class */ (function () {
     function TroopObject( pos_x, pos_y, unitInfo, tower, is_boss ) {
@@ -72,6 +77,7 @@ var TroopObject = /** @class */ (function () {
         this.updateHandler = {
             "idle" : function(t){ self.updateIdleState(t); },
             "moveInTower" : function(t){ self.updateMoveInTowerState(t); },
+            "moveOutTower" : function(t){ self.updateMoveOutTowerState(t); },
             "walk" : function(t){ self.updateWalkState(t); },
             "attack" : function(t){ self.updateAttackState(t); },
             "dying" : function(t){ self.updateDyingState(t); }
@@ -233,6 +239,29 @@ var TroopObject = /** @class */ (function () {
                         this.isReadyToFight = true;
                     }
                 }
+            }
+            else
+            {
+                this.changeState("idle");
+            }
+        };
+
+        TroopObject.prototype.updateMoveOutTowerState = function (deltaTime) {
+            if( this.isDefender )
+            {
+                if (this.scale < 1.0) {
+                    this.scale += 0.02;
+                    this.x -= 1;
+                    this.y += 2;
+                }
+                else
+                {
+                    this.changeState("idle");
+                }
+            }
+            else
+            {
+                this.changeState("idle");
             }
         };
 
@@ -782,6 +811,7 @@ var TroopObject = /** @class */ (function () {
         TroopObject.prototype.towerDestroyed = function()
         {
             this.boundTower = null;
+            this.changeState("moveOutTower");
             //console.log("bound tower destroyed :" + this.isOnTower() );
         };
 

@@ -6,6 +6,9 @@ towerImage_upper.src = "img/tower_upper.png";
 var towerImage_lower = new Image();
 towerImage_lower.src = "img/tower_lower.png";
 
+var explosionImage = new Image();
+explosionImage.src = "img/tower_explosion.png";
+
 var TowerObject = function( towerType, pos_x, pos_y ){
     this.objectType = "tower";
     this.unitInfo = TowerInfo[ towerType ];
@@ -161,6 +164,10 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             }
             if( index >= 0 )
                 tower_positions.splice( index, 1 );
+
+            var center = new Pos( this.get_center_x(), this.get_center_y() );
+            gameObjects.push( new Effect( center, explosionImage, 8, 8, 1, 1 ) );
+
 
             //console.log("tower destroyed : " + this.x + " , " + this.y );
             //console.log("tower positions = " + JSON.stringify(tower_positions) );
