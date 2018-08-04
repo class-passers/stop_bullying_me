@@ -6,7 +6,7 @@ var ZombieInfo = {
         height : 128,
         hp : 120,
 		moveSpeed : 80,      // pixel per seconds
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 1.5,
         attackPower : 20,
 		reward : 5
@@ -17,7 +17,7 @@ var ZombieInfo = {
         height : 128,
         hp : 80,
         moveSpeed : 90,
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 1,
 		attackPower : 10,
         reward : 7
@@ -28,7 +28,7 @@ var ZombieInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 50,
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 2,
 		attackPower : 40,
         reward : 10
@@ -39,7 +39,7 @@ var ZombieInfo = {
         height : 128,
         hp : 100,
         moveSpeed : 70,
-        attackRange : 300,
+        attackRange : 280,
         attackSpeed : 1.5,
 		attackPower : 10,
         reward : 7
@@ -62,7 +62,7 @@ var ZombieInfo = {
         height : 128,
         hp : 100,
         moveSpeed : 60,
-        attackRange : 300,
+        attackRange : 280,
         attackSpeed : 1.5,
         attackPower : 7,
         damageRange : 150,
@@ -79,20 +79,9 @@ var ZombieBossInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 30,
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 2,
         attackPower : 60,
-		reward : 20
-    },
-    ranged : {
-        name : "ranged",
-        width : 160,
-        height : 160,
-        hp : 100,
-        moveSpeed : 45,
-        attackRange : 300,
-        attackSpeed : 0.5,
-        attackPower : 10,
 		reward : 20
     }
 };
@@ -104,7 +93,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 120,
         moveSpeed : 60,      // pixel per seconds
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 1,
         attackPower : 15,
         cost : 50,
@@ -116,7 +105,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 80,
         moveSpeed : 70,
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 0.5,
         attackPower : 10,
         cost : 70,
@@ -128,7 +117,7 @@ var HumanTroopInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 50,
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 2,
         attackPower : 40,
         cost : 120,
@@ -140,7 +129,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 100,
         moveSpeed : 60,
-        attackRange : 300,
+        attackRange : 280,
         attackSpeed : 1,
         attackPower : 5,
         cost : 80,
@@ -165,7 +154,7 @@ var HumanTroopInfo = {
         height : 128,
         hp : 100,
         moveSpeed : 60,
-        attackRange : 300,
+        attackRange : 280,
         attackSpeed : 1,
         attackPower : 5,
         damageRange : 150,
@@ -182,21 +171,9 @@ var HumanBossInfo = {
         height : 200,
         hp : 300,
         moveSpeed : 30,
-        attackRange : 200,
+        attackRange : 180,
         attackSpeed : 2,
         attackPower : 60,
-        cost : 200,
-        reward : 20
-    },
-    ranged : {
-        name : "ranged",
-        width : 160,
-        height : 160,
-        hp : 100,
-        moveSpeed : 40,
-        attackRange : 300,
-        attackSpeed : 0.5,
-        attackPower : 10,
         cost : 200,
         reward : 20
     }
