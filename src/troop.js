@@ -256,6 +256,7 @@ var TroopObject = /** @class */ (function () {
                 }
                 else
                 {
+                    this.isReadyToFight = true;
                     this.changeState("idle");
                 }
             }
