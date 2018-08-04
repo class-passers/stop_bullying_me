@@ -228,7 +228,7 @@ var BaseInfo =
         height : 300,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1.5,     // once per second
-        attackPower : 25,
+        attackPower : 20,
         cost : 1000,
         build_interval : 5000
     },
@@ -239,7 +239,7 @@ var BaseInfo =
         height : 300,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1.5,
-        attackPower : 25,
+        attackPower : 20,
         cost : 1000,
         build_interval : 5000
     },
@@ -250,7 +250,7 @@ var BaseInfo =
         height : 300,
         attackRange : 200,      // 200 pixels
         attackSpeed : 1.5,
-        attackPower : 25,
+        attackPower : 20,
         cost : 1000,
         build_interval : 5000
     }
