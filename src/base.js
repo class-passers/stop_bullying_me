@@ -43,8 +43,7 @@ var baseObject = function(pos_x, pos_y )
 
 	this.alive_enemies = cur_level.remaining_zombies;
 	this.resource = cur_level.start_money;
-	this.resource_indicator = new IndicatorObject(null, "money", 0);
-
+	//this.resource_container = new ContainerObject("resource");
     this.x = pos_x - Math.floor( this.unitInfo.width / 4 );
     this.y = pos_y - Math.floor( this.unitInfo.height * 3 / 4 );
     this.z = 0;
@@ -114,7 +113,14 @@ var baseObject = function(pos_x, pos_y )
         music.winSound.play();
 		console.log("Win");
 		
-		hideStateContainer("win");
+		if(cleared_level >= levels.length)
+		{
+			hideStateContainer("end");
+		}
+		else
+		{
+			hideStateContainer("win");
+		}
 	};
 	
 	
@@ -174,7 +180,7 @@ var baseObject = function(pos_x, pos_y )
         this.findTarget();
         this.fire();
 
-        this.resource_indicator.txt = this.resource.toString();
+        FindIndicator("money").txt = this.resource.toString();
         this.hpBar.update( deltaTime );
     };
 

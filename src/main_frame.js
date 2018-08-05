@@ -118,8 +118,9 @@ function startGame( level )
 	//*/
 	Time.Repeat(function(){base.earnMoney(1);}, 1);
     gameObjects.push(base);
-	uiObjects.push(base.resource_indicator);
+	//uiObjects.push(base.resource_container);
 	mouse.ui = uiObjects;
+	console.log(FindContainer("resource"));
 	resumeGame();
 }
 
@@ -245,12 +246,12 @@ function checkTowerCost()
 			if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
 			{
 				FindButton(ContainerInfo["build"].buttons[i]).isClickable = false;
-				//FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
+				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
 			}
 			else
 			{
 				FindButton(ContainerInfo["build"].buttons[i]).isClickable = true;
-				//FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
+				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
 			}
 		}
 	}

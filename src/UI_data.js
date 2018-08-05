@@ -1,10 +1,21 @@
-var stateContainer = ["paused","win","lose"];
-var ingameContainer = ["paused","win","lose","build","timer"];
+var stateContainer = ["paused","win","lose","end"];
+var ingameContainer = ["paused","win","lose","build","timer","end","resource"];
 var startContainer = ["start","level","credit", "setting", "side"];
 var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
 
 
 var ContainerInfo = {
+	resource : {
+		type : "container",
+		name : "resource",
+		x : 1060,
+		y : 0,
+		buttons : [],
+		indicators : ["moneyBackground","money"],
+		visibility : true,
+		uiLayer : 0,
+		target_positions : null
+	},
 	side : {
 		type : "container",
 		name : "side",
@@ -111,6 +122,17 @@ var ContainerInfo = {
 		y : 330,
 		buttons : ["replay", "exit"],
 		indicators : ["lose"],
+		visibility : false,
+		uiLayer : 2,
+		target_positions : null
+	},
+	end : {
+		type : "container",
+		name : "end",
+		x : 640,
+		y : 330,
+		buttons : ["replay", "exit"],
+		indicators : ["end"],
 		visibility : false,
 		uiLayer : 2,
 		target_positions : null
@@ -515,16 +537,31 @@ var IndicatorInfo = {
 	money : {
 		type : "indicator",
 		name : "money",
-		x : 1070,
+		x : 10,
 		y : 10,
 		width : 70,
 		height : 70,
 		visibility : true,
 		txt_sign : "",
 		txt_x : 20,
-		txt_y : 10,
+		txt_y : -5,
 		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_font : '54px Comic Sans MS',
+		interval : 0
+	},
+	moneyBackground : {
+		type : "indicator",
+		name : "moneyBackground",
+		x : 0,
+		y : 2,
+		width : 210,
+		height : 86,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
 		interval : 0
 	},
 	cost : {
@@ -537,9 +574,9 @@ var IndicatorInfo = {
 		visibility : true,
 		txt_sign : "",
 		txt_x : 10,
-		txt_y : -2,
+		txt_y : -4,
 		txt_color : 'yellow',
-		txt_font : '13px Arial',
+		txt_font : '13px Comic Sans MS',
 		interval : 0
 	},
 	spend : {
@@ -552,9 +589,9 @@ var IndicatorInfo = {
 		visibility : true,
 		txt_sign : "-",
 		txt_x : 10,
-		txt_y : -5,
+		txt_y : -15,
 		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_font : '48px Comic Sans MS',
 		interval : 1000
 	},
 	earn : {
@@ -567,9 +604,9 @@ var IndicatorInfo = {
 		visibility : true,
 		txt_sign : "+",
 		txt_x : 10,
-		txt_y : -5,
+		txt_y : -15,
 		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_font : '48px Comic Sans MS',
 		interval : 1000
 	},
 	paused : {
@@ -605,6 +642,21 @@ var IndicatorInfo = {
 	lose : {
 		type : "indicator",
 		name : "lose",
+		x : -150,
+		y : -150,
+		width : 300,
+		height : 150,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	end : {
+		type : "indicator",
+		name : "end",
 		x : -150,
 		y : -150,
 		width : 300,

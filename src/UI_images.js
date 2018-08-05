@@ -401,6 +401,15 @@ var indicatorImages = {
         sprite_height: 0,
         image: null,
 	},
+	moneyBackground : {
+		image_src : "img/background_coin.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
 	cost : {
 		image_src : "img/cost.png",
 		max_num_sprites : 1,
@@ -457,6 +466,15 @@ var indicatorImages = {
 	},
 	lose : {
 		image_src : "img/state_lose.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 300,
+        sprite_height: 150,
+        image: null
+	},
+	end : {
+		image_src : "img/state_end.png",
 		max_num_sprites : 1,
         num_sprites_horz: 1,
         num_sprites_vert: 1,
