@@ -308,6 +308,7 @@ function render()
 
     if( numLoadedAssets < numAllAssets )
     {
+        drawText("Stop Bullying Me", canvas.width * 0.5, canvas.height * 0.4 );
         var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
         drawText(msg, canvas.width * 0.5, canvas.height * 0.5 );
     }
