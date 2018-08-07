@@ -118,8 +118,9 @@ function startGame( level )
 	//*/
 	Time.Repeat(function(){base.earnMoney(1);}, 1);
     gameObjects.push(base);
-	uiObjects.push(base.resource_indicator);
+	//uiObjects.push(base.resource_container);
 	mouse.ui = uiObjects;
+	console.log(FindContainer("resource"));
 	resumeGame();
 }
 
@@ -184,7 +185,7 @@ function turnOnBuildMode(tower_type)
 	if(build_mode === false)
 	{
 		mouse.assignFunction(buildTower);
-		build_indicator = new BuildIndicator(tower_type, mouse, tower_positions, base, mouse.x, mouse.y, 85, 133);
+		build_indicator = new BuildIndicator(tower_type, tower_positions, base, mouse.x, mouse.y, 85, 133);
 		gameObjects.push(build_indicator);
 		build_mode = true;
 	}
@@ -214,7 +215,7 @@ function buildTower()
 		base.spendMoney(TowerInfo[towerType].cost);
 
 		gameObjects.push( new BuildObject( towerType, TowerInfo[towerType].build_interval,
-            build_indicator.x, build_indicator.y + worldMap.tileHeight,
+            build_indicator.x, build_indicator.y + build_indicator.height,
             TowerInfo[towerType].width, TowerInfo[towerType].height ) );
         music.towerSound.play();
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
@@ -245,12 +246,12 @@ function checkTowerCost()
 			if(base.resource < TowerInfo[ButtonInfo[ContainerInfo["build"].buttons[i]].param].cost)
 			{
 				FindButton(ContainerInfo["build"].buttons[i]).isClickable = false;
-				//FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
+				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = true;
 			}
 			else
 			{
 				FindButton(ContainerInfo["build"].buttons[i]).isClickable = true;
-				//FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
+				FindIndicator(ContainerInfo["build"].buttons[i]+"Disabled").isVisible = false;
 			}
 		}
 	}
@@ -263,7 +264,7 @@ function update()
 	mouse.checkUI();
     //console.log( "delta = " + Time.delta );
     //console.log("resource loading : " + numLoadedAssets + " / " + numAllAssets );
-    document.getElementById("game_info").innerHTML = "resource loaded : " + numLoadedAssets + " / " + numAllAssets;
+    //document.getElementById("game_info").innerHTML = "resource loaded : " + numLoadedAssets + " / " + numAllAssets;
 
 
     if( cur_game_state === gameStatus.playing ) {
@@ -303,13 +304,15 @@ function update()
 function render()
 {
     context.clearRect( 0, 0, canvas.width, canvas.height );
+    context.drawImage(worldMap.image, 0, 0);
+
     if( numLoadedAssets < numAllAssets )
     {
+        drawText("Stop Bullying Me", canvas.width * 0.5, canvas.height * 0.4 );
         var msg = "resource loading : " + numLoadedAssets + " / " + numAllAssets;
-        drawText(msg);
+        drawText(msg, canvas.width * 0.5, canvas.height * 0.5 );
     }
     else {
-       context.drawImage(worldMap.image, 0, 0);
         // draw gameObjects
         for (var i = 0; i < gameObjects.length; i++) {
             gameObjects[i].render(context);
@@ -321,10 +324,10 @@ function render()
     }
 }
 
-function drawText( message )
+function drawText( message, x, y )
 {
     context.font = "30px Comic Sans MS";
     context.fillStyle = "red";
     context.textAlign = "center";
-    context.fillText( message, canvas.width / 2, canvas.height / 2 - 20 );
+    context.fillText( message, x, y );
 }

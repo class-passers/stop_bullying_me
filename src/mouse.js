@@ -17,7 +17,7 @@ var mouseObject = function(can)
 		self.x = clamp(event.clientX - rect.left, 0, 1280);
 		self.y = clamp(event.clientY - rect.top, 0, 660);
 
-        //document.getElementById("game_info").innerHTML = "mouse" + ":" + self.x + "," + self.y;
+        document.getElementById("game_info").innerHTML = "mouse" + ":" + self.x + "," + self.y;
 	};
 	this.down = function(event)
 	{

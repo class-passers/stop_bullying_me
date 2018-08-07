@@ -139,7 +139,6 @@ function createIngameUI()
 		if(temp_button.uiInfo.display_level <= cur_level_index)
 		{
 			var temp = new IndicatorObject(FindContainer("build"), "cost", TowerInfo[temp_button.uiInfo.param].cost);
-			console.log(temp.txt);
 			temp.x = temp_button.x + IndicatorInfo["cost"].x;
 			temp.y = temp_button.y + IndicatorInfo["cost"].y;
 			temp.txt_x = temp.x+IndicatorInfo["cost"].width+IndicatorInfo["cost"].txt_x;

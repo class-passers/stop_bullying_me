@@ -1,5 +1,3 @@
-var healImage = new Image();
-healImage.src = "img/heal.png";
 
 var ZombieObject = /** @class */ (function (_super) {
     __extends(ZombieObject, _super);
@@ -37,7 +35,7 @@ var ZombieObject = /** @class */ (function (_super) {
             this.state = newState;
 
             //if( this.isBoss )
-                //console.log( this.unitInfo.name + " : " + this.prevState + " changed to " + this.state );
+            //    console.log( this.unitInfo.name + " : " + this.prevState + " changed to " + this.state );
 
             this.curImage = allZombieImages[this.unitInfo.name][this.state];
 

@@ -1,3 +1,5 @@
+
+
 // the mechanism to inherit from TroopObject by Typescript
 var __extends = (this && this.__extends) || (function () {
     var extendStatics = Object.setPrototypeOf ||
@@ -9,6 +11,9 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+
+var healImage = new Image();
+healImage.src = "img/heal.png";
 
 var TroopObject = /** @class */ (function () {
     function TroopObject( pos_x, pos_y, unitInfo, tower, is_boss ) {
@@ -72,6 +77,7 @@ var TroopObject = /** @class */ (function () {
         this.updateHandler = {
             "idle" : function(t){ self.updateIdleState(t); },
             "moveInTower" : function(t){ self.updateMoveInTowerState(t); },
+            "moveOutTower" : function(t){ self.updateMoveOutTowerState(t); },
             "walk" : function(t){ self.updateWalkState(t); },
             "attack" : function(t){ self.updateAttackState(t); },
             "dying" : function(t){ self.updateDyingState(t); }
@@ -234,6 +240,30 @@ var TroopObject = /** @class */ (function () {
                     }
                 }
             }
+            else
+            {
+                this.changeState("idle");
+            }
+        };
+
+        TroopObject.prototype.updateMoveOutTowerState = function (deltaTime) {
+            if( this.isDefender )
+            {
+                if (this.scale < 1.0) {
+                    this.scale += 0.02;
+                    this.x -= 1;
+                    this.y += 2;
+                }
+                else
+                {
+                    this.isReadyToFight = true;
+                    this.changeState("idle");
+                }
+            }
+            else
+            {
+                this.changeState("idle");
+            }
         };
 
         TroopObject.prototype.updateWalkState = function (deltaTime) {
@@ -330,7 +360,7 @@ var TroopObject = /** @class */ (function () {
                 }
                 else
                 {
-                    this.changeState('walk');
+                    this.changeState('idle');
                 }
             }
 
@@ -397,7 +427,12 @@ var TroopObject = /** @class */ (function () {
             if( debug_draw ) {
 
                 context.beginPath();
-                context.arc( this.get_center_x(), this.get_center_y(), this.unitInfo.attackRange, 0, 2 * Math.PI);
+                if( this.boundTower ) {
+                    context.arc(this.boundTower.get_center_x(), this.boundTower.get_center_y(), this.unitInfo.attackRange, 0, 2 * Math.PI);
+                }
+                else {
+                    context.arc(this.get_center_x(), this.get_center_y(), this.unitInfo.attackRange, 0, 2 * Math.PI);
+                }
                 if( this.isDefender ) {
                     context.fillStyle = "rgba(0, 128, 0, 0.2)";
                 }
@@ -409,6 +444,14 @@ var TroopObject = /** @class */ (function () {
 
                 if( this.curTarget )
                 {
+                    if( this.isInAttackRange( this.curTarget ) )
+                    {
+                        context.strokeStyle="#FF0000";
+                    }
+                    else
+                    {
+                        context.strokeStyle="#7f7f7f";
+                    }
                     context.moveTo( this.get_center_x(), this.get_center_y() );
                     context.lineTo( this.curTarget.get_center_x(), this.curTarget.get_center_y() );
                     context.stroke();
@@ -418,7 +461,7 @@ var TroopObject = /** @class */ (function () {
             var scale = this.scale;
             if( this.curImage.hasOwnProperty("scale") )
             {
-                scale = this.curImage.scale;
+                scale *= this.curImage.scale;
             }
 
             if( flipped ) {
@@ -444,7 +487,7 @@ var TroopObject = /** @class */ (function () {
 
                 // find a nearby enemy
                 if (this.curTarget !== null && this.curTarget.hp > 0) {
-                    if (this.boundTower !== null && this.isInAttackRange(this.curTarget))
+                    if (this.boundTower !== null && this.boundTower.isInAttackRange(this.curTarget))
                         return this.curTarget;
                     // search a larger area when the tower is destroyed so that the troop can chase a zombie
                     else if (this.boundTower === null && this.isInAttackRange3(this.curTarget))
@@ -457,8 +500,16 @@ var TroopObject = /** @class */ (function () {
                         if (closestTarget === null)
                             closestTarget = gameObjects[i];
                         else {
-                            if (getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget)) {
-                                closestTarget = gameObjects[i];
+                            if( this.boundTower !== null ) {
+                                if (getDistanceSquare(this.boundTower, gameObjects[i]) < getDistanceSquare(this, closestTarget)) {
+                                    closestTarget = gameObjects[i];
+                                }
+                            }
+                            else
+                            {
+                                if (getDistanceSquare(this, gameObjects[i]) < getDistanceSquare(this, closestTarget)) {
+                                    closestTarget = gameObjects[i];
+                                }
                             }
                         }
                     }
@@ -575,7 +626,7 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.healTarget = function( target )
         {
-            if( target !== null && this.isOnCooldown === false ) {
+            if( target !== null && target.hp > 0 && this.isOnCooldown === false ) {
                 if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
                     //console.log( this.unitInfo.name  + " healed " + target.objectType + "[" + target.unitInfo.name + "]" );
                     target.heal(this.unitInfo.attackPower);
@@ -635,17 +686,16 @@ var TroopObject = /** @class */ (function () {
         {
             if( this.movePath !== null )
             {
-                var index = this.moveIndex;
-                if( index < 0 ) {
-                    console.log("went out of index : " + index);
-                    index = 0;
+                if( this.moveIndex < 0 ) {
+                    console.log("went out of index : " + this.moveIndex);
+                    this.moveIndex = 0;
                 }
-                else if( index >= this.movePath.length ) {
-                    console.log("went out of index :" + index + "[ " + this.movePath.length + " ]");
-                    index = this.movePath.length - 1;
+                else if( this.moveIndex >= this.movePath.length ) {
+                    console.log("went out of index :" + this.moveIndex + "[ " + this.movePath.length + " ]");
+                    this.moveIndex = this.movePath.length - 1;
                 }
 
-                var nextLocation = this.movePath[index];
+                var nextLocation = this.movePath[this.moveIndex];
                 return new Pos( ( nextLocation.x * worldMap.tileWidth ), ( ( nextLocation.y + 1 ) * worldMap.tileHeight ) );
             }
             return new Pos( this.x, this.y + this.height );
@@ -732,12 +782,20 @@ var TroopObject = /** @class */ (function () {
         };
 
         TroopObject.prototype.isAttackable = function( target ) {
-            return target !== null && target.hp > 0 && this.isInAttackRange(target);
+            if( target !== null && target.hp > 0 ) {
+                return this.isInAttackRange(target);
+            }
+            return false;
         };
 
         TroopObject.prototype.isInAttackRange = function (target) {
             if (target !== null ) {
-                return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
+                if( this.boundTower !== null ) {
+                    return (getDistanceSquare(this.boundTower, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
+                }
+                else {
+                    return (getDistanceSquare(this, target) <= this.unitInfo.attackRange * this.unitInfo.attackRange);
+                }
             }
             return false;
         };
@@ -754,6 +812,7 @@ var TroopObject = /** @class */ (function () {
         TroopObject.prototype.towerDestroyed = function()
         {
             this.boundTower = null;
+            this.changeState("moveOutTower");
             //console.log("bound tower destroyed :" + this.isOnTower() );
         };
 
