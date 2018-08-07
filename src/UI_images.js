@@ -112,7 +112,21 @@ var buttonImages = {
 			image : null
 		}
 	},
-	volume : {
+	volumeOn : {
+		default : {
+			image_src : "img/button_audio_mute.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		},
+		pressed : {
+			image_src : "img/button_audio_mute_pressed.png",
+			sprite_width : 70,
+			sprite_height : 70,
+			image : null
+		}
+	},
+	volumeOff : {
 		default : {
 			image_src : "img/button_audio.png",
 			sprite_width : 70,
@@ -120,7 +134,7 @@ var buttonImages = {
 			image : null
 		},
 		pressed : {
-			image_src : "img/button_audio_mute.png",
+			image_src : "img/button_audio_pressed.png",
 			sprite_width : 70,
 			sprite_height : 70,
 			image : null
@@ -384,7 +398,7 @@ var indicatorImages = {
         image: null,
 	},
 	settingTitle : {
-		image_src : "img/button_setting_small.png",
+		image_src : "img/title_setting.png",
 		max_num_sprites : 1,
 		num_sprites_horz: 1,
         num_sprites_vert: 1,

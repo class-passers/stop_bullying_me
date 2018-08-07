@@ -54,7 +54,7 @@ var ContainerInfo = {
 		name : "setting",
 		x : 640,
 		y : 330,
-		buttons : ["back", "setting"],
+		buttons : ["back", "volumeOn", "volumeOff"],
 		indicators : ["settingTitle"],
 		visibility : false,
 		uiLayer : 0,
@@ -197,6 +197,32 @@ var ButtonInfo = {
 		text : false,
 		param : "setting",
 		execute : function(e){hideStartContainer(e);}
+	},
+	volumeOn : {
+		type : "button",
+		name : "volumeOn",
+		x : -110,
+		y: 100,
+		width : 75,
+		height : 75,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : "volumeOn",
+		execute : function(e){volumeOff(e);}
+	},
+	volumeOff : {
+		type : "button",
+		name : "volumeOff",
+		x : 10,
+		y: 100,
+		width : 75,
+		height : 75,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : "volumeOff",
+		execute : function(e){volumeOn(e);}
 	},
 	//going back to start menu
 	back : {

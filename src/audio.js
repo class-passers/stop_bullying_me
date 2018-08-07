@@ -38,11 +38,23 @@ music.loseSound.onloadeddata = function() { numLoadedAssets += 1; }
 
 numAllAssets += 6;
 
+function volumeOff()
+{
+    music.bgm.volume = 0.0;
+    music.towerSound.volume = 0.0;
+    music.buildSound.volume = 0.0;
+    music.fireSound.volume = 0.0;
+    music.winSound.volume = 0.0;
+    music.loseSound.volume = 0.0;
+}
 
-
-/*chewSound.addEventListener('ended', function(){
-                           this.currentTime = 0;
-                           this.play();
-                           }, false);*/
-
+function volumeOn()
+{
+    music.bgm.volume = 0.9;
+    music.towerSound.volume = 0.2;
+    music.buildSound.volume = 0.1;
+    music.fireSound.volume = 0.1;
+    music.winSound.volume = 0.2;
+    music.loseSound.volume = 0.2;
+}
 
