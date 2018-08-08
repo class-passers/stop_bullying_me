@@ -120,6 +120,7 @@ function startGame( level )
     gameObjects.push(base);
 	//uiObjects.push(base.resource_container);
 	mouse.ui = uiObjects;
+	resumeGame();
 	setTutorialTiming();
 }
 function is_cleared_before()
