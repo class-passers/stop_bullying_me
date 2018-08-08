@@ -259,6 +259,10 @@ function hideTutorial()
 function setTutorialTiming()
 {
 	var defender = attacker_type === "human"?"zombie":"human";
+	var tutorial = FindContainer("tutorial");
+	var exit = FindButton("exitCircle");
+	tutorial.childElements.splice(tutorial.childElements.indexOf(exit),1);
+	tutorial.childElements.push(exit);
 	if(cur_level_index === 0)
 	{
 		showTutorial("defender",defender,"01");

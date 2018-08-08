@@ -154,8 +154,8 @@ var ButtonInfo = {
 	exitCircle : {
 		type : "button",
 		name : "exitCircle",
-		x : 1000,
-		y : -35,
+		x : 945,
+		y : -15,
 		width : 70,
 		height : 70,
 		display_level : 0,
