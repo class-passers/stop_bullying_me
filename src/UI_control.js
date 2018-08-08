@@ -202,7 +202,6 @@ function hideStateContainer(except)
 			FindContainer(stateContainer[i]).isVisible = true;
 			mouse.uiLayer = FindContainer(stateContainer[i]).uiLayer;
 		}
-
 	}
 	if(except == null)
 		mouse.uiLayer = 0;
@@ -225,30 +224,50 @@ function hideTimerButton(except)
 }
 
 //////////////////	Tutorial
-function showTutorial()
+function showTutorial(role, side, index)
 {
-	if(is_cleared_before())
+	if(!is_cleared_before())
 	{
-		return 0;
-	}
-	else
-	{
+		turnOffBuildMode();
 		pauseGame();
 		var tutorial = FindContainer("tutorial");
-		//delete tutorial from uiObjects
-		//add again
+		
+		uiObjects.splice(uiObjects.indexOf(tutorial),1);
+		uiObjects.push(tutorial);
+
 		tutorial.isVisible = true;
-		FindIndicator("tutorial_lev"+cur_level_index.toString()).isVisible = true;
+		var name = "tutorial_"+role+"_"+side+"_"+index;
+		console.log(name);
+		FindIndicator(name).isVisible = true;
 		mouse.uiLayer = tutorial.uiInfo.uiLayer;
 	}
-}
+	else
+		resumeGame();
+};
 function hideTutorial()
 {
 	var tutorial = FindContainer("tutorial");
+	
 	for(var i = 0; i < tutorial.uiInfo.indicators.length; i++)
 	{
+		console.log(tutorial.uiInfo.indicators[i]);
 		FindIndicator(tutorial.uiInfo.indicators[i]).isVisible = false;
 	}
 	tutorial.isVisible = false;
 	mouse.uiLayer = 0;
-}
+};
+function setTutorialTiming()
+{
+	var defender = attacker_type === "human"?"zombie":"human";
+	if(cur_level_index === 0)
+	{
+		showTutorial("defender",defender,"01");
+		Time.Wait(showTutorial, cur_level.populate_zombie_info[1].start+2, "attacker", attacker_type, "01");
+		Time.Wait(showTutorial, cur_level.populate_boss_info[0].start+2, "attacker", attacker_type, "03");
+	}
+	else if(cur_level_index === 1)
+	{
+		showTutorial("defender", defender,"02");
+		Time.Wait(showTutorial, cur_level.populate_zombie_info[2].start+5, "attacker", attacker_type, "02");
+	}
+};

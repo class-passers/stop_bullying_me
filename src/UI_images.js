@@ -296,8 +296,8 @@ var buttonImages = {
 }
 
 var indicatorImages = {
-	tutorial_lev0 : {
-		image_src : "img/tutorial_0.png",
+	tutorial_defender_zombie_01 : {
+		image_src : "img/tutorial_defender_zombie_01.png",
 		max_num_sprites : 1,
         num_sprites_horz: 1,
         num_sprites_vert: 1,
@@ -305,8 +305,8 @@ var indicatorImages = {
         sprite_height: 0,
         image: null,
 	},
-	tutorial_lev1 : {
-		image_src : "img/tutorial_1.png",
+	tutorial_defender_zombie_02 : {
+		image_src : "img/tutorial_defender_zombie_02.png",
 		max_num_sprites : 1,
         num_sprites_horz: 1,
         num_sprites_vert: 1,
@@ -314,8 +314,71 @@ var indicatorImages = {
         sprite_height: 0,
         image: null,
 	},
-	tutorial_lev2 : {
-		image_src : "img/tutorial_2.png",
+	tutorial_defender_human_01 : {
+		image_src : "img/tutorial_defender_human_01.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_defender_human_02 : {
+		image_src : "img/tutorial_defender_human_02.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_attacker_zombie_01 : {
+		image_src : "img/tutorial_attacker_zombie_01.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_attacker_zombie_02 : {
+		image_src : "img/tutorial_attacker_zombie_02.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_attacker_zombie_03 : {
+		image_src : "img/tutorial_attacker_zombie_03.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_attacker_human_01 : {
+		image_src : "img/tutorial_attacker_human_01.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_attacker_human_02 : {
+		image_src : "img/tutorial_attacker_human_02.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tutorial_attacker_human_03 : {
+		image_src : "img/tutorial_attacker_human_03.png",
 		max_num_sprites : 1,
         num_sprites_horz: 1,
         num_sprites_vert: 1,

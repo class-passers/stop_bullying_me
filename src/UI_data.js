@@ -11,7 +11,7 @@ var ContainerInfo = {
 		x : 140,
 		y : 50,
 		buttons : ["exitCircle"],
-		indicators : ["tutorial_lev0","tutorial_lev1","tutorial_lev2"],
+		indicators : ["tutorial_defender_zombie_01","tutorial_defender_zombie_02","tutorial_defender_human_01","tutorial_defender_human_02","tutorial_attacker_human_01","tutorial_attacker_human_02","tutorial_attacker_human_03","tutorial_attacker_zombie_01","tutorial_attacker_zombie_02","tutorial_attacker_zombie_03"],
 		visibility : false,
 		uiLayer : 3,
 		target_positions : null
@@ -121,7 +121,7 @@ var ButtonInfo = {
 	exitCircle : {
 		type : "button",
 		name : "exitCircle",
-		x : 965,
+		x : 1000,
 		y : -35,
 		width : 70,
 		height : 70,
@@ -277,7 +277,7 @@ var ButtonInfo = {
 		visible : true,
 		text : false,
 		param : null,
-		execute : function(){nextLevel(); hideStateContainer(null);}
+		execute : function(){hideStateContainer(null);nextLevel();}
 	},
 	// restart game
 	replay : {
@@ -291,7 +291,7 @@ var ButtonInfo = {
 		visible : true,
 		text : false,
 		param : null,
-		execute : function(){restartGame(); hideStateContainer(null);}
+		execute : function(){hideStateContainer(null);restartGame();}
 	},
 	// exit to start menu
 	exit : {
@@ -372,14 +372,14 @@ var ButtonInfo = {
 		visible : true,
 		text : false,
 		param : null,
-		execute : function(){resumeGame(); hideStateContainer(null);}
+		execute : function(){hideStateContainer(null);resumeGame();}
 	}
 };
 
 var IndicatorInfo = {
-	tutorial_lev0 : {
+	tutorial_defender_zombie_01 : {
 		type : "indicator",
-		name : "tutorial_lev0",
+		name : "tutorial_defender_zombie_01",
 		x : 0,
 		y : 0,
 		width : 1000,
@@ -392,9 +392,9 @@ var IndicatorInfo = {
 		txt_font : '',
 		interval : 0
 	},
-	tutorial_lev1 : {
+	tutorial_defender_zombie_02 : {
 		type : "indicator",
-		name : "tutorial_lev1",
+		name : "tutorial_defender_zombie_02",
 		x : 0,
 		y : 0,
 		width : 1000,
@@ -407,9 +407,114 @@ var IndicatorInfo = {
 		txt_font : '',
 		interval : 0
 	},
-	tutorial_lev2 : {
+	tutorial_defender_human_01 : {
 		type : "indicator",
-		name : "tutorial_lev2",
+		name : "tutorial_defender_human_01",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_defender_human_02 : {
+		type : "indicator",
+		name : "tutorial_defender_human_02",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_attacker_zombie_01 : {
+		type : "indicator",
+		name : "tutorial_attacker_zombie_01",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_attacker_zombie_02 : {
+		type : "indicator",
+		name : "tutorial_attacker_zombie_02",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_attacker_zombie_03 : {
+		type : "indicator",
+		name : "tutorial_attacker_zombie_03",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_attacker_human_01 : {
+		type : "indicator",
+		name : "tutorial_attacker_human_01",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_attacker_human_02 : {
+		type : "indicator",
+		name : "tutorial_attacker_human_02",
+		x : 0,
+		y : 0,
+		width : 1000,
+		height : 560,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	tutorial_attacker_human_03 : {
+		type : "indicator",
+		name : "tutorial_attacker_human_03",
 		x : 0,
 		y : 0,
 		width : 1000,

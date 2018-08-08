@@ -133,8 +133,7 @@ function startGame( level )
     gameObjects.push(base);
 	uiObjects.push(base.resource_indicator);
 	mouse.ui = uiObjects;
-	resumeGame();
-	showTutorial();
+	setTutorialTiming();
 }
 function is_cleared_before()
 {
@@ -216,6 +215,7 @@ function turnOffBuildMode()
 	if(build_mode === true)
 	{
 		mouse.assignFunction(mouse.defaultFunction);
+		buildButtonToggleOff();
 		build_indicator.to_be_removed = true;
 		build_mode = false;
 	}
@@ -242,9 +242,7 @@ function buildTower()
         music.buildSound.play();
 		
 		//*	<--- (//*)turn off build mode after building || (/*)does not turn off build mode after building
-		build_indicator.to_be_removed = true;
-		build_mode = false;
-		buildButtonToggleOff();
+		turnOffBuildMode();
 		return true;
 		/*/
 		return false;
