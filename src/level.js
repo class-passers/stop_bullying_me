@@ -4,7 +4,7 @@ var levels = [
         remaining_zombies : 15,
         populate_zombie_info : [
             {
-                start : 0,          // when to start populating a zombie in seconds
+                start : 5,          // when to start populating a zombie in seconds
                 interval : 5,       // interval time for populating a zombie in seconds
                 type : "normal",    // what type of zombie
                 amount : 8,         // how many zombies are populated.
@@ -12,7 +12,7 @@ var levels = [
                 timer : null        // just for timer variable
             },
             {
-                start : 3,
+                start : 10,
                 interval : 4,
                 type : "fast",
                 amount : 6,
@@ -39,7 +39,7 @@ var levels = [
         remaining_zombies : 23,
         populate_zombie_info : [
             {
-                start : 0,          // when to start populating a zombie in seconds
+                start : 5,          // when to start populating a zombie in seconds
                 interval : 5,       // interval time for populating a zombie in seconds
                 type : "normal",    // what type of zombie
                 amount : 10,         // how many zombies are populated.
@@ -47,7 +47,7 @@ var levels = [
                 timer : null        // just for timer variable
             },
             {
-                start : 3,
+                start : 10,
                 interval : 4,
                 type : "fast",
                 amount : 10,
@@ -55,7 +55,7 @@ var levels = [
                 timer : null
             },
             {
-                start : 20,
+                start : 25,
                 interval : 5,
                 type : "healer",
                 amount : 1,
@@ -67,7 +67,7 @@ var levels = [
         populate_boss_info : [
             {
                 start : 30,
-                interval : 10,
+                interval : 15,
                 type : "heavy",
                 amount : 2,
                 remaining : 2,
@@ -83,7 +83,7 @@ var levels = [
         remaining_zombies : 30,
         populate_zombie_info : [
             {
-                start : 0,          // when to start populating a zombie in seconds
+                start : 5,          // when to start populating a zombie in seconds
                 interval : 5,       // interval time for populating a zombie in seconds
                 type : "normal",    // what type of zombie
                 amount : 15,         // how many zombies are populated.
@@ -91,7 +91,7 @@ var levels = [
                 timer : null        // just for timer variable
             },
             {
-                start : 3,
+                start : 10,
                 interval : 4,
                 type : "fast",
                 amount : 10,
@@ -99,7 +99,7 @@ var levels = [
                 timer : null
             },
             {
-                start : 20,
+                start : 25,
                 interval : 15,
                 type : "healer",
                 amount : 2,

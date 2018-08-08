@@ -30,6 +30,16 @@ var allZombieImages = {
             repeat: true,
             image: null
         },
+        moveOutTower: {
+            image_src: "img/zombie_idle.png",
+            max_num_sprites: 15,
+            num_sprites_horz: 4,
+            num_sprites_vert: 4,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
         dying: {
             image_src: "img/zombie_dying.png",
             max_num_sprites: 12,
@@ -155,7 +165,8 @@ var allZombieImages = {
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
-            image: null
+            image: null,
+            scale : 1.2
         }
     },
     ranged : {
@@ -189,6 +200,16 @@ var allZombieImages = {
             repeat: true,
             image: null
         },
+        moveOutTower: {
+            image_src: "img/ranged_orc_idle.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 2,
+            num_sprites_vert: 4,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
         dying: {
             image_src: "img/ranged_orc_dying.png",
             max_num_sprites: 7,
@@ -208,7 +229,7 @@ var allZombieImages = {
             sprite_height: 0,
             repeat: false,
             image: null,
-            scale : 1.0
+            scale : 1.2
         }
     },
     healer : {
@@ -294,6 +315,16 @@ var allZombieImages = {
             repeat: true,
             image: null
         },
+        moveOutTower: {
+            image_src: "img/orc1_idle.png",
+            max_num_sprites: 7,
+            num_sprites_horz: 1,
+            num_sprites_vert: 7,
+            sprite_width: 0,
+            sprite_height: 0,
+            repeat: true,
+            image: null
+        },
         dying: {
             image_src: "img/orc1_dying.png",
             max_num_sprites: 7,
@@ -329,8 +360,10 @@ for( var type in allZombieImages ) {
                     return function () {
                         allZombieImages[type][it].sprite_width = Math.floor(allZombieImages[type][it].image.width / allZombieImages[type][it].num_sprites_horz);
                         allZombieImages[type][it].sprite_height = Math.floor(allZombieImages[type][it].image.height / allZombieImages[type][it].num_sprites_vert);
+                        numLoadedAssets++;
                     }
                 }(type, status));
+                numAllAssets++;
             }
         }
     }

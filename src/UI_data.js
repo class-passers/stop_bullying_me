@@ -1,6 +1,6 @@
-var stateContainer = ["paused","win","lose"];
-var ingameContainer = ["paused","win","lose","build","timer","tutorial"];
-var startContainer = ["start","level","credit","side"];
+var stateContainer = ["paused","win","lose","end"];
+var ingameContainer = ["paused","win","lose","build","timer","end","resource","tutorial"];
+var startContainer = ["start","level","credit", "setting", "side"];
 var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
 
 
@@ -14,6 +14,17 @@ var ContainerInfo = {
 		indicators : ["tutorial_defender_zombie_01","tutorial_defender_zombie_02","tutorial_defender_human_01","tutorial_defender_human_02","tutorial_attacker_human_01","tutorial_attacker_human_02","tutorial_attacker_human_03","tutorial_attacker_zombie_01","tutorial_attacker_zombie_02","tutorial_attacker_zombie_03"],
 		visibility : false,
 		uiLayer : 3,
+		target_positions : null
+	},
+	resource : {
+		type : "container",
+		name : "resource",
+		x : 1060,
+		y : 0,
+		buttons : [],
+		indicators : ["moneyBackground","money"],
+		visibility : true,
+		uiLayer : 0,
 		target_positions : null
 	},
 	side : {
@@ -32,7 +43,7 @@ var ContainerInfo = {
 		name : "start",
 		x : 640,
 		y : 330,
-		buttons : ["startGame", "credit"],
+		buttons : ["startGame", "credit", "setting"],
 		indicators : ["title"],
 		visibility : true,
 		uiLayer : 0,
@@ -56,6 +67,17 @@ var ContainerInfo = {
 		y : 330,
 		buttons : ["back"],
 		indicators : ["creditTitle"],
+		visibility : false,
+		uiLayer : 0,
+		target_positions : null
+	},
+	setting : {
+		type : "container",
+		name : "setting",
+		x : 640,
+		y : 330,
+		buttons : ["back", "volumeOn", "volumeOff"],
+		indicators : ["settingTitle"],
 		visibility : false,
 		uiLayer : 0,
 		target_positions : null
@@ -111,6 +133,17 @@ var ContainerInfo = {
 		y : 330,
 		buttons : ["replay", "exit"],
 		indicators : ["lose"],
+		visibility : false,
+		uiLayer : 2,
+		target_positions : null
+	},
+	end : {
+		type : "container",
+		name : "end",
+		x : 640,
+		y : 330,
+		buttons : ["replay", "exit"],
+		indicators : ["end"],
 		visibility : false,
 		uiLayer : 2,
 		target_positions : null
@@ -189,7 +222,7 @@ var ButtonInfo = {
 		type : "button",
 		name : "credit",
 		x : -180,
-		y : 190,
+		y : 140,
 		width : 360,
 		height : 75,
 		display_level : 0,
@@ -197,6 +230,45 @@ var ButtonInfo = {
 		text : false,
 		param : "credit",
 		execute : function(e){hideStartContainer(e);}
+	},
+	setting : {
+		type : "button",
+		name : "setting",
+		x : -180,
+		y : 210,
+		width : 360,
+		height : 75,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : "setting",
+		execute : function(e){hideStartContainer(e);}
+	},
+	volumeOn : {
+		type : "button",
+		name : "volumeOn",
+		x : -110,
+		y: 100,
+		width : 75,
+		height : 75,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : "volumeOn",
+		execute : function(e){volumeOff(e);}
+	},
+	volumeOff : {
+		type : "button",
+		name : "volumeOff",
+		x : 10,
+		y: 100,
+		width : 75,
+		height : 75,
+		display_level : 0,
+		visible : true,
+		text : false,
+		param : "volumeOff",
+		execute : function(e){volumeOn(e);}
 	},
 	//going back to start menu
 	back : {
@@ -647,19 +719,49 @@ var IndicatorInfo = {
 		txt_font : '70px Comic Sans MS',
 		interval : 0
 	},
+	settingTitle : {
+		type : "indicator",
+		name : "settingTitle",
+		x : -180,
+		y : -300,
+		width : 360,
+		height : 75,
+		visibility: true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
 	money : {
 		type : "indicator",
 		name : "money",
-		x : 1070,
+		x : 10,
 		y : 10,
 		width : 70,
 		height : 70,
 		visibility : true,
 		txt_sign : "",
 		txt_x : 20,
-		txt_y : 10,
+		txt_y : -5,
 		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_font : '54px Comic Sans MS',
+		interval : 0
+	},
+	moneyBackground : {
+		type : "indicator",
+		name : "moneyBackground",
+		x : 0,
+		y : 2,
+		width : 210,
+		height : 86,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
 		interval : 0
 	},
 	cost : {
@@ -672,9 +774,9 @@ var IndicatorInfo = {
 		visibility : true,
 		txt_sign : "",
 		txt_x : 10,
-		txt_y : -2,
+		txt_y : -4,
 		txt_color : 'yellow',
-		txt_font : '13px Arial',
+		txt_font : '13px Comic Sans MS',
 		interval : 0
 	},
 	spend : {
@@ -687,9 +789,9 @@ var IndicatorInfo = {
 		visibility : true,
 		txt_sign : "-",
 		txt_x : 10,
-		txt_y : -5,
+		txt_y : -15,
 		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_font : '48px Comic Sans MS',
 		interval : 1000
 	},
 	earn : {
@@ -702,9 +804,9 @@ var IndicatorInfo = {
 		visibility : true,
 		txt_sign : "+",
 		txt_x : 10,
-		txt_y : -5,
+		txt_y : -15,
 		txt_color : 'yellow',
-		txt_font : '48px Arial',
+		txt_font : '48px Comic Sans MS',
 		interval : 1000
 	},
 	paused : {
@@ -740,6 +842,21 @@ var IndicatorInfo = {
 	lose : {
 		type : "indicator",
 		name : "lose",
+		x : -150,
+		y : -150,
+		width : 300,
+		height : 150,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	end : {
+		type : "indicator",
+		name : "end",
 		x : -150,
 		y : -150,
 		width : 300,

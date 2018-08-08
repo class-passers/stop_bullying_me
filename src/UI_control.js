@@ -139,7 +139,6 @@ function createIngameUI()
 		if(temp_button.uiInfo.display_level <= cur_level_index)
 		{
 			var temp = new IndicatorObject(FindContainer("build"), "cost", TowerInfo[temp_button.uiInfo.param].cost);
-			console.log(temp.txt);
 			temp.x = temp_button.x + IndicatorInfo["cost"].x;
 			temp.y = temp_button.y + IndicatorInfo["cost"].y;
 			temp.txt_x = temp.x+IndicatorInfo["cost"].width+IndicatorInfo["cost"].txt_x;
@@ -237,12 +236,13 @@ function showTutorial(role, side, index)
 
 		tutorial.isVisible = true;
 		var name = "tutorial_"+role+"_"+side+"_"+index;
-		console.log(name);
 		FindIndicator(name).isVisible = true;
 		mouse.uiLayer = tutorial.uiInfo.uiLayer;
 	}
 	else
+	{
 		resumeGame();
+	}
 };
 function hideTutorial()
 {
@@ -262,8 +262,8 @@ function setTutorialTiming()
 	if(cur_level_index === 0)
 	{
 		showTutorial("defender",defender,"01");
-		Time.Wait(showTutorial, cur_level.populate_zombie_info[1].start+2, "attacker", attacker_type, "01");
-		Time.Wait(showTutorial, cur_level.populate_boss_info[0].start+2, "attacker", attacker_type, "03");
+		Time.Wait(showTutorial, cur_level.populate_zombie_info[1].start, "attacker", attacker_type, "01");
+		Time.Wait(showTutorial, cur_level.populate_boss_info[0].start+1, "attacker", attacker_type, "03");
 	}
 	else if(cur_level_index === 1)
 	{
