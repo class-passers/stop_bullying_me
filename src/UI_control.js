@@ -123,6 +123,20 @@ function hideStartContainer(except)
 	mouse.uiLayer = 0;
 }
 
+function changeSideSprite(defender, isOn)
+{
+	if(isOn == true)
+	{
+		FindIndicator("side"+defender+"Idle").isVisible = false;
+		FindIndicator("side"+defender+"Attack").isVisible = true;
+	}
+	else
+	{
+		FindIndicator("side"+defender+"Idle").isVisible = true;
+		FindIndicator("side"+defender+"Attack").isVisible = false;
+	}
+}
+
 
 //////////	In-game UI control
 function createIngameUI()

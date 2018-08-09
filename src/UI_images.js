@@ -339,6 +339,42 @@ var buttonImages = {
 }
 
 var indicatorImages = {
+	sideHumanIdle : {
+		image_src : "img/side_human_idle.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	sideHumanAttack : {
+		image_src : "img/side_human_attack.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	sideZombieIdle : {
+		image_src : "img/side_zombie_idle.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	sideZombieAttack : {
+		image_src : "img/side_zombie_attack.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
 	tooltipBackground : {
 		image_src : "img/tooltip_tower_info.png",
 		max_num_sprites : 1,

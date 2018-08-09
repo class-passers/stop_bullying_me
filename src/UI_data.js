@@ -44,7 +44,7 @@ var ContainerInfo = {
 		x : 640,
 		y : 330,
 		buttons : ["selectZombie", "selectHuman","back"],
-		indicators : ["sideSelectionTitle"],
+		indicators : ["sideSelectionTitle","sideZombieIdle","sideZombieAttack","sideHumanIdle","sideHumanAttack"],
 		visibility : false,
 		uiLayer : 0,
 		target_positions : null
@@ -189,8 +189,8 @@ var ButtonInfo = {
 		visible : true,
 		text : true,
 		hovering : false,
-		hoverOn : null,
-		hoverOff : null,
+		hoverOn : function(){changeSideSprite("Zombie",true);},
+		hoverOff : function(){changeSideSprite("Zombie",false);},
 		param : null,
 		execute : function(){selectZombie(); hideStartContainer("level");}
 	},
@@ -205,8 +205,8 @@ var ButtonInfo = {
 		visible : true,
 		text : true,
 		hovering : false,
-		hoverOn : null,
-		hoverOff : null,
+		hoverOn : function(){changeSideSprite("Human",true);},
+		hoverOff : function(){changeSideSprite("Human",false);},
 		param : null,
 		execute : function(){selectHuman(); hideStartContainer("level");}
 	},
@@ -526,6 +526,66 @@ var ButtonInfo = {
 };
 
 var IndicatorInfo = {
+	sideHumanAttack : {
+		type : "indicator",
+		name : "sideHumanAttack",
+		x : 75,
+		y : -200,
+		width : 280,
+		height : 430,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	sideHumanIdle : {
+		type : "indicator",
+		name : "sideHumanIdle",
+		x : 75,
+		y : -200,
+		width : 280,
+		height : 430,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	sideZombieIdle : {
+		type : "indicator",
+		name : "sideZombieIdle",
+		x : -355,
+		y : -200,
+		width : 280,
+		height : 430,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
+	sideZombieAttack : {
+		type : "indicator",
+		name : "sideZombieAttack",
+		x : -355,
+		y : -200,
+		width : 280,
+		height : 430,
+		visibility : false,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
 	tooltipSpeed : {
 		type : "indicator",
 		name : "tooltipSpeed",
