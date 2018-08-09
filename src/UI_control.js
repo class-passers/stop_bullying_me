@@ -222,6 +222,42 @@ function hideTimerButton(except)
 	}
 }
 
+function towerTooltipOn(towerType)
+{
+	var tooltip = FindContainer("tooltip");
+	var tooltipBackground = FindIndicator("tooltipBackground");
+	var damage = FindIndicator("tooltipDamage");
+	var range = FindIndicator("tooltipRange");
+	var speed = FindIndicator("tooltipSpeed");
+	tooltip.position.x = (mouse.x+tooltipBackground.width)>canvas.width?(mouse.x-tooltipBackground.width):mouse.x;
+	tooltip.position.y = mouse.y;
+	
+	tooltipBackground.setPositionAgain();
+	damage.setPositionAgain();
+	range.setPositionAgain();
+	speed.setPositionAgain();
+	
+	if(attacker_type === "human")
+	{
+		damage.txt = ZombieInfo[towerType].attackPower.toString();
+		range.txt = ZombieInfo[towerType].attackRange.toString();
+		speed.txt = ZombieInfo[towerType].attackSpeed.toString()+"/s";
+	}
+	else
+	{
+		damage.txt = HumanTroopInfo[towerType].attackPower.toString();
+		range.txt = HumanTroopInfo[towerType].attackRange.toString();
+		speed.txt = HumanTroopInfo[towerType].attackSpeed.toString()+"/s";
+	}
+	
+	
+	tooltip.isVisible = true;
+}
+function towerTooltipOff()
+{
+	FindContainer("tooltip").isVisible = false;
+}
+
 //////////////////	Tutorial
 function showTutorial(role, side, index)
 {

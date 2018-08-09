@@ -27,8 +27,19 @@ var IndicatorObject = function(container, indicatorType, txt_value)
 	this.to_be_removed = false;
 	
 	if(this.uiInfo.interval > 0)
-		setInterval(function(){self.to_be_removed = true;}, self.uiInfo.interval);
-	
+		Time.Wait(function(){self.to_be_removed = true;}, self.uiInfo.interval);
+	this.setPositionAgain = function()
+	{
+		self.x = self.uiInfo.x;
+		self.y = self.uiInfo.y;
+		if(self.parent != null)
+		{
+			self.x += self.parent.position.x;
+			self.y += self.parent.position.y;
+		}
+		self.txt_x = self.x + self.width + self.uiInfo.txt_x;
+		self.txt_y = self.y + self.uiInfo.txt_y;
+	}
 	this.get_x = function()
 	{
 		return Math.floor(this.x);

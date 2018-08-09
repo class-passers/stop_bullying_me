@@ -339,6 +339,42 @@ var buttonImages = {
 }
 
 var indicatorImages = {
+	tooltipBackground : {
+		image_src : "img/tooltip_tower_info.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tooltipDamage : {
+		image_src : "img/tooltip_text_damage.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tooltipRange : {
+		image_src : "img/tooltip_text_range.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
+	tooltipSpeed : {
+		image_src : "img/tooltip_text_speed.png",
+		max_num_sprites : 1,
+        num_sprites_horz: 1,
+        num_sprites_vert: 1,
+        sprite_width: 0,
+        sprite_height: 0,
+        image: null,
+	},
 	tutorial_defender_zombie_01 : {
 		image_src : "img/tutorial_defender_zombie_01.png",
 		max_num_sprites : 1,

@@ -8,6 +8,7 @@ var mouseObject = function(can)
 	this.uiLayer = 0;
 	this.mouseDown = false;
 	this.isPressing = false;
+	this.hovering_button = null;
 	this.interacting_button = null;
 	var self = this;
 	
@@ -87,6 +88,31 @@ var mouseObject = function(can)
 						{
 							canvas.style.cursor = "pointer";
 							self.interacting_button = self.ui[i].childElements[j];
+							
+							if(self.hovering_button == null)
+							{
+								self.hovering_button = self.interacting_button;
+							}
+							else
+							{
+								if(self.hovering_button != self.interacting_button)
+								{
+									if(self.hovering_button.uiInfo.hoverOn != null)
+									{
+										self.hovering_button.uiInfo.hoverOff();
+										self.hovering_button.uiInfo.hovering = false;
+										self.hovering_button = self.interacting_button;
+									}
+								}
+								else
+								{
+									if(self.hovering_button.uiInfo.hoverOn != null && self.hovering_button.uiInfo.hovering == false)
+									{
+										self.hovering_button.uiInfo.hoverOn();
+										self.hovering_button.uiInfo.hovering = true;
+									}
+								}
+							}
 							return 0;
 						}
 						else
@@ -97,6 +123,12 @@ var mouseObject = function(can)
 				}
 			}
 			// mouse cursor is not on any button
+			if(self.hovering_button !== null && self.hovering_button.uiInfo.hovering === true)
+			{
+				self.hovering_button.uiInfo.hoverOff();
+				self.hovering_button.uiInfo.hovering = false;
+			}
+			self.hovering_button = null;
 			self.interacting_button = null;
 			canvas.style.cursor = "default";
 		}

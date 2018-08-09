@@ -1,10 +1,21 @@
 var stateContainer = ["paused","win","lose","end"];
-var ingameContainer = ["paused","win","lose","build","timer","end","resource","tutorial"];
+var ingameContainer = ["paused","win","lose","build","timer","end","resource","tutorial","tooltip"];
 var startContainer = ["start","level","credit", "setting", "side"];
 var credit_text = "Younggi Kim \nMaksim Tumazev \nBeomjin Kim";
-
+var hoverInterval = null;
 
 var ContainerInfo = {
+	tooltip : {
+		type : "container",
+		name : "tooltip",
+		x : 0,
+		y : 0,
+		buttons : [],
+		indicators : ["tooltipBackground","tooltipDamage","tooltipRange","tooltipSpeed"],
+		visibility : false,
+		uiLayer : 0,
+		target_positions : null
+	},
 	tutorial : {
 		type : "container",
 		name : "tutorial",
@@ -161,6 +172,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){resumeGame(); hideTutorial();}
 	},
@@ -174,6 +188,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : true,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){selectZombie(); hideStartContainer("level");}
 	},
@@ -187,6 +204,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : true,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){selectHuman(); hideStartContainer("level");}
 	},
@@ -201,6 +221,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : true,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : null
 	},
@@ -215,6 +238,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : "side",
 		execute : function(e){hideStartContainer(e);}
 	},
@@ -228,6 +254,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : "credit",
 		execute : function(e){hideStartContainer(e);}
 	},
@@ -241,6 +270,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : "setting",
 		execute : function(e){hideStartContainer(e);}
 	},
@@ -254,6 +286,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : "volumeOn",
 		execute : function(e){volumeOff(e);}
 	},
@@ -267,6 +302,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : "volumeOff",
 		execute : function(e){volumeOn(e);}
 	},
@@ -281,6 +319,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : "start",
 		execute : function(e){hideStartContainer(e);}
 	},
@@ -295,6 +336,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){pauseGame(); hideStateContainer("paused");}
 	},
@@ -308,6 +352,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : 2,
 		execute : function(p){Time.TimeScale(p); hideTimerButton("time_half");}
 	},
@@ -321,6 +368,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : false,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : 0.5,
 		execute : function(p){Time.TimeScale(p); hideTimerButton("time_default");}
 	},
@@ -334,6 +384,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : false,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : 1,
 		execute : function(p){Time.TimeScale(p); hideTimerButton("time_double");}
 	},
@@ -348,6 +401,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){hideStateContainer(null);nextLevel();}
 	},
@@ -362,6 +418,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){hideStateContainer(null);restartGame();}
 	},
@@ -376,6 +435,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){deleteLevel(); cur_level = levels[0]; loadMapData();startMenu();}
 	},
@@ -390,6 +452,9 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : function(){hoverInterval = Time.Wait(towerTooltipOn,0.5,"normal");},
+		hoverOff : function(){Time.ClearWait(hoverInterval);towerTooltipOff();},
 		param : "normal",
 		execute : function(t){buildButtonToggleOff();turnOnBuildMode(t);buildButtonToggleOn("build1");}
 	},
@@ -403,6 +468,9 @@ var ButtonInfo = {
 		display_level : 0,
         visible : true,
         text : false,
+		hovering : false,
+		hoverOn : function(){hoverInterval = Time.Wait(towerTooltipOn,0.5,"ranged");},
+		hoverOff : function(){Time.ClearWait(hoverInterval);towerTooltipOff();},
         param : "ranged",
         execute : function(t){buildButtonToggleOff();turnOnBuildMode(t);buildButtonToggleOn("build2");}
     },
@@ -416,6 +484,9 @@ var ButtonInfo = {
 		display_level : 1,
         visible : true,
         text : false,
+		hovering : false,
+		hoverOn : function(){hoverInterval = Time.Wait(towerTooltipOn,0.5,"wizard");},
+		hoverOff : function(){Time.ClearWait(hoverInterval);towerTooltipOff();},
         param : "wizard",
         execute : function(t){buildButtonToggleOff();turnOnBuildMode(t);buildButtonToggleOn("build3");}
     },
@@ -429,6 +500,9 @@ var ButtonInfo = {
 		display_level : 0,
         visible : false,
         text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
         param : "",
         execute : function(t){turnOffBuildMode();buildButtonToggleOff();}
     },
@@ -443,12 +517,75 @@ var ButtonInfo = {
 		display_level : 0,
 		visible : true,
 		text : false,
+		hovering : false,
+		hoverOn : null,
+		hoverOff : null,
 		param : null,
 		execute : function(){hideStateContainer(null);resumeGame();}
 	}
 };
 
 var IndicatorInfo = {
+	tooltipSpeed : {
+		type : "indicator",
+		name : "tooltipSpeed",
+		x : 10,
+		y : 100,
+		width : 119,
+		height : 22,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 5,
+		txt_y : -15,
+		txt_color : 'black',
+		txt_font : '30px Comic Sans MS',
+		interval : 0
+	},
+	tooltipRange : {
+		type : "indicator",
+		name : "tooltipRange",
+		x : 10,
+		y : 60,
+		width : 119,
+		height : 22,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 5,
+		txt_y : -15,
+		txt_color : 'black',
+		txt_font : '30px Comic Sans MS',
+		interval : 0
+	},
+	tooltipDamage : {
+		type : "indicator",
+		name : "tooltipDamage",
+		x : 10,
+		y : 20,
+		width : 119,
+		height : 22,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 5,
+		txt_y : -15,
+		txt_color : 'black',
+		txt_font : '30px Comic Sans MS',
+		interval : 0
+	},
+	tooltipBackground : {
+		type : "indicator",
+		name : "tooltipBackground",
+		x : 0,
+		y : 0,
+		width : 210,
+		height : 135,
+		visibility : true,
+		txt_sign : "",
+		txt_x : 0,
+		txt_y : 0,
+		txt_color : '',
+		txt_font : '',
+		interval : 0
+	},
 	tutorial_defender_zombie_01 : {
 		type : "indicator",
 		name : "tutorial_defender_zombie_01",
@@ -792,7 +929,7 @@ var IndicatorInfo = {
 		txt_y : -15,
 		txt_color : 'yellow',
 		txt_font : '48px Comic Sans MS',
-		interval : 1000
+		interval : 1
 	},
 	earn : {
 		type : "indicator",
@@ -807,7 +944,7 @@ var IndicatorInfo = {
 		txt_y : -15,
 		txt_color : 'yellow',
 		txt_font : '48px Comic Sans MS',
-		interval : 1000
+		interval : 1
 	},
 	paused : {
 		type : "indicator",
