@@ -1,9 +1,5 @@
-/*
-var baseImage = new Image();
-baseImage.src = "img/tower.png";
-/*/
-var baseImg = {
-	image_src : "img/Base.png",
+var humanBaseImg = {
+	image_src : "img/base_human.png",
 	max_num_sprites : 4,
 	num_sprites_horz : 4,
 	num_sprites_vert : 1,
@@ -11,15 +7,32 @@ var baseImg = {
 	sprite_height : 0,
 	image : null
 };
-baseImg.image = new Image();
-baseImg.image.src = baseImg.image_src;
-baseImg.image.onload = (function(){
-	baseImg.sprite_width = Math.floor(baseImg.image.width / baseImg.num_sprites_horz);
-	baseImg.sprite_height = Math.floor(baseImg.image.height / baseImg.num_sprites_vert);
+humanBaseImg.image = new Image();
+humanBaseImg.image.src = humanBaseImg.image_src;
+humanBaseImg.image.onload = (function(){
+	humanBaseImg.sprite_width = Math.floor(humanBaseImg.image.width / humanBaseImg.num_sprites_horz);
+	humanBaseImg.sprite_height = Math.floor(humanBaseImg.image.height / humanBaseImg.num_sprites_vert);
     numLoadedAssets++;
 });
 numAllAssets++;
-//*/
+
+var zombieBaseImg = {
+	image_src : "img/base_zombie.png",
+	max_num_sprites : 4,
+	num_sprites_horz : 4,
+	num_sprites_vert : 1,
+	sprite_width : 0,
+	sprite_height : 0,
+	image : null
+};
+zombieBaseImg.image = new Image();
+zombieBaseImg.image.src = zombieBaseImg.image_src;
+zombieBaseImg.image.onload = (function(){
+	zombieBaseImg.sprite_width = Math.floor(zombieBaseImg.image.width / zombieBaseImg.num_sprites_horz);
+	zombieBaseImg.sprite_height = Math.floor(zombieBaseImg.image.height / zombieBaseImg.num_sprites_vert);
+    numLoadedAssets++;
+});
+numAllAssets++;
 
 var hpImage = new Image();
 hpImage.src = "img/base_hp_bar.png";
@@ -49,12 +62,9 @@ var baseObject = function(pos_x, pos_y )
     this.z = 0;
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
-	/*
-	this.image = baseImage;
-	this.max_num_sprites = 1;
-	/*/
+	this.Img = attacker_type==="human"?zombieBaseImg:humanBaseImg;
 	this.spriteIndex = 0;
-	//*/
+	
 
 	this.hpBar = new HPBar( this );
 
@@ -69,7 +79,7 @@ var baseObject = function(pos_x, pos_y )
 	{
 		this.hp -= damage;
 		//*
-		if((this.max_hp-this.hp) > ((this.max_hp/baseImg.max_num_sprites)*(this.spriteIndex+1)))
+		if((this.max_hp-this.hp) > ((this.max_hp/this.Img.max_num_sprites)*(this.spriteIndex+1)))
 		{
 			this.spriteIndex++;
 		}
@@ -77,7 +87,7 @@ var baseObject = function(pos_x, pos_y )
 		if(this.hp <= 0)
 		{
 			this.lose();
-			this.spriteIndex = (baseImg.max_num_sprites-1);
+			this.spriteIndex = (this.Img.max_num_sprites-1);
 		}
 	};
 
@@ -140,7 +150,7 @@ var baseObject = function(pos_x, pos_y )
 		/*/
 		return 0;
 		/*/
-        return baseImg.sprite_width * (Math.floor(this.spriteIndex)%baseImg.num_sprites_horz);
+        return this.Img.sprite_width * (Math.floor(this.spriteIndex)%this.Img.num_sprites_horz);
 		//*/
     };
     this.get_source_y = function()
@@ -148,10 +158,10 @@ var baseObject = function(pos_x, pos_y )
         return 0;
     };
 	this.get_sprite_width = function() {
-		return baseImg.sprite_width;
+		return this.Img.sprite_width;
 	};
 	this.get_sprite_height = function() {
-		return baseImg.sprite_height;
+		return this.Img.sprite_height;
 	};	
 
     this.get_center_x = function()
@@ -189,7 +199,7 @@ var baseObject = function(pos_x, pos_y )
 		/*
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
 		/*/
-		context.drawImage(baseImg.image, this.get_source_x(), this.get_source_y(),this.get_sprite_width(), this.get_sprite_height(),this.get_x(), this.get_y(), this.width, this.height);
+		context.drawImage(this.Img.image, this.get_source_x(), this.get_source_y(),this.get_sprite_width(), this.get_sprite_height(),this.get_x(), this.get_y(), this.width, this.height);
 		//*/
 
 		this.hpBar.render(context );
