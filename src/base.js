@@ -17,7 +17,7 @@ humanBaseImg.image.onload = (function(){
 numAllAssets++;
 
 var zombieBaseImg = {
-	image_src : "img/base_zombie2.png",
+	image_src : "img/base_zombie.png",
 	max_num_sprites : 4,
 	num_sprites_horz : 4,
 	num_sprites_vert : 1,
@@ -192,8 +192,8 @@ var baseObject = function(pos_x, pos_y )
 
         FindIndicator("money").txt = this.resource.toString();
         this.hpBar.update( deltaTime );
-        console.log("base = " + this.x + ", " + this.y + " : " + this.width + ", " + this.height );
-        console.log("hp = " + this.hpBar.hp_x + ", " + this.hpBar.hp_y + " : " + this.hpBar.hp_width + ", " + this.hpBar.hp_height );
+        //console.log("base = " + this.x + ", " + this.y + " : " + this.width + ", " + this.height );
+        //console.log("hp = " + this.hpBar.hp_x + ", " + this.hpBar.hp_y + " : " + this.hpBar.hp_width + ", " + this.hpBar.hp_height );
     };
 
 	this.render = function(context)
