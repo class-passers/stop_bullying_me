@@ -264,7 +264,7 @@ var allZombieImages = {
         moveInTower: allZombieImageSources["normal"]["walk"],
         moveOutTower: allZombieImageSources["normal"]["walk"],
         dying: allZombieImageSources["normal"]["dying"],
-        attack: allZombieImageSources["normal"]["attack"],
+        attack: allZombieImageSources["normal"]["attack"]
     },
     fast : {
         idle: allZombieImageSources["fast"]["idle"],
@@ -272,7 +272,7 @@ var allZombieImages = {
         moveInTower: allZombieImageSources["fast"]["walk"],
         moveOutTower: allZombieImageSources["fast"]["walk"],
         dying: allZombieImageSources["fast"]["dying"],
-        attack: allZombieImageSources["fast"]["attack"],
+        attack: allZombieImageSources["fast"]["attack"]
     },
     heavy : {
         idle: allZombieImageSources["heavy"]["idle"],
@@ -280,7 +280,7 @@ var allZombieImages = {
         moveInTower: allZombieImageSources["heavy"]["walk"],
         moveOutTower: allZombieImageSources["heavy"]["walk"],
         dying: allZombieImageSources["heavy"]["dying"],
-        attack: allZombieImageSources["heavy"]["attack"],
+        attack: allZombieImageSources["heavy"]["attack"]
     },
     ranged : {
         idle: allZombieImageSources["ranged"]["idle"],
@@ -288,7 +288,7 @@ var allZombieImages = {
         moveInTower: allZombieImageSources["ranged"]["walk"],
         moveOutTower: allZombieImageSources["ranged"]["walk"],
         dying: allZombieImageSources["ranged"]["dying"],
-        attack: allZombieImageSources["ranged"]["attack"],
+        attack: allZombieImageSources["ranged"]["attack"]
     },
     healer : {
         idle: allZombieImageSources["healer"]["idle"],
@@ -296,7 +296,7 @@ var allZombieImages = {
         moveInTower: allZombieImageSources["healer"]["walk"],
         moveOutTower: allZombieImageSources["healer"]["walk"],
         dying: allZombieImageSources["healer"]["dying"],
-        attack: allZombieImageSources["healer"]["attack"],
+        attack: allZombieImageSources["healer"]["attack"]
     },
     wizard : {
         idle: allZombieImageSources["wizard"]["idle"],
@@ -304,7 +304,7 @@ var allZombieImages = {
         moveInTower: allZombieImageSources["wizard"]["walk"],
         moveOutTower: allZombieImageSources["wizard"]["walk"],
         dying: allZombieImageSources["wizard"]["dying"],
-        attack: allZombieImageSources["wizard"]["attack"],
+        attack: allZombieImageSources["wizard"]["attack"]
     }
 };
 

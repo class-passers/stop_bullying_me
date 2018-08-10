@@ -8,7 +8,7 @@ var HPBar = function( parent )
     this.hp_width = 0;
     this.hp_height = Math.min( Math.floor( parent.height * 0.1 ), 15 );
     this.hp_x = 0;
-    this.hp_y = 0;
+    this.hp_y = parent.y - this.hp_height;
     this.parent = parent;
 
     this.update = function( deltaTime )
@@ -23,9 +23,7 @@ var HPBar = function( parent )
         {
             this.hp_x = Math.floor(parent.x + parent.width * 0.3);
         }
-
         this.hp_y = parent.y - this.hp_height;
-
         //console.log("hp width " + this.hp_width + " ratio = " + ( this.parent.hp / this.parent.max_hp ) + " hp = " + this.parent.hp + " max = " + this.parent.max_hp );
 
     };
