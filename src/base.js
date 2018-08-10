@@ -59,7 +59,7 @@ var baseObject = function(pos_x, pos_y )
 	//this.resource_container = new ContainerObject("resource");
     this.x = pos_x - Math.floor( this.unitInfo.width / 4 );
     this.y = pos_y - Math.floor( this.unitInfo.height * 3 / 4 );
-    this.z = 0;
+    this.z = -5;
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
 	this.Img = attacker_type==="human"?zombieBaseImg:humanBaseImg;
@@ -192,6 +192,8 @@ var baseObject = function(pos_x, pos_y )
 
         FindIndicator("money").txt = this.resource.toString();
         this.hpBar.update( deltaTime );
+        //console.log("base = " + this.x + ", " + this.y + " : " + this.width + ", " + this.height );
+        //console.log("hp = " + this.hpBar.hp_x + ", " + this.hpBar.hp_y + " : " + this.hpBar.hp_width + ", " + this.hpBar.hp_height );
     };
 
 	this.render = function(context)
@@ -199,7 +201,8 @@ var baseObject = function(pos_x, pos_y )
 		/*
 		context.drawImage(this.image, this.get_source_x(), this.get_source_y(), baseImage.width, baseImage.height, this.get_x(), this.get_y(), this.width, this.height);
 		/*/
-		context.drawImage(this.Img.image, this.get_source_x(), this.get_source_y(),this.get_sprite_width(), this.get_sprite_height(),this.get_x(), this.get_y(), this.width, this.height);
+		context.drawImage(this.Img.image, this.get_source_x(), this.get_source_y(),this.get_sprite_width(), this.get_sprite_height(),
+			this.get_x(), this.get_y(), this.width, this.height);
 		//*/
 
 		this.hpBar.render(context );

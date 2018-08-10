@@ -102,19 +102,26 @@ function startGame( level )
     var endPoint = null;
 	if( attacker_type === "zombie" )
     {
-        endPoint = find_node( worldMap.mapGrid, 20 );
-
+        var startNode = find_node( worldMap.mapGrid, 10 );
+        var endNode = find_node( worldMap.mapGrid, 20 );
+        gameObjects.push( new ImageObject( startNode.x * worldMap.tileWidth, startNode.y * worldMap.tileHeight, 64, 96, "img/signpost_right.png" ) );
+        endPoint = new Pos( ( endNode.x - 1 ) * worldMap.tileWidth, ( endNode.y + 1.5 ) * worldMap.tileHeight );
+        worldMap.movePath.pop();
     }
     else
     {
-        endPoint = find_node( worldMap.mapGrid, 10 );
+        var startNode = find_node( worldMap.mapGrid, 20 );
+        var endNode = find_node( worldMap.mapGrid, 10 );
+        gameObjects.push( new ImageObject( startNode.x * worldMap.tileWidth, startNode.y * worldMap.tileHeight, 64, 96, "img/signpost_left.png" ) );
+        endPoint = new Pos( ( endNode.x ) * worldMap.tileWidth, ( endNode.y + 2 ) * worldMap.tileHeight );
+        worldMap.movePath.shift();
+        worldMap.movePath.shift();
+        worldMap.movePath.shift();
         worldMap.movePath = worldMap.movePath.reverse();
     }
 
-	/*
-    base = new baseObject((endPoint.x*worldMap.tileWidth), ((endPoint.y+1) * worldMap.tileHeight) );
-	/*/
-	base = new baseObject(((endPoint.x-0.5)*worldMap.tileWidth), ((endPoint.y+1.5) * worldMap.tileHeight) );
+	base = new baseObject( endPoint.x, endPoint.y );
+
 	//*/
 	Time.Repeat(function(){base.earnMoney(1);}, 1);
     gameObjects.push(base);
