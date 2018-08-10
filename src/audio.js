@@ -16,7 +16,7 @@ var music = {
     buildSound : new Audio('./audio/hammer.mp3'),
     fireSound : new Audio('./audio/fire.wav'),
     winSound : new Audio('./audio/TaDa.wav'),
-    loseSound : new Audio('./audio/zombiSound.wav')
+    loseSound : new Audio('./audio/sadTrombone.wav')
 
 };
 
