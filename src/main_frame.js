@@ -105,15 +105,17 @@ function startGame( level )
         var startNode = find_node( worldMap.mapGrid, 10 );
         var endNode = find_node( worldMap.mapGrid, 20 );
         gameObjects.push( new ImageObject( startNode.x * worldMap.tileWidth, startNode.y * worldMap.tileHeight, 64, 96, "img/signpost_right.png" ) );
-        endPoint = new Pos( ( endNode.x - 1 ) * worldMap.tileWidth, ( endNode.y + 1.5 ) * worldMap.tileHeight );
+        endPoint = new Pos( ( endNode.x - 2 ) * worldMap.tileWidth, ( endNode.y + 1 ) * worldMap.tileHeight );
+        worldMap.movePath.pop();
         worldMap.movePath.pop();
     }
     else
     {
         var startNode = find_node( worldMap.mapGrid, 20 );
         var endNode = find_node( worldMap.mapGrid, 10 );
-        gameObjects.push( new ImageObject( startNode.x * worldMap.tileWidth, startNode.y * worldMap.tileHeight, 64, 96, "img/signpost_left.png" ) );
-        endPoint = new Pos( ( endNode.x ) * worldMap.tileWidth, ( endNode.y + 2 ) * worldMap.tileHeight );
+        gameObjects.push( new ImageObject( ( startNode.x - 1 ) * worldMap.tileWidth, startNode.y * worldMap.tileHeight, 64, 96, "img/signpost_left.png" ) );
+        endPoint = new Pos( ( endNode.x ) * worldMap.tileWidth, ( endNode.y + 1 ) * worldMap.tileHeight );
+        worldMap.movePath.shift();
         worldMap.movePath.shift();
         worldMap.movePath.shift();
         worldMap.movePath.shift();

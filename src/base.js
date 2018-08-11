@@ -59,7 +59,7 @@ var baseObject = function(pos_x, pos_y )
 	//this.resource_container = new ContainerObject("resource");
     this.x = pos_x - Math.floor( this.unitInfo.width / 4 );
     this.y = pos_y - Math.floor( this.unitInfo.height * 3 / 4 );
-    this.z = -5;
+    this.z = -100;
     this.width = this.unitInfo.width;
     this.height = this.unitInfo.height;
 	this.Img = attacker_type==="human"?zombieBaseImg:humanBaseImg;
