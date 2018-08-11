@@ -173,8 +173,8 @@ function registerPopulateZombie( pop_info, is_boss )
                 pop_info.remaining--;
                 cur_level.remaining_zombies--;
 
-                if( is_boss )
-                    console.log( "creates " + pop_info.type + " at " + Time.totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
+                //if( is_boss )
+                //    console.log( "creates " + pop_info.type + " at " + Time.totalSec + ", remaining = " + pop_info.remaining + ", total remaining zombies = " + cur_level.remaining_zombies  );
 
                 var attacker = null;
                 if( attacker_type === "human" )
@@ -231,12 +231,12 @@ function buildTower()
 		gameObjects.push( new BuildObject( towerType, TowerInfo[towerType].build_interval,
             build_indicator.x, build_indicator.y + build_indicator.height,
             TowerInfo[towerType].width, TowerInfo[towerType].height ) );
-        music.towerSound.play();
+        music.effects["towerBuild"].play();
 		console.log("build indicator at " + build_indicator.x + ", " + build_indicator.y );
 		tower_positions.push( new Pos(build_indicator.x, build_indicator.y) );
         tower_index++;
 
-        music.buildSound.play();
+        music.effects["towerConstruction"].play();
 		
 		//*	<--- (//*)turn off build mode after building || (/*)does not turn off build mode after building
 		turnOffBuildMode();

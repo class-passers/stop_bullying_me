@@ -97,7 +97,7 @@ var baseObject = function(pos_x, pos_y )
 		Time.TimeScale(1);
         cur_game_state = gameStatus.lost;
         music.bgm.pause();
-        music.loseSound.play();
+        music.effects["lost"].play();
 		console.log("Lose");
 		
 		hideStateContainer("lose");
@@ -120,7 +120,7 @@ var baseObject = function(pos_x, pos_y )
         cur_game_state = gameStatus.won;
         cleared_level = cur_level_index+1;
         music.bgm.pause();
-        music.winSound.play();
+        music.effects["won"].play();
 		console.log("Win");
 		
 		if(cleared_level >= levels.length)

@@ -142,7 +142,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             {
                 self.isOnCooldown = false;
             }, this.unitInfo.attackSpeed );
-            music.fireSound.play();
+            music.effects["fireBullet"].play();
         }
     };
 
@@ -168,6 +168,8 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
             var center = new Pos( this.get_center_x(), this.get_center_y() );
             gameObjects.push( new Effect( center, explosionImage, 8, 8, 1, 1 ) );
+
+            music.effects['destroy'].cloneNode().play();
 
 
             //console.log("tower destroyed : " + this.x + " , " + this.y );

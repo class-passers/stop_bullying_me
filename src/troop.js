@@ -560,15 +560,21 @@ var TroopObject = /** @class */ (function () {
                     if( target !== null ) {
                         if (this.unitInfo.name === "ranged") {
                             gameObjects.push(new RangedBullet(this.get_center_x(), this.get_center_y(), target, damage));
+                            music.effects["rangedAttack"].cloneNode().play();
                         }
                         else if (this.unitInfo.name === "wizard") {
                             gameObjects.push(new Fireball(this.get_center_x(), this.get_center_y(), target, damage, this.unitInfo.damageRange));
+                            music.effects["fireball"].cloneNode().play();
                         }
                         else {
                             //if (this.isBoss)
                             //    console.log(this.unitInfo.name + " attack " + target.unitInfo.name + " dmg = " + damage + " hp = " + (target.hp - damage) + "(" + target.hp + ") t: " + Time.totalSec);
 
                             target.takeDamage(damage);
+                            if( this.isBoss )
+                                music.effects["bossAttack"].cloneNode().play();
+                            else
+                                music.effects["meleeAttack"].cloneNode().play();
                         }
                     }
 
@@ -603,6 +609,10 @@ var TroopObject = /** @class */ (function () {
             //if( this.objectType === "human" )
             //    console.log( this.unitInfo.name + " took damage " + damage + " hp = " + (this.hp - damage) + "("+this.hp+") t: " + Time.totalSec );
             this.hp -= damage;
+            if( this.hp <= 0 )
+            {
+                music.effects["dying"].cloneNode().play();
+            }
         };
 
         TroopObject.prototype.heal = function( healPower )
@@ -630,6 +640,7 @@ var TroopObject = /** @class */ (function () {
                         this.unitInfo.attackSpeed
                     );
                     this.changeState('idle');
+                    music.effects["heal"].cloneNode().play();
                 }
             }
             else
