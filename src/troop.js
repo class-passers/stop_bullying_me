@@ -334,37 +334,14 @@ var TroopObject = /** @class */ (function () {
         };
 
         TroopObject.prototype.updateAttackState = function (deltaTime) {
-            if( this.isDefender )
-            {
-                if( this.curTarget !== null ) {
-                    this.attackTarget(this.curTarget);
-                }
-                else
-                {
-                    this.changeState('idle');
-                }
+            if( this.unitInfo.name === 'healer' ) {
+                this.healTarget( this.curTarget );
             }
-            else
-            {
-                if( this.curTarget !== null ) {
-                    if( this.unitInfo.name === 'healer' )
-                    {
-                        this.healTarget( this.curTarget );
-                    }
-                    else {
-                        this.attackTarget(this.curTarget);
-                        if (this.curTarget.hp <= 0) {
-                            this.curTarget = null;
-                        }
-                    }
-                }
-                else
-                {
-                    this.changeState('idle');
-                }
+            else {
+                this.attackTarget( this.curTarget );
             }
-
         };
+
         TroopObject.prototype.updateDyingState = function (deltaTime) {
             if( this.isDefender )
             {
@@ -553,34 +530,34 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.attackTarget = function( target )
         {
-            if( target !== null ) {
-                if (this.isOnCooldown === false) {
+            if (this.isOnCooldown === false) {
 
-                    var needsAttack = false;
-                    if( this.isAttacked === false )
-                    {
-                        if( this.unitInfo.name === "ranged" || this.unitInfo.name === "wizard" ) {
-                            // attacks in half motion
-                            if (this.spriteIndex >= this.curImage.max_num_sprites * 0.5 ) {
-                                needsAttack = true;
-                            }
-                        }
-                        else
-                        {
-                            // attacks in 2/3 motion
-                            if (this.spriteIndex >= this.curImage.max_num_sprites * 0.66 ) {
-                                needsAttack = true;
-                            }
+                var needsAttack = false;
+                if( this.isAttacked === false )
+                {
+                    if( this.unitInfo.name === "ranged" || this.unitInfo.name === "wizard" ) {
+                        // attacks in half motion
+                        if (this.spriteIndex >= this.curImage.max_num_sprites * 0.5 ) {
+                            needsAttack = true;
                         }
                     }
-
-                    // calculates damage in the very last frame of the attack animation.
-                    if (needsAttack) {
-                        var damage = this.unitInfo.attackPower;
-                        if (this.boundTower) {
-                            damage += this.boundTower.unitInfo.attackPower;
+                    else
+                    {
+                        // attacks in 2/3 motion
+                        if (this.spriteIndex >= this.curImage.max_num_sprites * 0.66 ) {
+                            needsAttack = true;
                         }
+                    }
+                }
 
+                // calculates damage in the very last frame of the attack animation.
+                if (needsAttack) {
+                    var damage = this.unitInfo.attackPower;
+                    if (this.boundTower) {
+                        damage += this.boundTower.unitInfo.attackPower;
+                    }
+
+                    if( target !== null ) {
                         if (this.unitInfo.name === "ranged") {
                             gameObjects.push(new RangedBullet(this.get_center_x(), this.get_center_y(), target, damage));
                         }
@@ -588,32 +565,43 @@ var TroopObject = /** @class */ (function () {
                             gameObjects.push(new Fireball(this.get_center_x(), this.get_center_y(), target, damage, this.unitInfo.damageRange));
                         }
                         else {
+                            //if (this.isBoss)
+                            //    console.log(this.unitInfo.name + " attack " + target.unitInfo.name + " dmg = " + damage + " hp = " + (target.hp - damage) + "(" + target.hp + ") t: " + Time.totalSec);
+
                             target.takeDamage(damage);
                         }
-
-                        this.isAttacked = true;
                     }
 
-                    if( this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
-                        this.isOnCooldown = true;
-                        var self = this;
-                        // to have attack interval
-                        Time.Wait(
-                            function () {
-                                self.isOnCooldown = false;
-                                self.isAttacked = false;
-                            },
-                            this.unitInfo.attackSpeed
-                        );
+                    this.isAttacked = true;
+                }
 
-                        this.changeState('idle');
-                    }
+                if( this.spriteIndex >= this.curImage.max_num_sprites - 1 ) {
+                    this.isOnCooldown = true;
+                    this.isAttacked = false;
+                    var self = this;
+                    // to have attack interval
+                    Time.Wait(
+                        function () {
+                            self.isOnCooldown = false;
+                        },
+                        this.unitInfo.attackSpeed
+                    );
+
+                    this.changeState('idle');
                 }
             }
+            else
+            {
+                console.log("ERROR : Can't get into the attack state while cooldown is true = " + this.unitInfo.name );
+                this.changeState('idle');
+            }
+
         };
 
         TroopObject.prototype.takeDamage = function( damage )
         {
+            //if( this.objectType === "human" )
+            //    console.log( this.unitInfo.name + " took damage " + damage + " hp = " + (this.hp - damage) + "("+this.hp+") t: " + Time.totalSec );
             this.hp -= damage;
         };
 
@@ -626,10 +614,12 @@ var TroopObject = /** @class */ (function () {
 
         TroopObject.prototype.healTarget = function( target )
         {
-            if( target !== null && target.hp > 0 && this.isOnCooldown === false ) {
+            if( this.isOnCooldown === false ) {
                 if (this.spriteIndex >= this.curImage.max_num_sprites - 1) {
                     //console.log( this.unitInfo.name  + " healed " + target.objectType + "[" + target.unitInfo.name + "]" );
-                    target.heal(this.unitInfo.attackPower);
+                    if( target && target.hp > 0 )
+                        target.heal(this.unitInfo.attackPower);
+
                     this.isOnCooldown = true;
                     var self = this;
                     // to have attack interval
@@ -641,6 +631,11 @@ var TroopObject = /** @class */ (function () {
                     );
                     this.changeState('idle');
                 }
+            }
+            else
+            {
+                console.log("ERROR : Can't get into the attack state while cooldown is true = " + this.unitInfo.name );
+                this.changeState('idle');
             }
         };
 

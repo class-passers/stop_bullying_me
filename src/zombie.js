@@ -35,7 +35,7 @@ var ZombieObject = /** @class */ (function (_super) {
             this.state = newState;
 
             //if( this.isBoss )
-            //    console.log( this.unitInfo.name + " : " + this.prevState + " changed to " + this.state );
+            //    console.log( this.unitInfo.name + " : " + this.prevState + " changed to " + this.state + " cool = " + this.isOnCooldown+ " t: " + Time.totalSec );
 
             this.curImage = allZombieImages[this.unitInfo.name][this.state];
 

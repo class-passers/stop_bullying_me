@@ -68,7 +68,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
     this.update = function( deltaTime )
     {
         // attack nearby zombies only if a bound troop has not reached the tower yet.
-        if( this.boundTroop === null || this.boundTroop.isOnTower() === false ) {
+        if( this.hp > 0 && ( this.boundTroop === null || this.boundTroop.isOnTower() === false ) ) {
             this.findTarget();
             this.fire();
         }
@@ -148,6 +148,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
 
     this.takeDamage = function( damage )
     {
+        //console.log("tower damaged : " + damage + ", hp = " + (this.hp-damage) + "(" + this.hp + ") t: " + Time.totalSec );
         this.hp -= damage;
         if( this.hp <= 0 )
         {
@@ -172,6 +173,7 @@ var TowerObject = function( towerType, pos_x, pos_y ){
             //console.log("tower destroyed : " + this.x + " , " + this.y );
             //console.log("tower positions = " + JSON.stringify(tower_positions) );
         }
+
     }
 };
 
