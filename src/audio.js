@@ -25,15 +25,15 @@ music.bgm.loop = true;
 music.bgm.volume = 0.9;
 music.bgm.onloadeddata = function() { numLoadedAssets += 1; }
 
-music.towerSound.volume = 0.2;
+music.towerSound.volume = 0.4;
 music.towerSound.onloadeddata = function() { numLoadedAssets += 1; }
-music.buildSound.volume = 0.1;
+music.buildSound.volume = 0.4;
 music.buildSound.onloadeddata = function() { numLoadedAssets += 1; }
-music.fireSound.volume = 0.1;
+music.fireSound.volume = 0.4;
 music.fireSound.onloadeddata = function() { numLoadedAssets += 1; }
-music.winSound.volume = 0.2;
+music.winSound.volume = 0.3;
 music.winSound.onloadeddata = function() { numLoadedAssets += 1; }
-music.loseSound.volume = 0.2;
+music.loseSound.volume = 0.3;
 music.loseSound.onloadeddata = function() { numLoadedAssets += 1; }
 
 numAllAssets += 6;
