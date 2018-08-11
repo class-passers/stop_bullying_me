@@ -1,4 +1,4 @@
-var ImageObject = function( x, y, width, height, imageSource )
+var StaticObject = function( x, y, width, height, imageSource )
 {
     this.objectType = "image";
     this.x = x;

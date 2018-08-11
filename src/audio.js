@@ -9,6 +9,7 @@ var music = {
         fireBullet : new Audio('./audio/fire.wav'),
         won : new Audio('./audio/TaDa.wav'),
         lost : new Audio('./audio/sadTrombone.wav'),
+        popup : new Audio('./audio/Popup.mp3'),
 
         rangedAttack : new Audio('./audio/Flame_Arrow.mp3'),
         meleeAttack : new Audio('./audio/Punch.mp3'),

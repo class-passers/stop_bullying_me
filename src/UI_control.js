@@ -288,6 +288,7 @@ function showTutorial(role, side, index)
 		var name = "tutorial_"+role+"_"+side+"_"+index;
 		FindIndicator(name).isVisible = true;
 		mouse.uiLayer = tutorial.uiInfo.uiLayer;
+		music.effects["popup"].play();
 	}
 	else
 	{
