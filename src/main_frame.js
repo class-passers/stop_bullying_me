@@ -94,7 +94,7 @@ function startGame( level )
     deleteLevel();
 
     // create new level
-    cur_level = levels[level];
+    cur_level = get_level(level);
     loadMapData();
     populateZombie();
 	createIngameUI();

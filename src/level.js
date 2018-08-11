@@ -1,3 +1,8 @@
+function get_level( level )
+{
+    return Object.create( levels[level] );
+}
+
 var levels = [
     {   // for level 1
         num_zombies : 15,

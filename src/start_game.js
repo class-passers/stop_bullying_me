@@ -1,7 +1,7 @@
 
 //*
 //first level map for background
-cur_level = levels[0];
+cur_level = get_level(0);
 loadMapData();
 
 startMenu();
