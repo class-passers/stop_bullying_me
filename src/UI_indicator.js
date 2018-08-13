@@ -27,7 +27,7 @@ var IndicatorObject = function(container, indicatorType, txt_value)
 	this.to_be_removed = false;
 	
 	if(this.uiInfo.interval > 0)
-		Time.Wait(function(){self.to_be_removed = true;}, self.uiInfo.interval);
+		setTimeout(function(){self.to_be_removed = true;}, self.uiInfo.interval);
 	this.setPositionAgain = function()
 	{
 		self.x = self.uiInfo.x;

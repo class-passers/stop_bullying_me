@@ -87,8 +87,8 @@ var allZombieImageSources = {
         idle: {
             image_src: "img/troll1_idle.png",
             max_num_sprites: 7,
-            num_sprites_horz: 1,
-            num_sprites_vert: 7,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -97,8 +97,8 @@ var allZombieImageSources = {
         walk: {
             image_src: "img/troll1_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 1,
-            num_sprites_vert: 7,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -108,8 +108,8 @@ var allZombieImageSources = {
         dying: {
             image_src: "img/troll1_dying.png",
             max_num_sprites: 7,
-            num_sprites_horz: 3,
-            num_sprites_vert: 3,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
@@ -125,7 +125,7 @@ var allZombieImageSources = {
             sprite_height: 0,
             repeat: false,
             image: null,
-            scale : 1.2
+            //scale : 1.2
         }
     },
     ranged : {

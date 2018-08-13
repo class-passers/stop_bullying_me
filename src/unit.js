@@ -75,8 +75,8 @@ var ZombieInfo = {
 var ZombieBossInfo = {
     heavy : {
         name : "heavy",
-        width : 200,
-        height : 200,
+        width : 300,
+        height : 300,
         hp : 300,
         moveSpeed : 30,
         attackRange : 180,
@@ -167,8 +167,8 @@ var HumanTroopInfo = {
 var HumanBossInfo = {
     heavy : {
         name : "heavy",
-        width : 200,
-        height : 200,
+        width : 300,
+        height : 300,
         hp : 300,
         moveSpeed : 30,
         attackRange : 180,

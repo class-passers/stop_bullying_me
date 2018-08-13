@@ -129,8 +129,8 @@ var allHumanImageSources = {
         idle: {
             image_src: "img/heavy_knight_idle.png",
             max_num_sprites: 7,
-            num_sprites_horz: 3,
-            num_sprites_vert: 3,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -139,8 +139,8 @@ var allHumanImageSources = {
         walk: {
             image_src: "img/heavy_knight_walk.png",
             max_num_sprites: 7,
-            num_sprites_horz: 3,
-            num_sprites_vert: 3,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: true,
@@ -161,8 +161,8 @@ var allHumanImageSources = {
         attack: {
             image_src: "img/heavy_knight_attack.png",
             max_num_sprites: 7,
-            num_sprites_horz: 3,
-            num_sprites_vert: 3,
+            num_sprites_horz: 4,
+            num_sprites_vert: 2,
             sprite_width: 0,
             sprite_height: 0,
             repeat: false,
