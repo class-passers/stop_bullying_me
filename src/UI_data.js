@@ -989,7 +989,7 @@ var IndicatorInfo = {
 		txt_y : -15,
 		txt_color : 'yellow',
 		txt_font : '48px Comic Sans MS',
-		interval : 1
+		interval : 1000
 	},
 	earn : {
 		type : "indicator",
@@ -1004,7 +1004,7 @@ var IndicatorInfo = {
 		txt_y : -15,
 		txt_color : 'yellow',
 		txt_font : '48px Comic Sans MS',
-		interval : 1
+		interval : 1000
 	},
 	paused : {
 		type : "indicator",
