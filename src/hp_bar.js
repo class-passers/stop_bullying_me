@@ -13,7 +13,7 @@ var HPBar = function( parent )
 
     this.update = function( deltaTime )
     {
-        this.hp_width = Math.floor( parent.width * 0.70 * ( Math.max( 0, this.parent.hp ) / this.parent.max_hp ) );
+        this.hp_width = Math.min( 120, Math.floor( parent.width * 0.70 * ( Math.max( 0, this.parent.hp ) / this.parent.max_hp ) ) );
 
         if( parent.x + parent.width >= worldMap.width )
         {
